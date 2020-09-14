@@ -33,7 +33,7 @@ From here you will be able to got to http://localhost:8000 to view the webpage.
 2) Flask
 3) CSS
 4) AJAX
-5) <more if needed>
+5) `Add more tools as needed`
 
 ## Deployment
 
