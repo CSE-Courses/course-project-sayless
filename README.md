@@ -49,11 +49,11 @@ From here you will be able to got to http://localhost:8000 to view the webpage.
 
 ## Authors
 
-* **Shreya Lakhar** - *Initial work* - [Orrbit](https://github.com/)
-* **Riley** - *Initial work* - [sam21marchant](https://github.com/)
-* **Shristy Jha** - *Initial work* - [Shazmaan](https://github.com/)
-* **Moulid** - *Initial work* - [anantpat](https://github.com/)
-* **Shazmaan Malek** - *Initial work* - [anantpat](https://github.com/Shazmaan)
+* **Shreya Lakhar** - *Initial work* - [Shreya](https://github.com/)
+* **Riley** - *Initial work* - [Riley](https://github.com/)
+* **Shristy Jha** - *Initial work* - [Shristy](https://github.com/)
+* **Moulid** - *Initial work* - [Moulid](https://github.com/)
+* **Shazmaan Malek** - *Initial work* - [Shazmaan](https://github.com/Shazmaan)
 
 ## License 
 
