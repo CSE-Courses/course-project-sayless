@@ -3,8 +3,8 @@ import bcrypt
 
 from flask import Flask, render_template, request, Response, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from SayLess.database import db, User
-from SayLess.helpers import replace
+from SayLess.database import *
+from SayLess.helpers import *
 
 # create the flask app
 app = Flask(__name__, static_url_path='', static_folder='../statics', template_folder='../templates')
@@ -12,12 +12,15 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/shazmaan_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://moulidah:50223020@tethys.cse.buffalo.edu:3306/moulidah_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
 db.init_app(app)
 db.create_all()
+# me = User('admin', 'admin@example.com')
+# db.session.add(me)
+# db.session.commit()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -73,10 +76,22 @@ def loginPage():
 def signUp():
     if request.method == 'GET':
         # Do stuff for get request
-        print("In GET")
+        return render_template("dummy2.html")
     else:
         # Do stuff for post request
-        print("In POST")
+        form_data = request.form
+        email = form_data.get("email")
+        print(type(email))
+        password = form_data.get("password")
+        password = password.encode('utf-8')
+        fname = form_data.get("fname")
+        lname = form_data.get("lname")
+
+        me = User(email,email,fname,lname,password)
+        db.session.add(me)
+        db.commit()
+        return render_template("home.html")
 
     # Should render the sign up page but redirecting for now
-    return redirect('/')
+    return "failed"
+
