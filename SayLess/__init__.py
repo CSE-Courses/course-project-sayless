@@ -12,6 +12,7 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 app.config.from_pyfile('config.py', silent=True)
+# cnx = mysql.connector.connect(user="moulid15@moulid", password="password123!", host="moulid.mysql.database.azure.com", port=3306, database={your_database}, ssl_ca={ca-cert filename}, ssl_verify_cert=true)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://moulidah:50223020@tethys.cse.buffalo.edu:3306/moulidah_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -80,18 +81,25 @@ def signUp():
     else:
         # Do stuff for post request
         form_data = request.form
+        print(form_data)
         email = form_data.get("email")
         print(type(email))
-        password = form_data.get("password")
+        password = replace(form_data.get("password"))
         password = password.encode('utf-8')
         fname = form_data.get("fname")
         lname = form_data.get("lname")
+        password = bcrypt.hashpw(password, bcrypt.gensalt())
 
-        me = User(email,email,fname,lname,password)
-        db.session.add(me)
-        db.commit()
-        return render_template("home.html")
+        email_check = User.query.filter_by(email=email).first()
+        
+        if email_check != None and email_check.email == email:
+            return jsonify("email exists")
+        else:
+            me = User(username=email,email=email,first_name=fname,last_name=lname,password=password)
+            db.session.add(me)
+            db.session.commit()
+    return jsonify("success")
 
     # Should render the sign up page but redirecting for now
-    return "failed"
+    
 
