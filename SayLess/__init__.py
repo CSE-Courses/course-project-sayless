@@ -65,7 +65,7 @@ def loginPage():
             hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
             if bcrypt.checkpw(password, stored_password):
-                response = make_response(jsonify("Success"))
+                response = jsonify("Success")
                 return response
             else:
                 return jsonify("invalid_password")
@@ -85,16 +85,20 @@ def signUp():
         email = form_data.get("email")
         print(type(email))
         password = replace(form_data.get("password"))
-        password = password.encode('utf-8')
+        
+       
         fname = form_data.get("fname")
         lname = form_data.get("lname")
-        password = bcrypt.hashpw(password, bcrypt.gensalt())
+       
 
         email_check = User.query.filter_by(email=email).first()
-        
-        if email_check != None and email_check.email == email:
+        if len(password) < 8:
+            return jsonify("password too short")
+        elif email_check != None and email_check.email == email:
             return jsonify("email exists")
         else:
+            password = password.encode('utf-8')
+            password = bcrypt.hashpw(password, bcrypt.gensalt())
             me = User(username=email,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()

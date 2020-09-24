@@ -23,7 +23,12 @@ $(document).ready(function () {
                     const msgElem = $('#usrMsg');
                     msgElem.text("email already exists");
                     msgElem.css("color", "red");
-                }else{
+                }else if(data == "password too short"){
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("password Must be 8 characters or longer");
+                    msgElem.css("color", "red");
+                }
+                else{
                 window.location.pathname = "/";
                 console.log(data);
                 }
