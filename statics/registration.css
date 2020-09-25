@@ -24,7 +24,7 @@ input, button{
   overflow: hidden;
   position: relative;
   width: 500px;
-  height: 500px;
+  height: 475px;
   background: white;
 }
 
@@ -48,7 +48,7 @@ input, button{
   font-size: 20px;
   text-align: center;
   padding-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
 }
 
 label{
@@ -89,4 +89,19 @@ button{
   font-weight: 600;
   font-family: 'David Libre', serif;
   background-color: rgba(0, 128, 128, 0.8)
+}
+
+.row{
+  padding-top: 45px;
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -5px;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+  padding: 0 5px;
 }
