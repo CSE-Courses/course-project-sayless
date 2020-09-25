@@ -35,7 +35,7 @@ def home():
 def loginPage():
     if request.method == 'GET':
         # render login.html
-        return render_template('dummy.html')
+        return render_template('login.html')
     else:
         # get the form_data and check with the DB if the user name or email is valid
         form_data = request.form
@@ -77,7 +77,7 @@ def signUp():
     else:
         # Do stuff for post request
         form_data = request.form
-        print(form_data)
+
         email = form_data.get("email")
         username = form_data.get("username")
         confirm = form_data.get("confirm")
@@ -104,8 +104,5 @@ def signUp():
             me = User(username=username,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()
+            
     return jsonify("success")
-
-    # Should render the sign up page but redirecting for now
-    
-
