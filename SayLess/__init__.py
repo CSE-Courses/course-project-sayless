@@ -77,29 +77,35 @@ def loginPage():
 def signUp():
     if request.method == 'GET':
         # Do stuff for get request
-        return render_template("dummy2.html")
+        return render_template("registration.html")
     else:
         # Do stuff for post request
         form_data = request.form
         print(form_data)
         email = form_data.get("email")
-        print(type(email))
+        username = form_data.get("username")
+        confirm = form_data.get("confirm")
         password = replace(form_data.get("password"))
         
        
         fname = form_data.get("fname")
         lname = form_data.get("lname")
-       
+        
 
         email_check = User.query.filter_by(email=email).first()
+        username_check = User.query.filter_by(username=username).first()
         if len(password) < 8:
             return jsonify("password too short")
+        elif username_check != None and username_check == username:
+            return jsonify("username exists")
         elif email_check != None and email_check.email == email:
             return jsonify("email exists")
+        elif password != confirm:
+            return jsonify("password does not match")
         else:
             password = password.encode('utf-8')
             password = bcrypt.hashpw(password, bcrypt.gensalt())
-            me = User(username=email,email=email,first_name=fname,last_name=lname,password=password)
+            me = User(username=username,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()
     return jsonify("success")
