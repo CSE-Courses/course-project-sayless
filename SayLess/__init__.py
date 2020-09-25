@@ -24,7 +24,7 @@ def home():
     if request.method == 'GET':
         # Do stuff for get request
         print("In GET")
-        return redirect('/login')
+        return render_template('home.html')
     else:
         # Do stuff for post request
         print("In POST")
