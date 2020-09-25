@@ -12,7 +12,7 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/shazmaan_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
@@ -61,7 +61,7 @@ def loginPage():
             hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
             if bcrypt.checkpw(password, stored_password):
-                response = make_response(jsonify("Success"))
+                response = jsonify("Success")
                 return response
             else:
                 return jsonify("invalid_password")
