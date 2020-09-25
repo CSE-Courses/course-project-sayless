@@ -78,21 +78,21 @@ def signUp():
         # Do stuff for post request
         form_data = request.form
 
-        email = form_data.get("email")
-        username = form_data.get("username")
-        confirm = form_data.get("confirm")
+        email = replace(form_data.get("email"))
+        username = replace(form_data.get("username"))
+        confirm = replace(form_data.get("confirm"))
         password = replace(form_data.get("password"))
         
        
-        fname = form_data.get("fname")
-        lname = form_data.get("lname")
+        fname = replace(form_data.get("fname"))
+        lname = replace(form_data.get("lname"))
         
 
         email_check = User.query.filter_by(email=email).first()
         username_check = User.query.filter_by(username=username).first()
         if len(password) < 8:
             return jsonify("password too short")
-        elif username_check != None and username_check == username:
+        elif username_check != None and username_check.username == username:
             return jsonify("username exists")
         elif email_check != None and email_check.email == email:
             return jsonify("email exists")
@@ -104,5 +104,5 @@ def signUp():
             me = User(username=username,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()
-            
+
     return jsonify("success")
