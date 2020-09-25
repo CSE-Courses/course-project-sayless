@@ -12,16 +12,12 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 app.config.from_pyfile('config.py', silent=True)
-# cnx = mysql.connector.connect(user="moulid15@moulid", password="password123!", host="moulid.mysql.database.azure.com", port=3306, database={your_database}, ssl_ca={ca-cert filename}, ssl_verify_cert=true)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://moulidah:50223020@tethys.cse.buffalo.edu:3306/moulidah_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
 db.init_app(app)
 db.create_all()
-# me = User('admin', 'admin@example.com')
-# db.session.add(me)
-# db.session.commit()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
