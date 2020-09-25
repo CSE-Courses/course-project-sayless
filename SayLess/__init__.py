@@ -18,7 +18,7 @@ def home():
         # Do stuff for post request
         print("In POST")
 
-    return render_template('dummy.html')
+    return render_template('registration.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def loginPage():
