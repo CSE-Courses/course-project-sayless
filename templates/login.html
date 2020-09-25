@@ -1,0 +1,66 @@
+<html>
+<!-- For metadata, such as linking javascript and css -->
+
+<head>
+
+    <title>SayLess Login</title>
+    <!-- Bootstrap CSS and fa-icon -->
+    <link rel="stylesheet" href="/include/bootstrap.css">
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/include/jquery.min.js"></script>
+    <script src="/include/bootstrap.js"></script>
+    <script src="/include/popper.min.js"></script>
+    <script src="/login.js"></script>
+
+</head>
+
+<body>
+    <section class="container">
+        <div class="left-half">
+            <img src="https://i.ibb.co/Mc8GYbw/logo.png">
+        </div>
+
+        <div class="right-half">
+            <section class="form">
+                <form id="loginForm">
+                    <div class="container1">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <form>
+                                    <h2 justify-text=center>Login</h2>
+                                    <p id="usrMsg"></p>
+                                    <div class="form-row">
+                                        <div class="col-lg-6">
+                                            <input type="email" placeholder="Email" id="emailInput" class="form-control"
+                                                required="true">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-lg-6">
+                                            <input type="password" placeholder="Password" id="passwordInput"
+                                                class="form-control" required="true">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-lg-6">
+                                            <button type="submit" class="btn1">Login</button>
+                                        </div>
+                                    </div>
+                                    <a href="#">Forgot password?</a>
+                                    <p>New to SayLess? <a href="/signup">Sign up</a></p>
+                                </form>
+                            </div>
+                        </div>
+                </form>
+            </section>
+        </div>
+    </section>
+
+</body>
+
+
+</html>

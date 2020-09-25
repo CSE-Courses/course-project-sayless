@@ -12,16 +12,12 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 app.config.from_pyfile('config.py', silent=True)
-# cnx = mysql.connector.connect(user="moulid15@moulid", password="password123!", host="moulid.mysql.database.azure.com", port=3306, database={your_database}, ssl_ca={ca-cert filename}, ssl_verify_cert=true)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://moulidah:50223020@tethys.cse.buffalo.edu:3306/moulidah_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
 db.init_app(app)
 db.create_all()
-# me = User('admin', 'admin@example.com')
-# db.session.add(me)
-# db.session.commit()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -39,7 +35,7 @@ def home():
 def loginPage():
     if request.method == 'GET':
         # render login.html
-        return render_template('dummy.html')
+        return render_template('login.html')
     else:
         # get the form_data and check with the DB if the user name or email is valid
         form_data = request.form
@@ -81,22 +77,22 @@ def signUp():
     else:
         # Do stuff for post request
         form_data = request.form
-        print(form_data)
-        email = form_data.get("email")
-        username = form_data.get("username")
-        confirm = form_data.get("confirm")
+
+        email = replace(form_data.get("email"))
+        username = replace(form_data.get("username"))
+        confirm = replace(form_data.get("confirm"))
         password = replace(form_data.get("password"))
         
        
-        fname = form_data.get("fname")
-        lname = form_data.get("lname")
+        fname = replace(form_data.get("fname"))
+        lname = replace(form_data.get("lname"))
         
 
         email_check = User.query.filter_by(email=email).first()
         username_check = User.query.filter_by(username=username).first()
         if len(password) < 8:
             return jsonify("password too short")
-        elif username_check != None and username_check == username:
+        elif username_check != None and username_check.username == username:
             return jsonify("username exists")
         elif email_check != None and email_check.email == email:
             return jsonify("email exists")
@@ -108,8 +104,5 @@ def signUp():
             me = User(username=username,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()
+
     return jsonify("success")
-
-    # Should render the sign up page but redirecting for now
-    
-
