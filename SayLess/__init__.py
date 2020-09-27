@@ -40,8 +40,14 @@ def loginPage():
         # get the form_data and check with the DB if the user name or email is valid
         form_data = request.form
 
+        if('' in form_data.keys() or '' in form_data.values()):
+            return jsonify("Please fill out every field")
+
         email = replace(form_data.get("email"))
         password = replace(form_data.get("password"))
+
+        if(checkViaRegex(email,'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$') == False):
+            return jsonify("Invalid email")
 
         password = password.encode('utf-8')
 
@@ -78,16 +84,23 @@ def signUp():
         # Do stuff for post request
         form_data = request.form
 
+        if('' in form_data.keys() or '' in form_data.values()):
+            return jsonify("Please fill out every field")
+
         email = replace(form_data.get("email"))
         username = replace(form_data.get("username"))
         confirm = replace(form_data.get("confirm"))
         password = replace(form_data.get("password"))
         
+        if(checkViaRegex(email,'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$') == False):
+            return jsonify("Invalid email")
        
         fname = replace(form_data.get("fname"))
         lname = replace(form_data.get("lname"))
-        
 
+        print("Fine until here: ")
+        print(request.form)
+        
         email_check = User.query.filter_by(email=email).first()
         username_check = User.query.filter_by(username=username).first()
         if len(password) < 8:

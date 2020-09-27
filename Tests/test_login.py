@@ -1,6 +1,5 @@
 # Do NOT modify this file without consulting the team.
 import os
-import tempfile
 import pytest
 import bcrypt
 
@@ -18,8 +17,8 @@ from flask import render_template
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/shazmaan_db'
 app.app_context().push()
 
-db.init_app(app)
-db.create_all()
+db.reflect()
+db.drop_all()
 
 def test_login():
     """Make sure login works."""
@@ -33,22 +32,37 @@ def test_login():
     password = ("hello123").encode('utf-8')
     password = bcrypt.hashpw(password, bcrypt.gensalt())
 
+    db.create_all()
+
     user = User(username="test",first_name="test",last_name="test",email="shazm@gmail.com",password=password)
 
     db.session.add(user)
     db.session.commit()
 
+    # test0 : test if valid login is made
     rv = login('shazm@gmail.com', 'hello123')
     assert rv.status_code == 200
     assert b'Success' in rv.data
 
-    rv = login('shazm@gmail.com' + 'x', 'hello123')
+    # test1 : test if email is absent
+    rv = login('shazm'+ 'x' + '@gmail.com', 'hello123')
     assert rv.status_code == 200
     assert b'user_and_email_not_found' in rv.data
 
+    # test2 : test if password is incorrect
     rv = login('shazm@gmail.com', 'hello123' + 'x')
     assert rv.status_code == 200
     assert b'invalid_password' in rv.data
+
+    # test3 : test if frontend overriden and empty values sent
+    rv = login('', 'hello123')
+    assert rv.status_code == 200
+    assert b'Please fill out every field' in rv.data
+
+    # test4 : test if email is valid
+    rv = login('shazm@com', 'hello123' + 'x')
+    assert rv.status_code == 200
+    assert b'Invalid email' in rv.data
 
     db.reflect()
     db.drop_all()

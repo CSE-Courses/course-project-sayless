@@ -23,14 +23,13 @@ $(document).ready(function () {
         })
         .done(function(data){    
                 // check what kind of error is it. 
-                console.log("hdhdhd");
                 if (data == "email exists"){
                     const msgElem = $('#usrMsg');
-                    msgElem.text("email already exists");
+                    msgElem.text("Email already exists");
                     msgElem.css("color", "red");
                 }else if(data == "password too short"){
                     const msgElem = $('#usrMsg');
-                    msgElem.text("password Must be 8 characters or longer");
+                    msgElem.text("Password Must be 8 characters or longer");
                     msgElem.css("color", "red");
                 }else if( data == "username exists"){
                     const msgElem = $('#usrMsg');
@@ -38,12 +37,25 @@ $(document).ready(function () {
                     msgElem.css("color", "red");
                 }else if( data == "password does not match"){
                     const msgElem = $('#usrMsg');
-                    msgElem.text("password does not match");
+                    msgElem.text("Password does not match");
                     msgElem.css("color", "red");
                 }
-                else{
-                window.location.pathname = "/";
-                console.log(data);
+                else if(data == "success"){
+                    window.location.pathname = "/";
+                    console.log(data);
+                }else if(data == "Please fill out every field"){
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("You are required to fill out every field");
+                    msgElem.css("color", "red");
+                }else if(data == "Invalid email"){
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Invalid email");
+                    msgElem.css("color", "red");
+                }else{
+                    console.log(data)
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Unknown error.. please contact admin staff");
+                    msgElem.css("color", "red");
                 }
         
         });
