@@ -32,7 +32,7 @@ class TestRegisterTest():
     # 5 | click | css=p:nth-child(3) |  | 
     self.driver.find_element(By.CSS_SELECTOR, "p:nth-child(3)").click()
     # 6 | verifyText | css=p:nth-child(3) | Create your account. It's free and only takes a minute! | 
-    assert self.driver.find_element(By.CSS_SELECTOR, "p:nth-child(3)").text == "Create your account. It\\\'s free and only takes a minute!"
+    assert self.driver.find_element(By.CSS_SELECTOR, "p:nth-child(3)").text == "Create your account. It's free and only takes a minute!"
     # 7 | click | id=fname |  | 
     self.driver.find_element(By.ID, "fname").click()
     # 8 | type | id=fname | riley | 
