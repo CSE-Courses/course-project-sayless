@@ -1,5 +1,6 @@
 import os
 import bcrypt
+import urllib.parse 
 
 from flask import Flask, render_template, request, Response, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -7,12 +8,18 @@ from SayLess.database import *
 from SayLess.helpers import *
 
 # create the flask app
-app = Flask(__name__, static_url_path='', static_folder='../statics', template_folder='../templates')
+app = Flask(__name__, static_url_path='', static_folder='/statics', template_folder='/templates')
 app.config.from_mapping(
     SECRET_KEY='CSE'
 )
-app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
+
+params = urllib.parse.quote_plus("DRIVER={ODBC Driver 17 for SQL Server};SERVER=shazmaan.database.windows.net;DATABASE=sayless;UID=Shazmaan;PWD=Malek0572!")
+
+app.config.from_pyfile('SayLess/config.py', silent=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
+
+print(app.config['SQLALCHEMY_DATABASE_URI'])
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
