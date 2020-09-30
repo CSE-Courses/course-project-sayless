@@ -1,7 +1,6 @@
 import os
-os.system("pip install -r requirements.txt")
 import bcrypt
-# import urllib.parse 
+import urllib.parse 
 
 from flask import Flask, render_template, request, Response, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -14,10 +13,10 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-# params = urllib.parse.quote_plus("DRIVER={ODBC Driver 17 for SQL Server};SERVER=shazmaan.database.windows.net;DATABASE=sayless;UID=Shazmaan;PWD=Malek0572!")
+params = urllib.parse.quote_plus("DRIVER={ODBC Driver 17 for SQL Server};SERVER=shazmaan.database.windows.net;DATABASE=sayless;UID=Shazmaan;PWD=Malek0572!")
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect=DRIVER%3D%7BODBC+Driver+17+for+SQL+Server%7D%3BSERVER%3Dshazmaan.database.windows.net%3BDATABASE%3Dsayless%3BUID%3DShazmaan%3BPWD%3DMalek0572%21"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 print(app.config['SQLALCHEMY_DATABASE_URI'])
 
