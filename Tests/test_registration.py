@@ -11,10 +11,11 @@ sys.path.insert(0,parentdir)
 
 from SayLess import app
 from SayLess.database import *
+from SayLess.helpers import *
 
 from flask import render_template
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/shazmaan_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
 
 db.reflect()

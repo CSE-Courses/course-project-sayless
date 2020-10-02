@@ -1,5 +1,6 @@
 import os
 import bcrypt
+import urllib.parse 
 
 from flask import Flask, render_template, request, Response, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -11,8 +12,12 @@ app = Flask(__name__, static_url_path='', static_folder='../statics', template_f
 app.config.from_mapping(
     SECRET_KEY='CSE'
 )
+
+params = urllib.parse.quote_plus(get_secret("DB"))
+
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
 
