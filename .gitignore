@@ -4,3 +4,4 @@ __pycache__/*
 .vscode
 .azure
 local-sp.json
+.pytest_cache
