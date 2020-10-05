@@ -2,10 +2,11 @@ import os
 import bcrypt
 import urllib.parse 
 
-from flask import Flask, render_template, request, Response, redirect, jsonify
+from flask import Flask, render_template, request, Response, redirect, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from SayLess.database import *
 from SayLess.helpers import *
+from datetime import timedelta
 
 # create the flask app
 app = Flask(__name__, static_url_path='', static_folder='../statics', template_folder='../templates')
@@ -26,10 +27,13 @@ db.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    if request.method == 'GET':
+    if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
         return render_template('home.html')
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid Login")
+        return redirect("/login")
     else:
         # Do stuff for post request
         print("In POST")
@@ -72,6 +76,7 @@ def loginPage():
             hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
             if bcrypt.checkpw(password, stored_password):
+                session['email'] = email
                 response = jsonify("Success")
                 return response
             else:
@@ -102,9 +107,6 @@ def signUp():
        
         fname = replace(form_data.get("fname"))
         lname = replace(form_data.get("lname"))
-
-        print("Fine until here: ")
-        print(request.form)
         
         email_check = User.query.filter_by(email=email).first()
         username_check = User.query.filter_by(username=username).first()
@@ -123,4 +125,11 @@ def signUp():
             db.session.add(me)
             db.session.commit()
 
+        session['email'] = email
+
     return jsonify("success")
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(days=1)
