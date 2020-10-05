@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, Response, redirect, jsonify, 
 from flask_sqlalchemy import SQLAlchemy
 from SayLess.database import *
 from SayLess.helpers import *
+from datetime import timedelta
 
 # create the flask app
 app = Flask(__name__, static_url_path='', static_folder='../statics', template_folder='../templates')
@@ -13,13 +14,10 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-# params = urllib.parse.quote_plus(get_secret("DB"))
-# params = urllib.parse.quote_plus(get_secret("TestDB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -130,3 +128,8 @@ def signUp():
         session['email'] = email
 
     return jsonify("success")
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(days=1)
