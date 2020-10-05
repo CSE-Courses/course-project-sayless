@@ -2,7 +2,7 @@ import os
 import bcrypt
 import urllib.parse 
 
-from flask import Flask, render_template, request, Response, redirect, jsonify
+from flask import Flask, render_template, request, Response, redirect, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from SayLess.database import *
 from SayLess.helpers import *
@@ -13,10 +13,13 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("TestDB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://shazmaan:50215152@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -26,10 +29,13 @@ db.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    if request.method == 'GET':
+    if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
         return render_template('home.html')
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid Login")
+        return redirect("/login")
     else:
         # Do stuff for post request
         print("In POST")
@@ -72,6 +78,7 @@ def loginPage():
             hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
 
             if bcrypt.checkpw(password, stored_password):
+                session['email'] = email
                 response = jsonify("Success")
                 return response
             else:
@@ -102,9 +109,6 @@ def signUp():
        
         fname = replace(form_data.get("fname"))
         lname = replace(form_data.get("lname"))
-
-        print("Fine until here: ")
-        print(request.form)
         
         email_check = User.query.filter_by(email=email).first()
         username_check = User.query.filter_by(username=username).first()
@@ -122,5 +126,7 @@ def signUp():
             me = User(username=username,email=email,first_name=fname,last_name=lname,password=password)
             db.session.add(me)
             db.session.commit()
+
+        session['email'] = email
 
     return jsonify("success")
