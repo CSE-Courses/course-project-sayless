@@ -14,11 +14,11 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-#params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -39,10 +39,32 @@ def home():
         # Do stuff for post request
         print("In POST")
 
-
         users = []
 
-    return jsonify(session['email'])
+        all = db.session.query(User).all()
+
+        for user in all:
+            if 'email' in session and  user.email != session['email']:
+                users.append(user.username)
+
+    return jsonify(users)
+
+@app.route('/username_validity', methods=['POST'])
+def username_validity():
+    if request.method == 'POST' and 'email' in session:
+
+        form_data = request.form
+        username = replace(form_data.get("username"))
+
+        check_username = User.query.filter_by(username=username).first()
+
+        if(check_username == None):
+            return jsonify("invalid_username")
+
+        else:
+            return jsonify("valid_username")
+
+    return jsonify("error")
 
 @app.route('/login', methods=['GET', 'POST'])
 def loginPage():

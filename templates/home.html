@@ -6,12 +6,15 @@
     <title>Homepage</title>
     <!-- Bootstrap CSS and fa-icon -->
     <link rel="stylesheet" href="/include/bootstrap.css">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;700&display=swap" rel="stylesheet">
 
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/include/jquery.min.js"></script>
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="/include/bootstrap.js"></script>
     <script src="/include/popper.min.js"></script>
     <script src="/home.js"></script>
@@ -20,10 +23,13 @@
 
 <body>
     <center>
-    <p>ALL</p>
-    <div id="people">
-
-    </div>
+        <div class = "ui-widget">
+            <p>Type in Username of Person You want to find!</p>
+        <form id="search_form">
+            <input id = "automplete-3" placeholder="Search...">
+            <button type="submit" id="chat">Start Chat</button>
+        </form>
+         </div>
     </center>
 </body>
 
