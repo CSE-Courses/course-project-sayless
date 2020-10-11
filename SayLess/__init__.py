@@ -2,7 +2,8 @@ import os
 import bcrypt
 import urllib.parse 
 
-from flask import Flask, render_template, request, Response, redirect, jsonify, session
+from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response
+from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from SayLess.database import *
 from SayLess.helpers import *
@@ -25,11 +26,21 @@ app.app_context().push()
 db.init_app(app)
 db.create_all()
 
+socketio = SocketIO(app)
+
+serverRestarted = True
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
+        global serverRestarted
+
+        if(serverRestarted):
+            session.clear()
+            serverRestarted = False
+            return redirect("/login")
         return render_template('home.html')
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
@@ -38,7 +49,111 @@ def home():
         # Do stuff for post request
         print("In POST")
 
-    return render_template('registration.html')
+    return redirect('/signup')
+
+
+@app.route('/homepage', methods=['GET', 'POST'])
+def homepage():
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("In GET")
+
+        global serverRestarted
+
+        if(serverRestarted):
+            session.clear()
+            serverRestarted = False
+            return redirect("/login")
+
+        return render_template('home.html')
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    else:
+        # Do stuff for post request
+
+        print("In POST")
+
+        form_data = request.form
+
+        username = replace(form_data.get("username"))
+
+        # this whole step is checking if a username exist or if you have already created a chat with a user
+        username_check = User.query.filter_by(username=username).first()
+
+        # check if the person is trying to talk to themselves
+        email = session['email']
+        email_check = User.query.filter_by(email=email).first()
+        if(email_check.username == username):
+            return jsonify({'Cannot_Talk':username})
+
+        if username_check is None:
+            return jsonify({'Invalid_user':"invalid"})
+
+        session['username2'] = username
+        username_check1 = Rooms.query.filter_by(username1=username,username2=session['username']).first()
+        username_check2 = Rooms.query.filter_by(username1=session['username'],username2=username).first()
+
+        currentroom = "DUMMY"
+
+        # this is checking if the user already has a room created with this searach user.
+        if username_check1 is None and username_check2 is None:
+            currentroom = username + session['username']
+            me = Rooms(username1 = session['username'], username2 = username, room = currentroom )
+            me2 = Rooms(username1 = username, username2 = session['username'], room = currentroom )
+            db.session.add(me)
+            db.session.add(me2)
+            db.session.commit()
+        else:
+            # if the search user is username1 then we enter here
+            currentroom = username_check2.room
+
+        resp = make_response(jsonify({'Success':currentroom}))
+
+        conversation = Conversation.query.filter_by(room=currentroom).first()
+        if(conversation is None and currentroom != "DUMMY"):
+            conversation = Conversation(room = currentroom)
+            db.session.add(conversation)
+            db.session.commit()
+        
+        return resp
+
+    return redirect('home.html')
+
+@app.route('/chat/<string:room_number>', methods=['GET', 'POST'])
+def chat(room_number):
+    # verify if the current user is allowed to access the room
+
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("Rendering chat template")
+
+        global serverRestarted
+
+        if(serverRestarted):
+            session.clear()
+            serverRestarted = False
+            return redirect("/login")
+
+
+        history = ""
+
+        # check history of messages and load all of them
+        conversation = Conversation.query.filter_by(room = room_number).first()
+        if(conversation):
+            messages = conversation.message
+
+            for message in messages:
+                print(message)
+                history += message.sender + ': ' + message.message + '\n'
+
+        return render_template('chat.html', messages=history)
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    else:
+        # Do stuff for post request
+         print("In POST")
 
 @app.route('/login', methods=['GET', 'POST'])
 def loginPage():
@@ -77,7 +192,12 @@ def loginPage():
 
             if bcrypt.checkpw(password, stored_password):
                 session['email'] = email
+                session['username'] = check_email.username
                 response = jsonify("Success")
+
+                global serverRestarted
+                serverRestarted = False
+                
                 return response
             else:
                 return jsonify("invalid_password")
@@ -125,7 +245,11 @@ def signUp():
             db.session.add(me)
             db.session.commit()
 
+            global serverRestarted
+            serverRestarted = False
+
         session['email'] = email
+        session['username'] = username
 
     return jsonify("success")
 
@@ -133,3 +257,68 @@ def signUp():
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=1)
+
+
+# socket methods
+def messageReceived(methods=['GET', 'POST']):
+    print('Message was received!')
+
+@socketio.on('store')
+def storeData(session):
+    print(session)
+
+#join the room with somone you searched for
+@socketio.on('join')
+def on_join(data):
+    if('email' in session and serverRestarted is False):
+        email_check = User.query.filter_by(email=session['email']).first()
+        username = Rooms.query.filter_by(username1=email_check.username).first()
+
+        if email_check and username:
+            path_name = data['path_name']
+            room_number = path_name.split('/')[2]
+
+            join_room(room_number)
+
+            # socketio.emit('message_received', {'msg': email_check.username+' is online','user': email_check.username}, room=room_number,callback=messageReceived)
+
+@socketio.on('connect')
+def on_connect():
+    if('email' in session and serverRestarted is False):
+        print("Hello world! ... connected")
+        email_check = User.query.filter_by(email=session['email']).first()
+
+
+@socketio.on('disconnect')
+def on_disconnect():
+    print("Hello world! ... disconnected")
+
+#sends message typed back to client side to be displayed with the person who sent it
+@socketio.on('sending_message')
+def send_to_user(json, methods=['GET', 'POST']):
+    if('email' in session and serverRestarted is False):
+        email_check = User.query.filter_by(email=session['email']).first()
+        username = Rooms.query.filter_by(username1=email_check.username).first()
+
+        if email_check and username:
+            path_name = json['path_name']
+            room_number = path_name.split('/')[2]
+            
+            conversation = Conversation.query.filter_by(room = room_number).first()
+
+            message = Message(sender=email_check.username, message=json['message'])
+
+            if(conversation.message):
+                conversation.message.append(message)
+            else:
+                conversation.message = [message]
+            
+            db.session.commit()
+
+            dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
+            
+            emit('message_received', dict,room=room_number, broadcast=True)
+
+            dict = {'user': email_check.username, 'msg': ""}
+
+            emit('message_received', dict)
