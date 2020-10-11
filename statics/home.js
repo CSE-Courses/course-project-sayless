@@ -1,7 +1,30 @@
 $(document).ready(function () {
+    $('#autocomplete-3').on('input', function() {
+  
+        const username = $('#autocomplete-3').val();
+        const requestData = {'username': username };
+      
+        if(username != ""){
+            $.ajax({
+                type: "POST",
+                url: "/search",
+                cache: false,
+                data: requestData,
+                success: data => {   
+                    $( "#autocomplete-3" ).autocomplete({
+                        //can change this to what we want. 1 DOES NOT DO ANYTHING
+                        minLength:0,   
+                        delay:500,   
+                        source: data
+                    });
+                }
+            })
+        }
+    });
+
     $('#usersearch').submit(function () {
     
-        const name = $('#search').val();
+        const name = $('#autocomplete-3').val();
 
         const requestData = {'username': name};
     

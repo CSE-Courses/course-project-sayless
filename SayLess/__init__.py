@@ -33,15 +33,16 @@ serverRestarted = True
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
-        global serverRestarted
-
-        if(serverRestarted):
-            session.clear()
-            serverRestarted = False
-            return redirect("/login")
         return render_template('home.html')
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
@@ -52,19 +53,41 @@ def home():
 
     return redirect('/signup')
 
+@app.route('/search', methods=['POST'])
+def search():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
+    if('email' in session):
+        users = []
+
+        all = db.session.query(User).all()
+
+        for user in all:
+            if user.email != session['email']:
+                users.append(user.username)
+
+        return jsonify(users)
+    elif('email' not in session):
+        return redirect("/login")
+
 
 @app.route('/homepage', methods=['GET', 'POST'])
 def homepage():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
-
-        global serverRestarted
-
-        if(serverRestarted):
-            session.clear()
-            serverRestarted = False
-            return redirect("/login")
 
         return render_template('home.html')
     elif request.method == 'GET' and 'email' not in session:
@@ -123,19 +146,18 @@ def homepage():
 
 @app.route('/chat/<string:room_number>', methods=['GET', 'POST'])
 def chat(room_number):
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
     # verify if the current user is allowed to access the room
 
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("Rendering chat template")
-
-        global serverRestarted
-
-        if(serverRestarted):
-            session.clear()
-            serverRestarted = False
-            return redirect("/login")
-
 
         history = ""
 
@@ -145,7 +167,6 @@ def chat(room_number):
             messages = conversation.message
 
             for message in messages:
-                print(message)
                 history += message.sender + ': ' + message.message + '\n'
 
         return render_template('chat.html', messages=history)
