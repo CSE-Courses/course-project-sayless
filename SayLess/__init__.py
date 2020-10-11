@@ -159,6 +159,8 @@ def chat(room_number):
         # Do stuff for get request
         print("Rendering chat template")
 
+        email_check = User.query.filter_by(email=session['email']).first()
+
         history = ""
 
         # check history of messages and load all of them
@@ -169,7 +171,7 @@ def chat(room_number):
             for message in messages:
                 history += message.sender + ': ' + message.message + '\n'
 
-        return render_template('chat.html', messages=history)
+        return render_template('chat.html', messages=history, user=email_check.username)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
