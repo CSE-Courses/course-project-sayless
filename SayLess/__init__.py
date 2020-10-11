@@ -156,6 +156,7 @@ def chat(room_number):
         # Do stuff for post request
          print("In POST")
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def loginPage():
     if request.method == 'GET':
