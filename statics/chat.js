@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io({transports: ['websocket']});
 const sessionId = socket.id;
 socket.on( 'connect', function() {
 socket.emit('join',{
