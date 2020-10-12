@@ -1,4 +1,4 @@
-var socket = io.connect('http://' + document.domain + ':' + location.port);
+var socket = io.connect();
 const sessionId = socket.id;
 socket.on( 'connect', function() {
 socket.emit('join',{
