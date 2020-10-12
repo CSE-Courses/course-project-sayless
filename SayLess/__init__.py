@@ -27,7 +27,7 @@ app.app_context().push()
 db.init_app(app)
 db.create_all()
 
-socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app)
 
 serverRestarted = True
 
