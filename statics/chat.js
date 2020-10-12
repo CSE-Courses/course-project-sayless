@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var socket = io({transports: ['websocket']});
+    var socket = socket.io({transports: ['websocket']});
     const sessionId = socket.id;
     socket.on( 'connect', function() {
     socket.emit('join',{
