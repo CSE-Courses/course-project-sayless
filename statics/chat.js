@@ -1,4 +1,4 @@
-var socket = io.connect("https://sayless.azurewebsites.net");
+var socket = io();
 const sessionId = socket.id;
 socket.on( 'connect', function() {
 socket.emit('join',{
