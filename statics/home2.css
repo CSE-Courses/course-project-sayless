@@ -12,10 +12,14 @@ h1{
     color: #000000;
     text-align: left;
     padding-bottom: 5px;
+    margin: 10px 0;
+    font-family: 'David Libre', serif;
+    font-size: 45px;
 } 
 
 hr{
-    height: 2px;
+    width: auto;
+    height: 1px;
     background-color: black;
     border: none;
 }
@@ -24,24 +28,30 @@ div {
     text-align: left;
 }
 
-button{
-    display: block;
-    margin: 0 auto;
-    width: 260px;
-    height: 36px;
-    border-radius: 10px;
+button,input{
+    border: none;
     color: black;
-    font-size: 24px;
+    padding: 5px;
+    font-family: 'David Libre', serif;
+    font-size: 20px;
     cursor: pointer;
+    border-radius: 10px;
+    margin: 5px 0;
 }
 
-input{
-    display: block;
-    margin: 0 auto;
-    width: 260px;
-    height: 36px;
-    border-radius: 10px;
-    color: black;
-    font-size: 24px;
-    cursor: pointer;
+h2{
+    font-family: 'David Libre', serif;
+    font-size: 30px;
+}
+
+h4{
+    font-family: 'David Libre', serif;
+    font-size: 20px;
+    margin: 2px 0;
+}
+
+.suggested{
+    padding-top: 150px;
+    font-family: 'David Libre', serif;
+    font-size: 30px;
 }
