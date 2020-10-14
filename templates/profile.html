@@ -1,0 +1,107 @@
+<html>
+<head>
+
+    <title>Profile</title>
+    <!-- Bootstrap CSS and fa-icon -->
+    <link rel="stylesheet" href="/include/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/include/jquery.min.js"></script>
+    <script src="/include/bootstrap.js"></script>
+    <script src="/include/popper.min.js"></script>
+    <script src="/settings.js"></script>
+
+</head>
+
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <div class="split left">
+            <div class="centered">
+                <div class="col lg-8 pb-5">
+                <form class="col">
+                        <div class="form-row">
+                            <div class="col">
+                                <img src="avatar.png" alt="Avatar" class="avatar" height=250 width=250>
+                            </div>
+                        </div>	
+                        <div class="col">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-link">Edit</button>
+                            </div> 
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="username" placeholder="username">  
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="bio">Bio:</label>
+                                <input class="form-control" type="text" id="bio" placeholder="add an optional bio...">  
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="split right">
+            <div class="centered">
+                <form class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="First Name" id="fn">  
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Last Name" id="ln">  
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col">
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <select  name="sab"  class="req"  id="age" style="width:50px; height:30px;" autocomplete="off" required/> </select>
+                    </div>
+                    </div>
+                </div>
+                    
+                <form class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                                <input type="radio" style="vertical-align: middle; margin: 0px;" name="gender" value="male"> Male 
+                                <input type="radio" style="vertical-align: middle; margin: 0px;" name="gender" value="female"> Female <br>
+                                <input type="radio" style="vertical-align: middle; margin: 0px;" name="gender" value="non-binary"> Non-Binary 
+                                <input type="radio" style="vertical-align: middle; margin: 0px;" name="gender" value="other"> Other 
+                        </div>
+                    </div>
+                </form>
+        
+                <div class="col">
+                    <div class="form-group">
+                        <label for="new-pw">Update Password:</label>
+                        <input class="form-control" type="password" id="new-pw">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <button type="submit" class="btn1">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </meta>
+
+</body>
+
+</html>
