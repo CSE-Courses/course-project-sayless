@@ -5,7 +5,7 @@
   <title>SayLess - Home</title>
   <!-- Bootstrap CSS and fa-icon -->
   <link rel="stylesheet" href="/include/bootstrap.css">
-  <link rel="stylesheet" href="/home2.css">
+  <link rel="stylesheet" href="/home.css">
   <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,14 +22,15 @@
 </head>
 <body>
   <h1>SayLess</h1>
+    <a href="/profile"><button><i class='fas fa-user-alt'></i></button></a>
     <hr>
     <div class = "ui-widget">
+      <p id="truth"></p>
         <form id="usersearch">
           <input id = "autocomplete-3" placeholder="Search...">
           <button type="submit" id="chat">Start a New Chat</button>
         </form>
     </div>
-    <button><i class='fas fa-user-alt'></i></button>    <!--Settings Link -->
     <hr>
     <h2>Your Frequents:</h2>
     <h2 class="suggested">Suggested:</h2>

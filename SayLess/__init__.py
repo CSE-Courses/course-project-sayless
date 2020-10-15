@@ -15,7 +15,6 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-
 params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
@@ -74,6 +73,28 @@ def search():
         return jsonify(users)
     elif('email' not in session):
         return redirect("/login")
+
+@app.route('/profile', methods=['GET','POST'])
+def profile():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("In GET")
+
+        return render_template('profile.html')
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    else:
+
+        # In Post request
+        print("In POST")
 
 
 @app.route('/homepage', methods=['GET', 'POST'])
