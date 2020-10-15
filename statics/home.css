@@ -28,6 +28,17 @@ div {
     text-align: left;
 }
 
+i{
+    border: none;
+    font-size: 45px;
+    position: absolute;
+    width: 76px;
+    height: 76px;
+    left: 90%;
+    top: 0px;
+    color: black;
+}
+
 button,input{
     border: none;
     color: black;
