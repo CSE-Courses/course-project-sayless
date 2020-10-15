@@ -1,0 +1,57 @@
+body{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    
+    background: -webkit-linear-gradient(top, #008080,white);
+    background-repeat: no-repeat;
+    font-family: 'David Libre', serif;
+}
+    
+h1{
+    color: #000000;
+    text-align: left;
+    padding-bottom: 5px;
+    margin: 10px 0;
+    font-family: 'David Libre', serif;
+    font-size: 45px;
+} 
+
+hr{
+    width: auto;
+    height: 1px;
+    background-color: black;
+    border: none;
+}
+
+div {
+    text-align: left;
+}
+
+button,input{
+    border: none;
+    color: black;
+    padding: 5px;
+    font-family: 'David Libre', serif;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+h2{
+    font-family: 'David Libre', serif;
+    font-size: 30px;
+}
+
+h4{
+    font-family: 'David Libre', serif;
+    font-size: 20px;
+    margin: 2px 0;
+}
+
+.suggested{
+    padding-top: 200px;
+    font-family: 'David Libre', serif;
+    font-size: 30px;
+}
