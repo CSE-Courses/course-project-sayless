@@ -1,37 +1,39 @@
 <html>
-    <head>
+<!-- For metadata, such as linking javascript and css -->
+<head>
 
-        <title>Homepage</title>
-        <!-- Bootstrap CSS and fa-icon -->
-        <link rel="stylesheet" href="/include/bootstrap.css">
-        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-             rel = "stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;700&display=swap" rel="stylesheet">
-    
-    
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script src="/include/bootstrap.js"></script>
-        <script src="/include/popper.min.js"></script>
-        <script src="/home.js"></script>
-    
-    </head>
-    
-    <body>
-        <center>
-            <h1>Chats</h1>
-            <h3>search person to chat </h3>
-            <br>
-            <p id="truth"></p>
-            <br> 
-            <br>
-            <form id="usersearch">
-                <input id = "autocomplete-3" placeholder="Search...">
-                <button type="submit"  value="Submit">Submit</button>
-            </form>
-            <br>
-        </center>
-    </body>
+  <title>SayLess - Home</title>
+  <!-- Bootstrap CSS and fa-icon -->
+  <link rel="stylesheet" href="/include/bootstrap.css">
+  <link rel="stylesheet" href="/home.css">
+  <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script src="/include/bootstrap.js"></script>
+  <script src="/include/popper.min.js"></script>
+  <script src="/home.js"></script>
+
+</head>
+<body>
+  <h1>SayLess</h1>
+    <a href="/profile"><button><i class='fas fa-user-alt'></i></button></a>
+    <hr>
+    <div class = "ui-widget">
+      <p id="truth"></p>
+        <form id="usersearch">
+          <input id = "autocomplete-3" placeholder="Search...">
+          <button type="submit" id="chat">Start a New Chat</button>
+        </form>
+    </div>
+    <hr>
+    <h2>Your Frequents:</h2>
+    <h2 class="suggested">Suggested:</h2>
+</body>
+
 </html>
