@@ -54,13 +54,6 @@ def home():
 
 @app.route('/search', methods=['POST'])
 def search():
-    global serverRestarted
-
-    if(serverRestarted):
-        session.clear()
-        serverRestarted = False
-        return redirect("/login")
-
     if('email' in session):
         users = []
 
@@ -71,8 +64,8 @@ def search():
                 users.append(user.username)
 
         return jsonify(users)
-    elif('email' not in session):
-        return redirect("/login")
+    else:
+        return ""
 
 @app.route('/profile', methods=['GET','POST'])
 def profile():
