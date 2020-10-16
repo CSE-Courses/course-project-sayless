@@ -45,6 +45,7 @@ def test_homepage():
     login("shazm@gmail.com","hello123", client1)
     login("shazm2@gmail.com","hello123", client2)
 
+    # test7 : test if homepage renders
     rv = client1.get("/homepage")
     assert rv.status_code == 200
     assert render_template("home.html").encode('utf-8') in rv.data
