@@ -62,7 +62,7 @@ def test_homepage():
     assert rv.status_code == 200
     assert b'Cannot_Talk' in rv.data
 
-    # test2 : test if password is incorrect
+    # test2 : test if the user is not present
     rv = homepage('test_not_existing', client1)
     assert rv.status_code == 200
     assert b'Invalid_user' in rv.data
@@ -85,7 +85,7 @@ def test_homepage():
     assert rv.status_code == 200
     assert b'Cannot_Talk' in rv.data
 
-    # test5 : test if password is incorrect
+    # test5 : test if the user doesnot exist
     rv = homepage('test_not_existing', client2)
     assert rv.status_code == 200
     assert b'Invalid_user' in rv.data
