@@ -21,18 +21,19 @@ app.app_context().push()
 db.reflect()
 db.drop_all()
 
-def test_profile():
-    """Make sure profile page works."""
+def test_search():
+    """Make sure search works."""
 
-    # testing profile get
     db.create_all()
 
     password = ("hello123").encode('utf-8')
     password = bcrypt.hashpw(password, bcrypt.gensalt())
 
     user = User(username="test",first_name="test",last_name="test",email="shazm@gmail.com",password=password)
+    user2 = User(username="test2",first_name="test2",last_name="test2",email="shazm2@gmail.com",password=password)
 
     db.session.add(user)
+    db.session.add(user2)
     db.session.commit()
 
     client1 = app.test_client()
@@ -41,15 +42,21 @@ def test_profile():
     # login user
     login("shazm@gmail.com","hello123", client1)
 
-    # test0 : test if the profile page loads
-    rv = client1.get("/profile")
-    assert rv.status_code == 200
-    assert render_template("profile.html", username=user.username, FirstName=user.first_name, LastName=user.last_name).encode('utf-8') in rv.data
+    # testing search post for client1
 
-    # test1 : test if redirected to login page for invalid sign in
-    rv = client2.get("/profile")
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
+    # test0 : test if all users are retured
+    rv = search(client1)
+    assert rv.status_code == 200
+    assert b'["test2"]\n' in rv.data
+
+    # test1 : test if no user is returned for request upon invalid sign in
+    rv = search(client2)
+    assert rv.status_code == 200
+    assert b'' in rv.data
+
+    # test2 : test if get request is made 404 is returned
+    rv = client1.get("/search")
+    assert rv.status_code == 404
 
     db.reflect()
     db.drop_all()
@@ -60,3 +67,6 @@ def login(email, password, client):
         email=email,
         password=password
     ), follow_redirects=True)
+
+def search(client):
+    return client.post('/search', follow_redirects=True)
