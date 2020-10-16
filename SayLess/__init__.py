@@ -87,7 +87,18 @@ def profile():
         # Do stuff for get request
         print("In GET")
 
-        return render_template('profile.html')
+        # Get username, first name and last name
+        username = "username"
+        first_name = "First Name"
+        last_name = "Last Name"
+
+        email = User.query.filter_by(email=session['email']).first()
+        if(email):
+            username = email.username
+            first_name = email.first_name
+            last_name = email.last_name
+
+        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
