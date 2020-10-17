@@ -26,12 +26,14 @@ class TestHomepagetests():
     self.driver.find_element(By.ID, "passwordInput").click()
     self.driver.find_element(By.ID, "passwordInput").send_keys("test1234")
     self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "autocomplete-3")))
     element = self.driver.find_element(By.ID, "autocomplete-3")
     assert element.is_enabled() is True
     assert self.driver.find_element(By.ID, "chat").text == "Start a New Chat"
     self.driver.find_element(By.ID, "autocomplete-3").click()
     self.driver.find_element(By.ID, "autocomplete-3").send_keys("Shazmaan")
     self.driver.find_element(By.ID, "chat").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".message")))
     element = self.driver.find_element(By.CSS_SELECTOR, ".message")
     assert element.is_enabled() is True
     assert self.driver.find_element(By.ID, "send").text == "Send"
