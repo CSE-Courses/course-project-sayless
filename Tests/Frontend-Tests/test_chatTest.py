@@ -58,8 +58,22 @@ class TestChatTest():
     self.driver.find_element(By.ID, "chat").click()
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "send")))
     chat = self.driver.find_element_by_id("chat").text
+    self.driver.get("http://sayless.azurewebsites.net/login")
+    self.driver.find_element(By.ID, "emailInput").click()
+    self.driver.find_element(By.ID, "emailInput").send_keys("shazmaanmalek@gmail.com")
+    self.driver.find_element(By.ID, "passwordInput").send_keys("hello123")
+    self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "autocomplete-3")))
+    self.driver.find_element(By.ID, "autocomplete-3").click()
+    self.driver.find_element(By.ID, "autocomplete-3").send_keys("rileybur")
+    self.driver.find_element(By.ID, "chat").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "send")))
+    chat2 = self.driver.find_element_by_id("chat").text
+    
     #Assert that the random string is found in the message area
     assert random_string in chat, "message not sent into chat"
+    assert random_string in chat2, "message not received into chat"
+
   
     self.driver.close()
   
