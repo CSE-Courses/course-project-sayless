@@ -29,7 +29,7 @@ class TestHomepagetests():
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "autocomplete-3")))
     element = self.driver.find_element(By.ID, "autocomplete-3")
     assert element.is_enabled() is True
-    assert self.driver.find_element(By.ID, "chat").text == "Start a New Chat"
+    assert self.driver.find_element(By.ID, "chat").text == "Chat"
     self.driver.find_element(By.ID, "autocomplete-3").click()
     self.driver.find_element(By.ID, "autocomplete-3").send_keys("Shazmaan")
     self.driver.find_element(By.ID, "chat").click()
