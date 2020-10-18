@@ -5,3 +5,4 @@ __pycache__/*
 .azure
 local-sp.json
 .pytest_cache
+debug.log
