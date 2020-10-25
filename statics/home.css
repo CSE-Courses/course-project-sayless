@@ -12,6 +12,7 @@ h1{
     color: #000000;
     text-align: left;
     padding-bottom: 5px;
+    left: 5%;
     margin: 10px 0;
     font-family: 'David Libre', serif;
     font-size: 45px;
@@ -34,7 +35,7 @@ i{
     position: absolute;
     width: 76px;
     height: 76px;
-    left: 90%;
+    left: 95%;
     top: 0px;
     color: black;
 }
