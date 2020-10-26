@@ -5,7 +5,7 @@
   <title>SayLess - Home</title>
   <!-- Bootstrap CSS and fa-icon -->
   <link rel="stylesheet" href="/include/bootstrap.css">
-  <link rel="stylesheet" href="/home.css">
+  <link rel="stylesheet" href="LOCAL homepage.css">
   <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,32 +19,33 @@
   <script src="/include/popper.min.js"></script>
   <script src="/home.js"></script>
 
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="/chat.js"></script>
+
 </head>
 <body>
   <h1>SayLess</h1>
-    <a href="/profile"><i class='fas fa-user-alt'></i></a>
-    <hr>
-    <div class = "ui-widget">
-      <p id="truth"></p>
-        <form id="usersearch">
-          <input id = "autocomplete-3" placeholder="Search...">
-          <button type="submit" id="chat">Chat</button>
-        </form>
-    </div>
-    <hr>
+  <a href="/profile"><i class="fas fa-user-alt"></i></a>
+  <hr>
+  <div class = "ui-widget">
+    <p id="truth"></p>
+      <form id="usersearch">
+        <input id = "autocomplete-3" placeholder="Search...">
+        <button type="submit" id="chat">Chat</button>
+      </form>
+  </div>
+  <hr>
     
-    <h3 id = "header">{{user}}</h3>
+  <h2 id = "header">{{user}}</h2>
+  <a href="/profile"><i class="fas fa-info-circle"></i></a> <!--Link to user's profile-->
+  <hr>
 
-    <textarea id="chat" cols="80" rows="20">{{messages}}</textarea><br><br>
-      <input type="text" class="message" placeholder="Messages"/>
-      <Button id="send"> Send </Button>
-   
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-    <script src="/chat.js"></script>
-
+  <div class="vertical"></div>
+  <textarea id="chat" cols="80" rows="20">{{messages}}</textarea><br><br>
+  <input type="text" class="message" placeholder="Message..."/>
+  <button class="send"> Send </button>
 </body>
 
 </html>
