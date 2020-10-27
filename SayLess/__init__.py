@@ -386,6 +386,4 @@ def send_to_user(json, methods=['GET', 'POST']):
             
             emit('message_received', dict,room=room_number, broadcast=True)
 
-            dict = {'user': session['username2'], 'msg': ""}
-
             emit('message_received', dict)
