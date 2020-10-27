@@ -198,13 +198,22 @@ def chat(room_number):
 
         # check history of messages and load all of them
         conversation = Conversation.query.filter_by(room = room_number).first()
+        room = Rooms.query.filter_by(room = room_number).first()
+
         if(conversation):
             messages = conversation.message
 
             for message in messages:
                 history += message.sender + ': ' + message.message + '\n'
 
-        return render_template('chat.html', messages=history, user=email_check.username)
+        chatting_with = ""
+
+        if room.username1 == email_check.username:
+            chatting_with = room.username2
+        else:
+            chatting_with = room.username1
+
+        return render_template('chat.html', messages=history, user=chatting_with)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
