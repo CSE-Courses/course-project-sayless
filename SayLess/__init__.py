@@ -385,5 +385,3 @@ def send_to_user(json, methods=['GET', 'POST']):
             dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
             
             emit('message_received', dict,room=room_number, broadcast=True)
-
-            emit('message_received', dict)
