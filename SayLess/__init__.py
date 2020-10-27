@@ -7,6 +7,9 @@ from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from SayLess.database import *
 from SayLess.helpers import *
+from hashlib import *
+import random
+import string
 from datetime import timedelta
 
 # create the flask app
@@ -15,10 +18,10 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -147,16 +150,21 @@ def homepage():
 
         # this is checking if the user already has a room created with this searach user.
         if username_check1 is None and username_check2 is None:
-            currentroom = username + session['username']
+            #random string generator
+            line = username + session['username']
+            N = 17
+            hashedWord = sha256(''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(N)).encode('utf-8')).hexdigest()
+            currentroom = str(hashedWord)
             me = Rooms(username1 = session['username'], username2 = username, room = currentroom )
             me2 = Rooms(username1 = username, username2 = session['username'], room = currentroom )
             db.session.add(me)
             db.session.add(me2)
             db.session.commit()
-        else:
+        elif username_check2:
             # if the search user is username1 then we enter here
             currentroom = username_check2.room
-
+        else:
+            currentroom = username_check1.room
         resp = make_response(jsonify({'Success':currentroom}))
 
         conversation = Conversation.query.filter_by(room=currentroom).first()
@@ -369,6 +377,6 @@ def send_to_user(json, methods=['GET', 'POST']):
             
             emit('message_received', dict,room=room_number, broadcast=True)
 
-            dict = {'user': email_check.username, 'msg': ""}
+            dict = {'user': session['username2'], 'msg': ""}
 
             emit('message_received', dict)
