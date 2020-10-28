@@ -1,5 +1,6 @@
 
 from flask_sqlalchemy import SQLAlchemy
+from itsdangerous import TimedJSONWebSignatureSerializer as Serial
 
 db = SQLAlchemy()
 
@@ -13,6 +14,23 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+    #Our Methods for dealing with the tokens 
+    #Note this one doesn't use self and thus must be given a static label
+    @staticmethod
+    def correct_token(token):
+        s = Serial("secret_key")
+        #Since loads breaks if the token is expired we throw this in a try block
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        #if we get here the token was valid and we can return the user associated with said token
+        return User.query.get(user_id)
+
+    def create_token(self , seconds=600):
+        s = Serial("secret_key" , seconds)
+        return s.dumps({'user_id' : self.id}).decode('utf-8')
 
 class Rooms(db.Model):
     id = db.Column(db.Integer, primary_key=True)

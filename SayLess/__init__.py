@@ -2,9 +2,11 @@ import os
 import bcrypt
 import urllib.parse 
 
-from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response
+from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response, url_for
 from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
+from flask_mail import Message as M
 from SayLess.database import *
 from SayLess.helpers import *
 from datetime import timedelta
@@ -15,9 +17,20 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
+#SET UP TO USE FLASK MAIL
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
+#BETTER WAY TO STORE THESE SO THEY AREN'T JUST SITTING HERE?
+app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
+app.config['MAIL_PASSWORD'] = '4En1QVD4#M#J'
+mail = Mail(app)
+
 params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -254,6 +267,75 @@ def loginPage():
 
     # return error
     return jsonify("error")
+
+@app.route('/reset_request', methods=['GET', 'POST'])
+def reset_request():
+    if request.method == 'GET':
+        # render reset_request.html
+        return render_template('reset_request.html')
+
+    else:
+        # Do stuff for post request
+        form_data = request.form
+        email = replace(form_data.get("email"))
+
+        email_check = User.query.filter_by(email=email).first()
+
+        #either way return succes but if it is an email, send an email with a url attached
+        #said url expires in 10 minutes 
+        if email_check != None:
+
+            #call our create token method to create a token and add it to the email
+            token = email_check.create_token()
+          
+            receiver_email = email  # Enter receiver address
+            
+            msg = M('Reset Password', sender='sayless442@gmail.com', recipients=[receiver_email])
+            msg.body = f'''Follow this link to reset your password. This link will expire in 10 minutes, after that you must re-request a password reset.
+            {url_for('reset_pass' , token=token , _external=True)}
+            '''
+            mail.send(msg)
+           
+
+            return jsonify("Success")
+    
+    return jsonify("Success")
+
+@app.route('/reset_pass/<string:token>', methods=['GET', 'POST'])
+def reset_pass(token):
+    if request.method == 'GET':
+        user = User.correct_token(token)
+        #if the token is still valid user will not be none
+        if user is None:
+            return redirect(url_for('reset_request'))
+        user_id = user.id
+        #send the user_id (as it gives info about the user like email name etc) to the html
+        return render_template('reset_password.html' , token=token , user_id=user_id)
+
+    else:
+        form_data = request.form
+        confirm = replace(form_data.get("confirm"))
+        password = replace(form_data.get("password"))
+        user_id = replace(form_data.get("user_id"))
+        print(confirm , password , user_id)
+        use = User.query.filter_by(id=user_id).first()
+
+        if len(password) < 8:
+            return jsonify("password too short")
+        elif password != confirm:
+            return jsonify("password does not match")
+        elif use is None:
+            return jsonify("user_error")
+        else:
+            password = password.encode('utf-8')
+            password = bcrypt.hashpw(password, bcrypt.gensalt())
+            use.password = password
+            db.session.commit()
+            return jsonify("Success")
+
+
+
+        
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():

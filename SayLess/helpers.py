@@ -4,6 +4,7 @@ import re
 
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
+from SayLess.database import *
 
 def replace(text):
     text = text.replace(">", "&gt;")
