@@ -1,1 +1,66 @@
-const _0x2c5f=['val','css','responseJSON','Success','ready','POST','value','#passwordInput','invalid_password','Error!\x20Please\x20contact\x20support','pathname','Email\x20has\x20not\x20been\x20registered.\x20Please\x20register\x20the\x20email\x20address','color','getElementById','red','Please\x20fill\x20out\x20every\x20field','Invalid\x20email','text','/login','message','submit','Unknown\x20error..\x20please\x20contact\x20admin\x20staff','ajax','user_and_email_not_found','#loginForm','passwordInput','#usrMsg','location','#emailInput','log','Invalid\x20Password'];(function(_0x3d3dc9,_0x2c5f2c){const _0x59c759=function(_0x18a336){while(--_0x18a336){_0x3d3dc9['push'](_0x3d3dc9['shift']());}};_0x59c759(++_0x2c5f2c);}(_0x2c5f,0x165));const _0x59c7=function(_0x3d3dc9,_0x2c5f2c){_0x3d3dc9=_0x3d3dc9-0x0;let _0x59c759=_0x2c5f[_0x3d3dc9];return _0x59c759;};const _0x2a089d=_0x59c7;$(document)[_0x2a089d('0x13')](function(){const _0x5d9842=_0x2a089d;$(_0x5d9842('0x8'))[_0x5d9842('0x4')](function(){const _0x440ddf=_0x5d9842,_0x18a336=$(_0x440ddf('0xc'))[_0x440ddf('0xf')](),_0x38cef3=$(_0x440ddf('0x16'))['val'](),_0x241648={'email':_0x18a336,'password':_0x38cef3};return $[_0x440ddf('0x6')]({'type':_0x440ddf('0x14'),'url':_0x440ddf('0x2'),'cache':![],'data':_0x241648,'success':_0x53ce20=>{const _0x2f1eaf=_0x440ddf;if(_0x53ce20==_0x2f1eaf('0x7')){console['log']('username\x20or\x20email\x20not\x20found');const _0x10a228=$(_0x2f1eaf('0xa'));_0x10a228['text'](_0x2f1eaf('0x1a')),_0x10a228['css']('color','red'),document[_0x2f1eaf('0x1c')](_0x2f1eaf('0x9'))[_0x2f1eaf('0x15')]='';}else{if(_0x53ce20==_0x2f1eaf('0x12'))console[_0x2f1eaf('0xd')](_0x2f1eaf('0x12')),window[_0x2f1eaf('0xb')][_0x2f1eaf('0x19')]='/';else{if(_0x53ce20==_0x2f1eaf('0x17')){console[_0x2f1eaf('0xd')]('Invalid\x20Password');const _0x5c6648=$(_0x2f1eaf('0xa'));_0x5c6648[_0x2f1eaf('0x1')](_0x2f1eaf('0xe')),_0x5c6648[_0x2f1eaf('0x10')](_0x2f1eaf('0x1b'),_0x2f1eaf('0x1d')),document[_0x2f1eaf('0x1c')](_0x2f1eaf('0x9'))[_0x2f1eaf('0x15')]='';}else{if(_0x53ce20=='error')console[_0x2f1eaf('0xd')](_0x2f1eaf('0x18'));else{if(_0x53ce20==_0x2f1eaf('0x1e')){const _0x2ac06d=$(_0x2f1eaf('0xa'));_0x2ac06d[_0x2f1eaf('0x1')]('You\x20are\x20required\x20to\x20fill\x20out\x20every\x20field'),_0x2ac06d[_0x2f1eaf('0x10')](_0x2f1eaf('0x1b'),'red');}else{if(_0x53ce20=='Invalid\x20email'){const _0x11b220=$(_0x2f1eaf('0xa'));_0x11b220[_0x2f1eaf('0x1')](_0x2f1eaf('0x0')),_0x11b220['css'](_0x2f1eaf('0x1b'),_0x2f1eaf('0x1d'));}else{console[_0x2f1eaf('0xd')](_0x53ce20);const _0x48f5db=$(_0x2f1eaf('0xa'));_0x48f5db[_0x2f1eaf('0x1')](_0x2f1eaf('0x5')),_0x48f5db[_0x2f1eaf('0x10')](_0x2f1eaf('0x1b'),_0x2f1eaf('0x1d'));}}}}}}},'error':(_0x390a0d,_0x45d050,_0x1ef053)=>{const _0x31e06b=_0x440ddf,_0x272f1a=_0x390a0d[_0x31e06b('0x11')][_0x31e06b('0x3')],_0x588912=$(_0x31e06b('0xa'));_0x588912['text'](_0x272f1a),_0x588912[_0x31e06b('0x10')](_0x31e06b('0x1b'),_0x31e06b('0x1d'));}}),![];});});
+$(document).ready(function () {
+    $('#loginForm').submit(function () {
+    
+        const email = $('#emailInput').val();
+        const password = $('#passwordInput').val();
+
+        const requestData = {'email': email, 'password': password};
+    
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            cache: false,
+            data: requestData,
+            success: data => {    
+                // check what kind of error is it. 
+                if(data == "user_and_email_not_found"){
+                    console.log("username or email not found");
+
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Email has not been registered. Please register the email address");
+                    msgElem.css("color", "red");
+    
+                    document.getElementById("passwordInput").value = "";
+    
+                }else if(data == "Success"){
+                    console.log("Success");
+                    window.location.pathname = "/";
+    
+                }else if(data == "invalid_password"){
+
+                    console.log("Invalid Password");
+
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Invalid Password");
+                    msgElem.css("color", "red");
+    
+                    document.getElementById("passwordInput").value = "";
+                }else if(data == "error"){
+                    console.log("Error! Please contact support");
+                }else if(data == "Please fill out every field"){
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("You are required to fill out every field");
+                    msgElem.css("color", "red");
+                }else if(data == "Invalid email"){
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Invalid email");
+                    msgElem.css("color", "red");
+                }else{
+                    console.log(data)
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("Unknown error.. please contact admin staff");
+                    msgElem.css("color", "red");
+                }
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                const message = jqXHR.responseJSON['message'];
+                const msgElem = $('#usrMsg');
+                msgElem.text(message);
+                msgElem.css("color", "red");
+            }
+        });
+    
+    
+        return false;
+    });
+});

@@ -1,1 +1,34 @@
-var _0x5aee=['sending_message','focus','scrollTop','msg','pathname','connect','val','user','#header','click','emit','text','log','#chat','input.message','scrollHeight','location'];(function(_0x55134a,_0x5aee58){var _0x3b8998=function(_0x2491a9){while(--_0x2491a9){_0x55134a['push'](_0x55134a['shift']());}};_0x3b8998(++_0x5aee58);}(_0x5aee,0x73));var _0x3b89=function(_0x55134a,_0x5aee58){_0x55134a=_0x55134a-0x0;var _0x3b8998=_0x5aee[_0x55134a];return _0x3b8998;};$(document)['ready'](function(){var _0x14fb2f=_0x3b89,_0x2491a9=io['connect']({'transports':['websocket']});const _0x21fbd0=_0x2491a9['id'];_0x2491a9['on'](_0x14fb2f('0x9'),function(){var _0x54fd57=_0x14fb2f;_0x2491a9[_0x54fd57('0xe')]('join',{'path_name':window[_0x54fd57('0x3')][_0x54fd57('0x8')]}),_0x2491a9['emit']('store',{'sessionId':_0x21fbd0});}),$('#send')[_0x14fb2f('0xd')](function(){var _0x5a0b7c=_0x14fb2f;let _0x10d8a8=$(_0x5a0b7c('0x1'))[_0x5a0b7c('0xa')]();console['log'](_0x10d8a8),_0x2491a9['emit'](_0x5a0b7c('0x4'),{'message':_0x10d8a8,'path_name':window[_0x5a0b7c('0x3')]['pathname']}),$(_0x5a0b7c('0x1'))[_0x5a0b7c('0xa')]('')[_0x5a0b7c('0x5')]();}),_0x2491a9['on']('message_received',function(_0x161c12){var _0x5d5a12=_0x14fb2f;console[_0x5d5a12('0x10')](_0x161c12),_0x161c12[_0x5d5a12('0xb')]['length']!=0x0?$(_0x5d5a12('0xc'))[_0x5d5a12('0xf')](_0x161c12['user']):($('#chat')[_0x5d5a12('0xa')]($('#chat')[_0x5d5a12('0xa')]()+_0x161c12[_0x5d5a12('0x7')]+'\x0a'),$(_0x5d5a12('0x0'))[_0x5d5a12('0x6')]($(_0x5d5a12('0x0'))[0x0][_0x5d5a12('0x2')]));});});
+$(document).ready(function () {
+    var socket = io.connect({transports: ['websocket']});
+    const sessionId = socket.id;
+    socket.on( 'connect', function() {
+    socket.emit('join',{
+        path_name : window.location.pathname
+    });
+
+    socket.emit("store",{sessionId});
+    } );
+
+    // message sends only when you hit send
+    $("#send").click(function() {
+        let user_input = $( 'input.message' ).val()
+        console.log(user_input);
+        socket.emit( 'sending_message', {
+        message : user_input,
+        path_name : window.location.pathname
+        } );
+        $( 'input.message' ).val( '' ).focus()
+    } );
+
+    // this my response displays the messages a user sends
+    socket.on('message_received', function(data) {
+        console.log(data);
+
+        if(data.user.length != 0){
+            $('#header').text(data.user);
+        }else{
+            $('#chat').val($('#chat').val() + data.msg + '\n');
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);   
+        }
+    });
+});
