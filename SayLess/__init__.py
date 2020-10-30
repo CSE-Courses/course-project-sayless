@@ -33,7 +33,7 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = '4En1QVD4#M#J'
+app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
 params = urllib.parse.quote_plus(get_secret("DB"))
