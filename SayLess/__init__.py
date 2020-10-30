@@ -3,7 +3,9 @@ import bcrypt
 import urllib.parse 
 
 import eventlet
-eventlet.monkey_patch()
+eventlet.monkey_patch(ssl=False)
+
+from SayLess.helpers import *
 
 from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response, url_for
 from flask_socketio import SocketIO, leave_room, join_room, send, emit
@@ -11,7 +13,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_mail import Message as M
 from SayLess.database import *
-from SayLess.helpers import *
 from hashlib import *
 import random
 import string
