@@ -12,6 +12,9 @@ from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_mail import Message as M
+
+from flask_minify import minify
+
 from SayLess.database import *
 from hashlib import *
 import random
@@ -45,6 +48,8 @@ db.init_app(app)
 db.create_all()
 
 socketio = SocketIO(app)
+
+minify(app=app, html=True, js=True, cssless=True)
 
 serverRestarted = True
 

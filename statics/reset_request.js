@@ -1,1 +1,38 @@
-const _0x4e92=['#resetEmail','resetEmail','ajax','color','#resetForm','#usrMsg','Success','ready','text','log','/reset_request','val','submit','red','green','POST','Unknown\x20error..\x20please\x20contact\x20admin\x20staff'];(function(_0x5ea2ad,_0x4e92fb){const _0x34cf71=function(_0x5c5903){while(--_0x5c5903){_0x5ea2ad['push'](_0x5ea2ad['shift']());}};_0x34cf71(++_0x4e92fb);}(_0x4e92,0x15b));const _0x34cf=function(_0x5ea2ad,_0x4e92fb){_0x5ea2ad=_0x5ea2ad-0x0;let _0x34cf71=_0x4e92[_0x5ea2ad];return _0x34cf71;};const _0x29e2d1=_0x34cf;$(document)[_0x29e2d1('0x0')](function(){const _0x31d0d6=_0x29e2d1;return $(_0x31d0d6('0xe'))[_0x31d0d6('0x5')](function(){const _0x186179=_0x31d0d6,_0x5c5903=$(_0x186179('0xa'))[_0x186179('0x4')](),_0x2b9ac2={'email':_0x5c5903};$[_0x186179('0xc')]({'type':_0x186179('0x8'),'url':_0x186179('0x3'),'cache':![],'data':_0x2b9ac2,'success':_0x2a440e=>{const _0x5c1973=_0x186179;if(_0x2a440e==_0x5c1973('0x10')){console[_0x5c1973('0x2')](_0x2a440e);const _0x5ad961=$(_0x5c1973('0xf'));_0x5ad961['text']('If\x20email\x20is\x20valid,an\x20email\x20with\x20instructions\x20will\x20be\x20sent\x20shortly'),_0x5ad961['css'](_0x5c1973('0xd'),_0x5c1973('0x7')),console[_0x5c1973('0x2')](_0x2a440e);}else{console['log'](_0x2a440e);const _0x2d0721=$(_0x5c1973('0xf'));_0x2d0721[_0x5c1973('0x1')](_0x5c1973('0x9')),_0x2d0721['css'](_0x5c1973('0xd'),_0x5c1973('0x6'));}}});}),document['getElementById'](_0x31d0d6('0xb'))[_0x31d0d6('0x4')]='',![];});
+//Upon submitting an email, send it to the back end, if its valid (as in it is in the databse) send em an email
+//if not just do nothing and display the same message
+$(document).ready(function () {
+    $('#resetForm').submit(function () {
+        const email = $('#resetEmail').val();
+        const requestData = {'email': email };
+      
+            $.ajax({
+                type: "POST",
+                url: "/reset_request",
+                cache: false,
+                data: requestData,
+                success: data => {   
+                    if(data == "Success"){
+                  console.log(data);
+                    const msgElem = $('#usrMsg');
+                    msgElem.text("If email is valid,an email with instructions will be sent shortly");
+                    msgElem.css("color", "green");
+                 console.log(data);
+                    }
+                    else{
+                        console.log(data)
+                        const msgElem = $('#usrMsg');
+                        msgElem.text("Unknown error.. please contact admin staff");
+                        msgElem.css("color", "red");
+                    }
+                }
+            })
+
+    });
+//FOR SOME REASON IT STILL FEELS THE NEED TO REFRESH THE PAGE ON SUBMIT
+//REMOVES THE TEXT LETING THE USER KNOW ABOUT
+document.getElementById('resetEmail').val = "";
+return false;
+
+
+
+});
