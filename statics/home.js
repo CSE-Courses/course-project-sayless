@@ -73,6 +73,18 @@ $(document).ready(function () {
                     
                     $('#chatframe').attr('src', path_to_go);
 
+                    var isPresent = false;
+
+                    $(".openchatsbutton").each(function() {
+                        if(this.id == data["Success"]){
+                            isPresent = True;
+                        }
+                    });
+
+                    if(!isPresent){
+                        createlist(name, data["Success"]);
+                    }
+
                     // var iFrame = document.getElementById( 'chatframe' );
                     // resizeIFrameToFitContent( iFrame );
                 } else if(data["Invalid_user"] ){
