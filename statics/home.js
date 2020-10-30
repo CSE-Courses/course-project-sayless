@@ -42,7 +42,7 @@ $(document).ready(function () {
                 success: data => {   
                     $( "#autocomplete-3" ).autocomplete({
                         //can change this to what we want. 1 DOES NOT DO ANYTHING
-                        minLength:0,   
+                        minLength:2,   
                         delay:500,   
                         source: data
                     });
