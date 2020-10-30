@@ -65,6 +65,7 @@ def home():
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
+
         return render_template('home.html')
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
@@ -196,6 +197,29 @@ def homepage():
         return resp
 
     return redirect('home.html')
+
+@app.route('/openchats', methods=['POST'])
+def open():
+    data = {}
+
+    email = session['email']
+    email_check = User.query.filter_by(email=email).first()
+
+    if(email_check is None):
+        return jsonify(data) 
+
+    users1 = Rooms.query.filter_by(username1=email_check.username)
+    users2 = Rooms.query.filter_by(username2=email_check.username)
+
+    for room in users1:
+        if room.username2 not in data:
+            data[room.username2] = room.room
+
+    for room in users2:
+        if room.username1 not in data:
+           data[room.username1] = room.room
+
+    return jsonify(data)
 
 @app.route('/chat/<string:room_number>', methods=['GET', 'POST'])
 def chat(room_number):
