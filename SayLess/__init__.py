@@ -65,8 +65,11 @@ def home():
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
+        
+        email = session['email']
+        email_check = User.query.filter_by(email=email).first()
 
-        return render_template('home.html')
+        return render_template('home.html', username=email_check.username)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
         return redirect("/login")
@@ -90,6 +93,23 @@ def search():
         return jsonify(users)
     else:
         return ""
+
+@app.route("/logout", methods=['GET'])
+def logout():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("In GET")
+
+        session.clear()
+
+        return redirect("/login")
 
 @app.route('/profile', methods=['GET','POST'])
 def profile():
@@ -197,7 +217,10 @@ def homepage():
         # Do stuff for get request
         print("In GET")
 
-        return render_template('home.html')
+        email = session['email']
+        email_check = User.query.filter_by(email=email).first()
+
+        return render_template('home.html', username=email_check.username)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")

@@ -16,11 +16,13 @@ $(document).ready(function () {
             $('.openchatsbutton').on('click',function() {
                 console.log("Success");
 
-                    $('#chatframe').attr('style', "width:700px;height:600px;overflow-y:hidden;border=none;");
+                $("#startachat").attr('style',"display:none;");
 
-                    var path_to_go = "/chat/"+this.id;
-                    
-                    $('#chatframe').attr('src', path_to_go);
+                $('#chatframe').attr('style', "width:700px;height:600px;overflow-y:hidden;visibility:visible;border:none;");
+
+                var path_to_go = "/chat/"+this.id;
+                
+                $('#chatframe').attr('src', path_to_go);
             });
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -67,8 +69,9 @@ $(document).ready(function () {
                 if(data["Success"]){
                     console.log("Success");
 
-                    $('#chatframe').attr('style', "width:700px;height:600px;overflow-y:hidden;border=none;");
+                    $("#startachat").attr("style","display:none;");
 
+                    $('#chatframe').attr('style', "width:700px;height:600px;overflow-y:hidden;visibility:visible;border:none;");
                     var path_to_go = "/chat/"+data["Success"];
                     
                     $('#chatframe').attr('src', path_to_go);
