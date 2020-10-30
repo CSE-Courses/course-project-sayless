@@ -54,7 +54,7 @@ From here you will be able to got to http://localhost:8000 to view the webpage.
 * **Shreya Lakhar** - *Initial work* - [Shreya](https://github.com/)
 * **Riley** - *Initial work* - [Riley](https://github.com/)
 * **Shristy Jha** - *Initial work* - [Shristy](https://github.com/)
-* **Moulid** - *Initial work* - [Moulid](https://github.com/)
+* **Moulid Ahmed** - *Initial work* - [Moulid](https://github.com/moulid15)
 * **Shazmaan Malek** - *Initial work* - [Shazmaan](https://github.com/Shazmaan)
 
 ## License 
