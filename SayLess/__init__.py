@@ -3,7 +3,7 @@ import bcrypt
 import urllib.parse 
 
 import eventlet
-eventlet.monkey_patch(ssl=False)
+eventlet.monkey_patch()
 
 from SayLess.helpers import *
 
