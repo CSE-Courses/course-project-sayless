@@ -2,11 +2,9 @@ import os
 import bcrypt
 import urllib.parse 
 
-from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response, url_for
+from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response
 from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
-from flask_mail import Message as M
 from SayLess.database import *
 from SayLess.helpers import *
 from hashlib import *
@@ -19,15 +17,6 @@ app = Flask(__name__, static_url_path='', static_folder='../statics', template_f
 app.config.from_mapping(
     SECRET_KEY='CSE'
 )
-
-#SET UP TO USE FLASK MAIL
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = '4En1QVD4#M#J'
-mail = Mail(app)
 
 params = urllib.parse.quote_plus(get_secret("DB"))
 
@@ -282,81 +271,6 @@ def loginPage():
 
     # return error
     return jsonify("error")
-
-@app.route('/reset_request', methods=['GET', 'POST'])
-def reset_request():
-    if request.method == 'GET':
-        # render reset_request.html
-        return render_template('reset_request.html')
-
-    else:
-        # Do stuff for post request
-        form_data = request.form
-        email = replace(form_data.get("email"))
-
-        email_check = User.query.filter_by(email=email).first()
-
-        # either way return succes but if it is an email, send an email with a url attached
-        # said url expires in 10 minutes 
-        if email_check != None:
-
-            # call our create token method to create a token and add it to the email as part pf the url
-            token = email_check.create_token()
-          
-            receiver_email = email  # Enter receiver address
-            
-            # if the email is in the DB but not actually an email this shouldn't cause any issues
-            # they just won't get their email cuase hey your email isn't real yah dope
-            # could add in that checks the return code and says hey your email is valid if we want
-            msg = M('Reset Password', sender='sayless442@gmail.com', recipients=[receiver_email])
-            msg.body = f'''Follow this link to reset your password. This link will expire in 10 minutes, after that you must re-request a password reset.
-            {url_for('reset_pass' , token=token , _external=True)}
-            '''
-            mail.send(msg)
-           
-
-            return jsonify("Success")
-    
-    return jsonify("Success")
-
-@app.route('/reset_pass/<string:token>', methods=['GET', 'POST'])
-def reset_pass(token):
-    if request.method == 'GET':
-        user = User.correct_token(token)
-        #if the token is still valid user will not be none
-        # If expired user wil be none and we redirect them back to the request page
-        if user is None:
-            return redirect(url_for('reset_request'))
-        user_id = user.id
-        #send in the token and the user id assocaited with the user 
-        #this can be changed later on to just use the token but I just did it like this for some reason atm
-        return render_template('reset_password.html' , token=token , user_id=user_id)
-
-    #if its a post request they are changing the password
-    #so get the info from the form, along with the id of the user changing their password
-    #verify passwords is long enough, matches, and the user exists(just to be safe)
-    #if all is good encrypt the entered password and change it in the database
-    else:
-        form_data = request.form
-        confirm = replace(form_data.get("confirm"))
-        password = replace(form_data.get("password"))
-        user_id = replace(form_data.get("user_id"))
-        use = User.query.filter_by(id=user_id).first()
-
-        # could add another check to  verify the password isn't the same as the current
-        # but that is up to the group
-        if len(password) < 8:
-            return jsonify("password too short")
-        elif password != confirm:
-            return jsonify("password does not match")
-        elif use is None:
-            return jsonify("user_error")
-        else:
-            password = password.encode('utf-8')
-            password = bcrypt.hashpw(password, bcrypt.gensalt())
-            use.password = password
-            db.session.commit()
-            return jsonify("Success")
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signUp():
