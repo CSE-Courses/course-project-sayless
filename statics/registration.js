@@ -19,9 +19,8 @@ $(document).ready(function () {
                 'confirm' :confirm
             },
             type: 'POST',
-            url: '/signup'
-        })
-        .done(function(data){    
+            url: '/signup',
+            success: data => {
                 // check what kind of error is it. 
                 if (data == "email exists"){
                     const msgElem = $('#usrMsg');
@@ -57,10 +56,11 @@ $(document).ready(function () {
                     msgElem.text("Unknown error.. please contact admin staff");
                     msgElem.css("color", "red");
                 }
-        
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+               console.log("error");
+            }
         });
-    
-    
         event.preventDefault();  
     });
 });
