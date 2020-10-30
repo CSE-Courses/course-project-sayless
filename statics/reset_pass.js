@@ -22,18 +22,15 @@ $(document).ready(function () {
                     msgElem.text("Password Has Been Changed, Please return to login page.");
                     msgElem.css("color", "green");
                  console.log(data);
-                 }
-                 else if(data == "password does not match"){
+                 }else if(data == "password does not match"){
                     const msgElem = $('#usrMsg');
                     msgElem.text("Password does not match");
                     msgElem.css("color", "red");
-                 }
-                 else if(data == "password too short"){
+                 }else if(data == "password too short"){
                     const msgElem = $('#usrMsg');
                     msgElem.text("Password Must be 8 characters or longer");
                     msgElem.css("color", "red");
-                }
-                 else{
+                }else{
                     console.log(data);
                     const msgElem = $('#usrMsg');
                     msgElem.text("Unknown error.. please contact admin staff");

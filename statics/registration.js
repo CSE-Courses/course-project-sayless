@@ -38,8 +38,7 @@ $(document).ready(function () {
                     const msgElem = $('#usrMsg');
                     msgElem.text("Password does not match");
                     msgElem.css("color", "red");
-                }
-                else if(data == "success"){
+                }else if(data == "success"){
                     window.location.pathname = "/";
                     console.log(data);
                 }else if(data == "Please fill out every field"){
