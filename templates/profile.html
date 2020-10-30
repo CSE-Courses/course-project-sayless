@@ -13,7 +13,7 @@
     <script src="/include/jquery.min.js"></script>
     <script src="/include/bootstrap.js"></script>
     <script src="/include/popper.min.js"></script>
-    <script src="/settings.js"></script>
+    <script src="/profile.js"></script>
 
 </head>
 
@@ -36,7 +36,7 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" type="text" id="username" placeholder="{{username}}"">  
+                                <input class="form-control" type="text" id="username" placeholder="{{username}}">  
                             </div>
                         </div>
                         <div class="col">
@@ -95,7 +95,8 @@
 
                 <div class="form-row">
                     <div class="col">
-                        <button type="submit" class="btn1">Update</button>
+                        <button id="update" type="submit" class="btn1">Update</button>
+                        <p id="usrMsg"></p>
                     </div>
                 </div>
             </div>

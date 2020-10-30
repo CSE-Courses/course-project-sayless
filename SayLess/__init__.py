@@ -124,6 +124,65 @@ def profile():
         # In Post request
         print("In POST")
 
+        form_data = request.form
+
+        email = User.query.filter_by(email=session['email']).first()
+        
+        if(email):
+            updates = ""
+
+            if(form_data.get("firstname") != ""):
+                email.first_name = form_data.get("firstname")
+                db.session.commit()
+                updates += "First Name, "
+            
+            if(form_data.get("lastname") != ""):
+                email.last_name = form_data.get("lastname")
+                db.session.commit()
+                updates += "Last Name, "
+            
+            if(form_data.get("password") != ""):
+                password = form_data.get("password")
+
+                if len(password) < 8:
+                    return jsonify("password too short")
+                else:
+                    password = password.encode('utf-8')
+                    password = bcrypt.hashpw(password, bcrypt.gensalt())
+                    email.password = password
+                    db.session.commit()
+                    updates += "Password, "
+            
+            if(form_data.get("username") != ""):
+                rooms = Rooms.query.filter_by(username1=email.username)
+                rooms2 = Rooms.query.filter_by(username2=email.username)
+
+                for room in rooms:
+                    room.username1 = form_data.get("username")
+
+                for room in rooms2:
+                    room.username2 = form_data.get("username")
+
+                messages = Message.query.filter_by(sender=email.username)
+                
+                for message in messages:
+                    message.sender = form_data.get("username")
+                
+                email.username = form_data.get("username")
+
+                session['username'] = form_data.get("username")
+                session['username2'] = form_data.get("username")
+                
+                db.session.commit()
+                updates += "Username, "
+
+            if(updates == ""):
+                return jsonify("Nothing Updated")
+
+            return jsonify(updates.rstrip()[:-1] + " ")
+        else:
+            return jsonify("Undefined")
+
 
 @app.route('/homepage', methods=['GET', 'POST'])
 def homepage():
