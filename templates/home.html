@@ -19,21 +19,80 @@
   <script src="/include/popper.min.js"></script>
   <script src="/home.js"></script>
 
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="/chat.js"></script>
+
 </head>
 <body>
   <h1>SayLess</h1>
-    <a href="/profile"><i class='fas fa-user-alt'></i></a>
-    <hr>
-    <div class = "ui-widget">
-      <p id="truth"></p>
-        <form id="usersearch">
-          <input id = "autocomplete-3" placeholder="Search...">
-          <button type="submit" id="chat">Chat</button>
-        </form>
-    </div>
-    <hr>
-    <h2>Your Frequents:</h2>
-    <h2 class="suggested">Suggested:</h2>
+  <a href="/profile"><i class="fas fa-user-alt"></i></a>
+  <hr>
+  <div class = "ui-widget">
+    <p id="truth"></p>
+      <form id="usersearch">
+        <input id = "autocomplete-3" placeholder="Search...">
+        <button type="submit" id="chat">Chat</button>
+      </form>
+  </div>
+  <hr>
+    
+  <h2 id = "header">{{user}}</h2>
+  <a href="/profile"><i class="fas fa-info-circle"></i></a> <!--Link to user's profile-->
+  <hr>
+
+  <div class="vertical"></div>
+  <div class="bubbleWrapper"><span class="time">7:27 pm</span>
+		<div class="inlineContainer own">
+			<img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
+			<div class="ownBubble own">
+				Hey!
+			</div>
+		</div>
+	</div>
+	<div class="bubbleWrapper">
+		<div class="inlineContainer">
+			<img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
+			<div class="otherBubble other">
+			 Hey!
+			</div>
+		</div>
+	</div>
+	<div class="bubbleWrapper">
+		<div class="inlineContainer own">
+			<img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
+			<div class="ownBubble own">
+				When are we meeting?
+			</div>
+		</div>
+	</div>
+	<div class="bubbleWrapper">
+		<div class="inlineContainer own">
+			<img class="inlineIcon" src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png">
+			<div class="ownBubble own">
+			Does tomorrow at 6pm work? 
+			</div>
+		</div>
+	</div>
+	<div class="bubbleWrapper">
+		<div class="inlineContainer">
+			<img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
+			<div class="otherBubble other">
+				Yeah, that works for me!
+			</div>
+		</div>
+  </div>
+  <div class="bubbleWrapper">
+		<div class="inlineContainer">
+			<img class="inlineIcon" src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
+			<div class="otherBubble other">
+				See you then!
+			</div>
+		</div>
+	</div>
+  <input type="text" class="message" placeholder="Message..."/>
+  <button class="send"> Send </button>
 </body>
 
 </html>
