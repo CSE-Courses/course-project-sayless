@@ -2,6 +2,9 @@ import os
 import bcrypt
 import urllib.parse 
 
+import eventlet
+eventlet.monkey_patch()
+
 from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response, url_for
 from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
@@ -22,7 +25,7 @@ app.config.from_mapping(
 
 #SET UP TO USE FLASK MAIL
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
+app.config['MAIL_PORT'] = 25
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
