@@ -34,11 +34,11 @@ class User(db.Model):
         return s.dumps({'user_id' : self.id}).decode('utf-8')
 
 class Rooms(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username1 = db.Column(db.String(200))
-    username2 = db.Column(db.String(200))
+    id = db.Column(db.Integer, primary_key=True,unique=True)
+    username1 = db.Column(db.String(200),unique=False)
+    username2 = db.Column(db.String(200),unique=False)
     # rooms should be unique but leaving as such for testing logic
-    room = db.Column(db.String(200))
+    room = db.Column(db.String(300), unique=True)
 
 class Conversation(db.Model):
     __tablename__ = 'conversation'

@@ -9,6 +9,9 @@ from flask_mail import Mail
 from flask_mail import Message as M
 from SayLess.database import *
 from SayLess.helpers import *
+from hashlib import *
+import random
+import string
 from datetime import timedelta
 
 # create the flask app
@@ -159,16 +162,21 @@ def homepage():
 
         # this is checking if the user already has a room created with this searach user.
         if username_check1 is None and username_check2 is None:
-            currentroom = username + session['username']
+            #random string generator
+            line = username + session['username']
+            N = 17
+            hashedWord = sha256(''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(N)).encode('utf-8')).hexdigest()
+            currentroom = str(hashedWord)
             me = Rooms(username1 = session['username'], username2 = username, room = currentroom )
             me2 = Rooms(username1 = username, username2 = session['username'], room = currentroom )
             db.session.add(me)
             db.session.add(me2)
             db.session.commit()
-        else:
+        elif username_check2:
             # if the search user is username1 then we enter here
             currentroom = username_check2.room
-
+        else:
+            currentroom = username_check1.room
         resp = make_response(jsonify({'Success':currentroom}))
 
         conversation = Conversation.query.filter_by(room=currentroom).first()
@@ -202,13 +210,22 @@ def chat(room_number):
 
         # check history of messages and load all of them
         conversation = Conversation.query.filter_by(room = room_number).first()
+        room = Rooms.query.filter_by(room = room_number).first()
+
         if(conversation):
             messages = conversation.message
 
             for message in messages:
                 history += message.sender + ': ' + message.message + '\n'
 
-        return render_template('chat.html', messages=history, user=email_check.username)
+        chatting_with = ""
+
+        if room.username1 == email_check.username:
+            chatting_with = room.username2
+        else:
+            chatting_with = room.username1
+
+        return render_template('chat.html', messages=history, user=chatting_with)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
@@ -455,7 +472,3 @@ def send_to_user(json, methods=['GET', 'POST']):
             dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
             
             emit('message_received', dict,room=room_number, broadcast=True)
-
-            dict = {'user': email_check.username, 'msg': ""}
-
-            emit('message_received', dict)

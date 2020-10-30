@@ -2,6 +2,8 @@
 
 SayLess
 
+http://sayless.azurewebsites.net/
+
 ## Getting Started
 
 This project is about creating an interactive medium for teenagers where emojis are targetted as a common text, 
