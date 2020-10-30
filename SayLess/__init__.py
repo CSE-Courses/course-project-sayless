@@ -29,11 +29,10 @@ app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
 app.config['MAIL_PASSWORD'] = '4En1QVD4#M#J'
 mail = Mail(app)
 
-#params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/cse442_542_2020_fall_teamb_db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
