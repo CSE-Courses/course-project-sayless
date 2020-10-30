@@ -52,7 +52,7 @@ $(document).ready(function () {
                     msgElem.text("Invalid email");
                     msgElem.css("color", "red");
                 }else{
-                    console.log(data)
+                    console.log(data);
                     const msgElem = $('#usrMsg');
                     msgElem.text("Unknown error.. please contact admin staff");
                     msgElem.css("color", "red");
