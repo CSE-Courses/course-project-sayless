@@ -26,8 +26,8 @@ app.config.from_mapping(
 
 #SET UP TO USE FLASK MAIL
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 25
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
 app.config['MAIL_PASSWORD'] = '4En1QVD4#M#J'
