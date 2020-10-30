@@ -28,6 +28,7 @@ class User(db.Model):
         #if we get here the token was valid and we can return the user associated with said token
         return User.query.get(user_id)
 
+    #Simply creates a token that expires in ___ seconds, currently set at 10 minutes
     def create_token(self , seconds=600):
         s = Serial("secret_key" , seconds)
         return s.dumps({'user_id' : self.id}).decode('utf-8')
