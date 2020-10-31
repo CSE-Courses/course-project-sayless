@@ -11,7 +11,7 @@ class User(db.Model):
     first_name = db.Column(db.String(200))
     last_name = db.Column(db.String(200))
     password = db.Column(db.String(600))
-    bio = db.Column(db.String(500) , default=None)
+    bio = db.Column(db.String(500))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -39,7 +39,7 @@ class Rooms(db.Model):
     username1 = db.Column(db.String(200),unique=False)
     username2 = db.Column(db.String(200),unique=False)
     # rooms should be unique but leaving as such for testing logic
-    room = db.Column(db.String(300), unique=True)
+    room = db.Column(db.String(300))
 
 class Conversation(db.Model):
     __tablename__ = 'conversation'

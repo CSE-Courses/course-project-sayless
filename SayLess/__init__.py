@@ -71,7 +71,7 @@ def home():
 
         bio = ""
 
-        if(email_check.bio):
+        if(email_check and email_check.bio):
             bio = email_check.bio
 
         return render_template('home.html', username=email_check.username, bio=bio)
@@ -237,7 +237,7 @@ def homepage():
 
         bio = ""
 
-        if(email_check.bio):
+        if(email_check and email_check.bio):
             bio = email_check.bio
 
         return render_template('home.html', username=email_check.username, bio=bio)
@@ -281,6 +281,7 @@ def homepage():
             me = Rooms(username1 = session['username'], username2 = username, room = currentroom )
             me2 = Rooms(username1 = username, username2 = session['username'], room = currentroom )
             db.session.add(me)
+
             db.session.add(me2)
             db.session.commit()
         elif username_check2:
