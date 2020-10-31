@@ -33,7 +33,7 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-#app.config['MAIL_PASSWORD'] = get_secret("pass")
+app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
 params = urllib.parse.quote_plus(get_secret("DB"))
@@ -128,18 +128,14 @@ def profile():
         username = "username"
         first_name = "First Name"
         last_name = "Last Name"
-        Bio = ""
 
         email = User.query.filter_by(email=session['email']).first()
         if(email):
             username = email.username
             first_name = email.first_name
             last_name = email.last_name
-            Bio = email.bio
-            if Bio is None:
-                Bio = ""
 
-        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio)
+        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
