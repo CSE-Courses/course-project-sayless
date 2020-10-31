@@ -200,10 +200,8 @@ def profile():
                 db.session.commit()
                 updates += "Username, "
             
-             if(form_data.get("bio") != ""):
+            if(form_data.get("bio") != ""):
                 bio = form_data.get("bio")
-                if(len(bio) > 500)
-                    break
                 email.bio = form_data.get("bio")
                 db.session.commit()
                 updates += "Bio, "
