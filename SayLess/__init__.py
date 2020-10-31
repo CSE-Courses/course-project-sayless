@@ -69,7 +69,12 @@ def home():
         email = session['email']
         email_check = User.query.filter_by(email=email).first()
 
-        return render_template('home.html', username=email_check.username)
+        bio = ""
+
+        if(email_check.bio):
+            bio = email_check.bio
+
+        return render_template('home.html', username=email_check.username, bio=bio)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
         return redirect("/login")
@@ -230,7 +235,12 @@ def homepage():
         email = session['email']
         email_check = User.query.filter_by(email=email).first()
 
-        return render_template('home.html', username=email_check.username)
+        bio = ""
+
+        if(email_check.bio):
+            bio = email_check.bio
+
+        return render_template('home.html', username=email_check.username, bio=bio)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
