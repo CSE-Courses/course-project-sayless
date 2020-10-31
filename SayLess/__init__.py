@@ -36,11 +36,10 @@ app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
 #app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
-#params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-#app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/rileybur_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -202,6 +201,7 @@ def profile():
                 updates += "Username, "
 
             if(form_data.get("bio") != ""):
+                bio = form_data.get("bio")
                 email.bio = form_data.get("bio")
                 db.session.commit()
                 updates += "Bio, "
