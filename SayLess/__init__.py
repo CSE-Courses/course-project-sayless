@@ -196,12 +196,6 @@ def profile():
                 db.session.commit()
                 updates += "Username, "
 
-            if(form_data.get("bio") != ""):
-                bio = form_data.get("bio")
-                email.bio = form_data.get("bio")
-                db.session.commit()
-                updates += "Bio, "
-
             if(updates == ""):
                 return jsonify("Nothing Updated")
 
