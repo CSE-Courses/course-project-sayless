@@ -128,14 +128,18 @@ def profile():
         username = "username"
         first_name = "First Name"
         last_name = "Last Name"
+        Bio = ""
 
         email = User.query.filter_by(email=session['email']).first()
         if(email):
             username = email.username
             first_name = email.first_name
             last_name = email.last_name
+            Bio = email.bio
+            if Bio is None:
+                Bio = ""
 
-        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name)
+        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
@@ -195,6 +199,14 @@ def profile():
                 
                 db.session.commit()
                 updates += "Username, "
+            
+             if(form_data.get("bio") != ""):
+                bio = form_data.get("bio")
+                if(len(bio) > 500)
+                    break
+                email.bio = form_data.get("bio")
+                db.session.commit()
+                updates += "Bio, "
 
             if(updates == ""):
                 return jsonify("Nothing Updated")
