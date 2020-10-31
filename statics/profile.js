@@ -5,16 +5,15 @@ $(document).ready(function () {
         const fname = $('#fn').val();
         const lname = $('#ln').val();
         const password = $('#new-pw').val();
-        const bio = $('#bio').val();
-        const username = $('#username').val();
 
+        const username = $('#username').val();
+        
         $.ajax({
             cache:false,
             data: {
                  'firstname': fname, 
                  'lastname': lname,
                  'password':password,
-                 'bio':bio,
                  'username':username
              },
              type: 'POST',
