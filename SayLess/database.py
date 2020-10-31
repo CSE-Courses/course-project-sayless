@@ -11,6 +11,7 @@ class User(db.Model):
     first_name = db.Column(db.String(200))
     last_name = db.Column(db.String(200))
     password = db.Column(db.String(600))
+    bio = db.Column(db.String(500) , default=None)
 
     def __repr__(self):
         return '<User %r>' % self.username
