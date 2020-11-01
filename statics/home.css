@@ -47,15 +47,6 @@ i.fa-sign-out-alt{
     color: black;
 }
 
-i.fa-info-circle{
-    border: none;
-    color: black;
-    position: absolute;
-    left: 76%;
-    top: 22.5%;
-    font-size: 30px;
-}
-
 button,input{
     position: relative;
     color: black;
@@ -70,6 +61,10 @@ button,input{
     font-family: 'David Libre', serif;
 }
 
+.btn-link{
+    left: 30%;
+}
+
 h2{
     padding: 0px;
     color: black;
@@ -80,7 +75,7 @@ h2{
     color: black;
 }
 
-.message{
+/*.message{
     position: fixed;
     width: 50%;
     bottom: 20px;
@@ -108,62 +103,14 @@ h2{
     font-size: 20px;
     cursor: pointer;
     margin: 5px 0;
-}
+}*/
 
-.bubbleWrapper {
-	padding: 5px 5px;
-	display: flex;
-	justify-content: flex-end;
-	flex-direction: column;
-	align-self: flex-end;
-    color: black;
-}
-
-.inlineContainer {
-  display: inline-flex;
-}
-
-.inlineContainer.own {
-  flex-direction: row-reverse;
-}
-
-.inlineIcon {
-  width:20px;
-  object-fit: contain;
-}
-
-.ownBubble { /*Your chat message styling */
-	min-width: 20px;
-	max-width: 700px;
-	padding: 10px 10px;
-    margin: 5px;
-	background-color: rgba(196, 196, 196, 0.5);
-	border-radius: 10px;
+th, tr{
     border: 1px solid black;
-    font-size: 18px;
 }
 
-.otherBubble { /*Your friend's chat message styling */
-	min-width: 20px;
-	max-width: 700px;
-	padding: 10px 10px;
-    margin: 5px;
-	background-color: rgba(255, 255, 255, 0.8);
-	border-radius: 10px;
-	border: 1px solid black;
-    font-size: 18px;
-}
-
-.own {
-	align-self: flex-end;
-}
-
-.other {
-	align-self: flex-start;
-}
-
-span.time{
-  font-size: 14px;
-  color: black;
-  text-align: center;
+ul,li{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
 }
