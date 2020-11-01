@@ -1,0 +1,44 @@
+body{
+    background-color: inherit;
+    font-family: 'David Libre', serif;
+    padding-left: 20px;
+}
+
+.message{
+    position: relative;
+    width: 85%;
+    bottom: 20px;
+    background-color: rgba(0, 128, 128, 0.9);
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: black;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+#send{
+    position: relative;
+    left: 1%;
+    bottom: 20px;
+    background-color: rgba(0, 128, 128, 0.9);
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: black;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+::placeholder{
+    color: black;
+}
+
+#header{
+    color: black;
+    font-size: 30px;
+}
