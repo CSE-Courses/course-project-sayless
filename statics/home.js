@@ -132,9 +132,11 @@ function resizeIFrameToFitContent( iFrame ) {
 
 function createlist(elem, room_number){
     var ul = document.getElementById("openchats");
-    var li = document.createElement("button");
-    li.setAttribute("class", "openchatsbutton");
-    li.setAttribute("id", room_number);
-    li.appendChild(document.createTextNode(elem));
+    var li = document.createElement("li");
+    var button = document.createElement("button");
+    button.setAttribute("class", "openchatsbutton");
+    button.setAttribute("id", room_number);
+    button.appendChild(document.createTextNode(elem));
+    li.appendChild(button);
     ul.appendChild(li);
 }
