@@ -98,3 +98,12 @@ textarea{
 table{
     width: 100%;
 }
+
+iframe{
+    width: 700px; 
+    height: 500px; 
+    overflow: hidden; 
+    visibility: hidden; 
+    border: none; 
+    padding-right: 20px;
+}

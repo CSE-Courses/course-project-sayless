@@ -2,6 +2,7 @@ body{
     background-color: inherit;
     font-family: 'David Libre', serif;
     padding-left: 20px;
+    overflow: hidden;
 }
 
 .message{
