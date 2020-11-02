@@ -18,7 +18,7 @@ $(document).ready(function () {
 
                 $("#startachat").attr('style',"display:none;");
 
-                $('#chatframe').attr('style', "width:700px;height:600px;overflow:hidden;visibility:visible;border:none;");
+                $('#chatframe').attr('style', "width:700px;height:700px;overflow:hidden;visibility:visible;border:none;");
 
                 var path_to_go = "/chat/"+this.id;
                 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
                     $("#startachat").attr("style","display:none;");
 
-                    $('#chatframe').attr('style', "width:700px;height:600px;overflow-y:hidden;visibility:visible;border:none;");
+                    $('#chatframe').attr('style', "width:700px;height:700px;overflow-y:hidden;visibility:visible;border:none;");
                     var path_to_go = "/chat/"+data["Success"];
                     
                     $('#chatframe').attr('src', path_to_go);
@@ -93,7 +93,7 @@ $(document).ready(function () {
                 
                         $("#startachat").attr('style',"display:none;");
                 
-                        $('#chatframe').attr('style', "width:700px;height:600px;overflow:hidden;visibility:visible;border:none;");
+                        $('#chatframe').attr('style', "width:700px;height:700px;overflow:hidden;visibility:visible;border:none;");
                 
                         var path_to_go = "/chat/"+this.id;
                         
