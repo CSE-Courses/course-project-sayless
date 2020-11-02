@@ -76,9 +76,9 @@ h2{
     color: black;
 }
 
-table, th, tr{
+/* table, th, tr{
     border: 1px solid black;
-}
+} */
 
 ul,li{
     list-style-type: none;
