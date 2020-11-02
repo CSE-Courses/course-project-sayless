@@ -88,6 +88,18 @@ $(document).ready(function () {
                         createlist(name, data["Success"]);
                     }
 
+                    $('.openchatsbutton').on('click',function() {
+                        console.log("Success");
+                
+                        $("#startachat").attr('style',"display:none;");
+                
+                        $('#chatframe').attr('style', "width:700px;height:600px;overflow:hidden;visibility:visible;border:none;");
+                
+                        var path_to_go = "/chat/"+this.id;
+                        
+                        $('#chatframe').attr('src', path_to_go);
+                    });
+
                     // var iFrame = document.getElementById( 'chatframe' );
                     // resizeIFrameToFitContent( iFrame );
                 } else if(data["Invalid_user"] ){

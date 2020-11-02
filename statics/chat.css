@@ -1,30 +1,31 @@
 body{
     background-color: inherit;
-    font-family: 'David Libre', serif;
+    font-family: 'David Libre', serif !important;
     padding-left: 20px;
     overflow: scroll;
 }
 
 .message{
-    left:2%;
-    position: relative;
-    width: 85.6%;
-    bottom: 20px;
-    background-color: rgba(0, 128, 128, 0.9);
-    border: 1px solid black;
-    box-sizing: border-box;
-    border-radius: 10px;
-    color: black;
-    padding: 5px;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 5px 0;
+    left:2% !important;
+    position: relative !important;
+    width: 85.6% !important;
+    height: 40px !important;
+    bottom: 40px !important;
+    background-color: rgba(0, 128, 128, 0.9) !important;
+    border: 1px solid black !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+    color: black !important;
+    padding: 5px !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    margin: 5px 0 !important;
 }
 
 #send{
-    position: relative;
-    left: 2%;
-    bottom: 20px;
+    position: absolute;
+    left: 88%;
+    bottom: 30px;
     background-color: rgba(0, 128, 128, 0.9);
     border: 1px solid black;
     box-sizing: border-box;
@@ -33,11 +34,11 @@ body{
     padding: 5px;
     font-size: 20px;
     cursor: pointer;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 
 ::placeholder{
-    color: black;
+    color: black !important;
 }
 
 h3{
@@ -125,4 +126,22 @@ hr{
     height: 1px;
     background-color: black;
     border: 0px solid black;
+}
+.emoji-wysiwyg-editor:empty:before {
+    content: attr(placeholder);
+    color: black !important;
+}
+
+.emoji-picker-icon {
+    right: 90px !important;
+    top: -6px !important;
+}
+
+.emoji-picker-container{
+    padding-top: 2.5% !important;
+}
+
+.emoji-menu{
+    bottom: 119% !important;
+    right: 12% !important;
 }
