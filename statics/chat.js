@@ -18,7 +18,7 @@ $(document).ready(function () {
         message : user_input,
         path_name : window.location.pathname
         } );
-        $( '.message' ).val( '' ).focus()
+        $('.emoji-wysiwyg-editor').html("");
     } );
 
     // this my response displays the messages a user sends

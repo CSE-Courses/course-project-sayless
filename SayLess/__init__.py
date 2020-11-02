@@ -352,7 +352,6 @@ def chat(room_number):
             messages = conversation.message
 
             for message in messages:
-                print(message.message)
                 if(message.sender == email_check.username):
                     history[message.message] = False
                 else:
