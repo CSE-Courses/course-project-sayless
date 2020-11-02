@@ -47,8 +47,8 @@ body{
 .sentmessage {
 	min-width: 20px;
 	max-width: 700px;
-	padding: 14px 18px;
-    margin: 6px 8px;
+	padding: 5px;
+    margin: 5px;
 	background-color: rgba(196,196,196,0.5);
 	border-radius: 10px;
     border: 1px solid black;
@@ -58,8 +58,8 @@ body{
 .receivedmessage {
 	min-width: 20px;
 	max-width: 700px;
-	padding: 14px 18px;
-    margin: 6px 8px;
+	padding: 5px;
+    margin: 5px;
 	background-color: rgba(255, 255, 255, 0.8);
 	border-radius: 10px;
     border: 1px solid black;
@@ -67,7 +67,7 @@ body{
 }
 
 .time{
-  font-size: 14px;
+  font-size: 20px;
   color: black;
   text-align: center;
 }
@@ -79,4 +79,5 @@ body{
 	flex-direction: column;
 	align-self: flex-end;
     color: black;
+    font-size: 20px;
 }
