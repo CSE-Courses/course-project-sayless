@@ -54,4 +54,5 @@ class Message(db.Model):
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
     sender = db.Column(db.String(200))
     # rooms should be unique but leaving as such for testing logic
-    message = db.Column(db.Text)
+    message = db.Column(db.UnicodeText())
+    mysql_charset='utf8mb4'
