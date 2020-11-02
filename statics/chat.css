@@ -2,12 +2,13 @@ body{
     background-color: inherit;
     font-family: 'David Libre', serif;
     padding-left: 20px;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .message{
+    left:2%;
     position: relative;
-    width: 85%;
+    width: 78%;
     bottom: 20px;
     background-color: rgba(0, 128, 128, 0.9);
     border: 1px solid black;
@@ -22,7 +23,7 @@ body{
 
 #send{
     position: relative;
-    left: 1%;
+    left: 2%;
     bottom: 20px;
     background-color: rgba(0, 128, 128, 0.9);
     border: 1px solid black;
@@ -80,4 +81,33 @@ body{
 	align-self: flex-end;
     color: black;
     font-size: 20px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.morediv::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.morediv {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.morediv{
+    position: relative;
+    overflow: scroll;
+    padding-bottom: 2%;
+    padding-top: 5%;
 }
