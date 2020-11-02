@@ -40,6 +40,7 @@ params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.app_context().push()
@@ -351,6 +352,7 @@ def chat(room_number):
             messages = conversation.message
 
             for message in messages:
+                print(message.message)
                 if(message.sender == email_check.username):
                     history[message.message] = False
                 else:

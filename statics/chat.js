@@ -18,7 +18,7 @@ $(document).ready(function () {
         message : user_input,
         path_name : window.location.pathname
         } );
-        $( 'input.message' ).val( '' ).focus()
+        $( '.message' ).val( '' ).focus()
     } );
 
     // this my response displays the messages a user sends
