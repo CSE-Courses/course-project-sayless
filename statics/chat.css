@@ -41,6 +41,7 @@ body{
 }
 
 #header{
+    padding-top: 4%;
     color: black;
     font-size: 30px;
 }
@@ -109,5 +110,4 @@ body {
     position: relative;
     overflow: scroll;
     padding-bottom: 2%;
-    padding-top: 5%;
 }
