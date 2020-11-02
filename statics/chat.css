@@ -40,7 +40,14 @@ body{
     color: black;
 }
 
-#header{
+h3{
+    padding-top: 4%;
+    color: black;
+    font-size: 30px;
+}
+
+i{
+    margin-right: 10px;
     padding-top: 4%;
     color: black;
     font-size: 30px;
@@ -110,4 +117,12 @@ body {
     position: relative;
     overflow: scroll;
     padding-bottom: 2%;
+}
+
+hr{
+    left: 0px;
+    width: auto;
+    height: 1px;
+    background-color: black;
+    border: 0px solid black;
 }
