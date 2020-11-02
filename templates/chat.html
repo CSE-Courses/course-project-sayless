@@ -2,15 +2,36 @@
   <html lang="en">
   <head>
     <title>Flask_Chat_App</title>
-  </head>
+    <link rel="stylesheet" href="/include/bootstrap.css">
+    <link rel="stylesheet" href="/chat.css">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    </head>
   <body>
 
-    <div style="width:600px;height:500px;">
-      <h3 id = "header" style='color: #ccc;font-size: 30px;'>{{user}}</h3>
+    <!-- <div style="width:600px;height:500px;">
+      <h3 id = "header">{{user}}</h3>
       <textarea readonly id="chat" cols="80" rows="20">{{messages}}</textarea><br><br>
-      <input type="text" class="message" placeholder="Messages"/>
+      <input type="text" class="message" placeholder="Message..."/>
       <Button id="send"> Send </Button>
+    </div> -->
+    <h3 id="header">{{user}}</h3>
+    <div class="morediv" style="width:650px;height:500px;">
+      <div id = "messages" class="bubbleWrapper">
+        {% for message in messages %}
+          {% if messages[message] %}
+            <p class="receivedmessage">{{message}}</p>
+          {% else %}
+            <p class="sentmessage">{{message}}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
+
+    <input type="text" class="message" placeholder="Message..."/>
+    <Button id="send"> Send </Button>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

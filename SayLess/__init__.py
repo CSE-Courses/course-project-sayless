@@ -341,7 +341,7 @@ def chat(room_number):
 
         email_check = User.query.filter_by(email=session['email']).first()
 
-        history = ""
+        history = {}
 
         # check history of messages and load all of them
         conversation = Conversation.query.filter_by(room = room_number).first()
@@ -351,7 +351,10 @@ def chat(room_number):
             messages = conversation.message
 
             for message in messages:
-                history += message.sender + ': ' + message.message + '\n'
+                if(message.sender == email_check.username):
+                    history[message.message] = False
+                else:
+                    history[message.message] = True
 
         chatting_with = ""
 

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('.morediv').scrollTop($('#messages').height()); // send the page to the bottom of the messages
     var socket = io.connect({transports: ['websocket']});
     const sessionId = socket.id;
     socket.on( 'connect', function() {
@@ -27,8 +28,29 @@ $(document).ready(function () {
         if(data.user.length != 0){
             $('#header').text(data.user);
         }else{
-            $('#chat').val($('#chat').val() + data.msg + '\n');
-            $('#chat').scrollTop($('#chat')[0].scrollHeight);   
+            var split = data.msg.split(":");
+
+            if($('#header').text() == split[0]){
+                createlist(split[1], true);
+            }else{
+                createlist(split[1], false);
+            }
+
+            $('.morediv').scrollTop($('#messages').height());
         }
     });
 });
+
+function createlist(elem, received){
+    var div = document.getElementById("messages");
+    var p = document.createElement("p");
+
+    if(received){
+        p.setAttribute("class", "receivedmessage");
+    }else{
+        p.setAttribute("class", "sentmessage");
+    }
+
+    p.appendChild(document.createTextNode(elem));
+    div.appendChild(p);
+}
