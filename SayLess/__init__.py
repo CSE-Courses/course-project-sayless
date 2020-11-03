@@ -325,6 +325,49 @@ def open():
 
     return jsonify(data)
 
+@app.route('/suggestedchats', methods=['POST'])
+def suggested():
+    data = []
+
+    email = session['email']
+    email_check = User.query.filter_by(email=email).first()
+
+    if(email_check is None):
+        return jsonify(data) 
+    
+    users1 = Rooms.query.filter_by(username1=email_check.username)
+    users2 = Rooms.query.filter_by(username2=email_check.username)
+
+    allUsers = db.session.query(User)
+
+    for user in allUsers:
+        if(email_check.username == user.username):
+            continue
+        
+        check = False
+        for room in users1:
+            if room.username2 == user.username:
+                check = True
+                break
+        
+        if check == True:
+            continue
+            
+        for room in users2:
+            if room.username1 == user.username:
+                check = True
+                break
+        
+        if check == True:
+            continue
+
+        data.append(user.username)
+        
+        if(len(data) >= 3):
+            break
+
+    return jsonify(data)
+
 @app.route('/chat/<string:room_number>', methods=['GET', 'POST'])
 def chat(room_number):
     global serverRestarted
