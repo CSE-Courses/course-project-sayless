@@ -96,6 +96,10 @@ textarea{
     vertical-align: auto;
 }
 
+#suggestedchat{
+    vertical-align: auto;
+}
+
 table{
     width: 100%;
 }
