@@ -1,4 +1,16 @@
+var socket = io.connect({transports: ['websocket']});
+const sessionId = socket.id;
+   
+
 $(document).ready(function () {
+    socket.on( 'connect', function() {
+        console.log("Connected");
+        socket.emit('create_notify', {
+           username: document.getElementById("note_username").textContent
+
+        });
+    });
+
 
     $.ajax({
         type: "POST",
@@ -147,6 +159,7 @@ function callHomepage(requestData){
         success: data => {    
             // check what kind of error is it. 
             if(data["Success"]){
+
                 console.log("Success");
 
                 $("#startachat").attr("style","display:none;");
@@ -166,6 +179,10 @@ function callHomepage(requestData){
 
                 if(!isPresent){
                     createlist(requestData['username'], data["Success"]);
+                     //emit notification
+                     socket.emit('sending_notification', {
+                        room : requestData['username']
+                     });
                 }
 
                 $('.openchatsbutton').on('click',function() {
@@ -208,4 +225,12 @@ function callHomepage(requestData){
            console.log("error");
         }
     });
+
+    socket.on('notification_received', function(data){
+        console.log("notification_reveived");
+        console.log(data);
+
+
+    });
 }
+

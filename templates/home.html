@@ -17,6 +17,7 @@
   <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script src="/include/bootstrap.js"></script>
   <script src="/include/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   <script src="/home.js"></script>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -71,7 +72,7 @@
                   <button type="button" class="btn btn-link">Edit</button>
                 </div> 
 
-                <h2>{{username}}</h2>
+                <h2 id="note_username">{{username}}</h2>
               </div>
               <div class="col">
                 <div class="form-group">
@@ -85,6 +86,7 @@
       </th>
     </tr>
   </table>
+
 </body>
 
 </html>
