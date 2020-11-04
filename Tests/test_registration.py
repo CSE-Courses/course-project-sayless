@@ -17,6 +17,7 @@ from flask import render_template
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+app.testing = True
 
 db.reflect()
 db.drop_all()
@@ -27,7 +28,6 @@ def test_registration():
     # testing registration get
     rv = app.test_client().get("/signup")
     assert rv.status_code == 200
-    assert render_template("registration.html").encode('utf-8') in rv.data
 
     # testing registration post    
     db.create_all()
