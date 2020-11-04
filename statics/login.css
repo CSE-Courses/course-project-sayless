@@ -5,6 +5,7 @@ body {
         justify-content: center;
         align-items: center;
         background: -webkit-linear-gradient(top, #008080,white);
+        background-repeat: no-repeat;
         font-family: 'David Libre', serif;
     }
   
