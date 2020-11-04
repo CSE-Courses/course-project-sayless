@@ -589,6 +589,30 @@ def signUp():
 
     return jsonify("success")
 
+@app.route('/avi', methods=['GET', 'POST'])
+def edit_profile():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
+    # verify if the current user is allowed to access the room
+
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("Rendering edit profile page")
+
+        return render_template('avi.html')
+        
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    else:
+        # Do stuff for post request
+         print("In POST")
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
