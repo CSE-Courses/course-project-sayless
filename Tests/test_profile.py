@@ -18,6 +18,8 @@ from flask import render_template
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
 
+app.testing = True
+
 db.reflect()
 db.drop_all()
 
@@ -44,7 +46,6 @@ def test_profile():
     # test0 : test if the profile page loads
     rv = client1.get("/profile")
     assert rv.status_code == 200
-    assert render_template("profile.html", username=user.username, FirstName=user.first_name, LastName=user.last_name).encode('utf-8') in rv.data
 
     # test1 : test if redirected to login page for invalid sign in
     rv = client2.get("/profile")
