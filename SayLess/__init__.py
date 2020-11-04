@@ -28,18 +28,18 @@ app.config.from_mapping(
 )
 
 #SET UP TO USE FLASK MAIL
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = get_secret("pass")
-mail = Mail(app)
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USE_SSL'] = True
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
+# app.config['MAIL_PASSWORD'] = get_secret("pass")
+# mail = Mail(app)
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -83,6 +83,38 @@ def home():
         # Do stuff for post request
         print("In POST")
 
+    return redirect('/signup')
+
+@app.route('/bio/<string:room_number>', methods=['GET', 'POST'])
+def bio(room_number):
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+    
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("In GET")
+        
+        email = session['email']
+        email_check = User.query.filter_by(email=email).first()
+        chatting_with = ""
+        bio = ""
+        room = Rooms.query.filter_by(room = room_number).first()
+        if room.username1 == email_check.username:
+            chatting_with = room.username2
+
+        else:
+            chatting_with = room.username1
+
+        bio = email_check = User.query.filter_by(username=chatting_with).first().bio
+        # if(email_check and email_check.bio):
+        #     bio = email_check.bio
+
+        return render_template('bio.html', username=chatting_with, bio=bio)
+    
     return redirect('/signup')
 
 @app.route('/search', methods=['POST'])
@@ -335,7 +367,9 @@ def chat(room_number):
         return redirect("/login")
 
     # verify if the current user is allowed to access the room
-
+    # if request.method == 'POST' and 'email' in session:
+    #     print("post from chattt",room_number)
+    #     return jsonify("room:"+room_number)
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("Rendering chat template")

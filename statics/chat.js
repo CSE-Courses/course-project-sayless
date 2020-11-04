@@ -9,6 +9,14 @@ $(document).ready(function () {
 
     socket.emit("store",{sessionId});
     } );
+    $('#get-room').on('submit',function (event) {
+        console.log("button has been clicked")
+        console.log(window.location.href.toString().split(window.location.host)[1].split("/"))
+        window.location.pathname = "/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2];
+                
+        
+    event.preventDefault();  
+});
 
     // message sends only when you hit send
     $("#send").click(function() {
@@ -41,6 +49,8 @@ $(document).ready(function () {
     });
 });
 
+
+    
 function createlist(elem, received){
     var div = document.getElementById("messages");
     var p = document.createElement("p");
