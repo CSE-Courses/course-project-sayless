@@ -27,19 +27,19 @@ app.config.from_mapping(
     SECRET_KEY='CSE'
 )
 
-#SET UP TO USE FLASK MAIL
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USE_SSL'] = True
-# app.config['MAIL_USE_TLS'] = False
-# app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-# app.config['MAIL_PASSWORD'] = get_secret("pass")
-# mail = Mail(app)
+SET UP TO USE FLASK MAIL
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
+app.config['MAIL_PASSWORD'] = get_secret("pass")
+mail = Mail(app)
 
-# params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
