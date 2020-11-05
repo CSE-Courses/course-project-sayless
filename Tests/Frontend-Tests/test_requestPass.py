@@ -29,7 +29,7 @@ class TestRequestPass():
     assert self.driver.find_element(By.CSS_SELECTOR, ".btn").text == "Submit"
     self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
     self.driver.find_element(By.ID, "resetEmail").click()
-    self.driver.find_element(By.ID, "resetEmail").send_keys("gptburc@gmail.com")
+    self.driver.find_element(By.ID, "resetEmail").send_keys("testing@gmail.com")
     self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
     self.driver.close()
   
