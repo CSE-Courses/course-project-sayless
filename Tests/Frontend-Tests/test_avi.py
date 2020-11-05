@@ -38,31 +38,14 @@ class TestAvi():
     # 8 | click | css=.btn1 | 
     self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
     # 9 | click | css=.fa-cog | 
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
+    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
     # 10 | click | linkText=Edit | 
     self.driver.find_element(By.LINK_TEXT, "Edit").click()
     # 11 | verifyTitle | Update AVI | 
     assert self.driver.title == "Update AVI"
     # 12 | verifyText | css=h2 | Click on the "Choose File" button to upload a picture:
-    assert self.driver.find_element(By.CSS_SELECTOR, "h2").text == "Click on the \\\"Choose File\\\" button to upload a picture:"
-    # 13 | mouseDownAt | id=myFile | 56,20.29998779296875
-    element = self.driver.find_element(By.ID, "myFile")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).click_and_hold().perform()
-    # 14 | mouseMoveAt | id=myFile | 56,20.29998779296875
-    element = self.driver.find_element(By.ID, "myFile")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
-    # 15 | mouseUpAt | id=myFile | 56,20.29998779296875
-    element = self.driver.find_element(By.ID, "myFile")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).release().perform()
-    # 16 | click | id=myFile | 
-    self.driver.find_element(By.ID, "myFile").click()
-    # 17 | click | css=.vsc-initialized | 
-    self.driver.find_element(By.CSS_SELECTOR, ".vsc-initialized").click()
-    # 18 | click | id=submit | 
-    self.driver.find_element(By.ID, "submit").click()
-    # 19 | close |  | 
+    assert self.driver.find_element(By.CSS_SELECTOR, "h2").text == "Click on the \"Choose File\" button to upload a picture:"
     self.driver.close()
   

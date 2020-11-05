@@ -34,6 +34,8 @@ class TestProfile():
     # 6 | click | css=.btn1 | 
     self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
     # 7 | click | css=.fa-cog | 
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
+    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
     # 8 | assertEditable | id=fn | 
     element = self.driver.find_element(By.ID, "fn")
