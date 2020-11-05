@@ -21,14 +21,31 @@ class TestAvi():
   def test_avi(self):
     # Test name: avi
     # Step # | name | target | value
-    # 1 | open | /profile | 
-    self.driver.get("http://sayless.azurewebsites.net/profile")
+    # 1 | open | /login | 
+    self.driver.get("http://sayless.azurewebsites.net/login")
     # 2 | setWindowSize | 1552x840 | 
     self.driver.set_window_size(1552, 840)
-    # 3 | click | linkText=Edit | 
+    # 3 | click | id=emailInput | 
+    self.driver.find_element(By.ID, "emailInput").click()
+    # 4 | type | id=emailInput | jshrishty18@gmail.com
+    self.driver.find_element(By.ID, "emailInput").send_keys("jshrishty18@gmail.com")
+    # 5 | click | css=.form | 
+    self.driver.find_element(By.CSS_SELECTOR, ".form").click()
+    # 6 | click | id=passwordInput | 
+    self.driver.find_element(By.ID, "passwordInput").click()
+    # 7 | type | id=passwordInput | Newpassword1234
+    self.driver.find_element(By.ID, "passwordInput").send_keys("Newpassword1234")
+    # 8 | click | css=.btn1 | 
+    self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
+    # 9 | click | css=.fa-cog | 
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
+    time.sleep(2)
+    self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
+    # 10 | click | linkText=Edit | 
     self.driver.find_element(By.LINK_TEXT, "Edit").click()
-    # 4 | click | id=myFile | 
-    self.driver.find_element(By.ID, "myFile").click()
-    # 5 | click | id=submit | 
-    self.driver.find_element(By.ID, "submit").click()
+    # 11 | verifyTitle | Update AVI | 
+    assert self.driver.title == "Update AVI"
+    # 12 | verifyText | css=h2 | Click on the "Choose File" button to upload a picture:
+    assert self.driver.find_element(By.CSS_SELECTOR, "h2").text == "Click on the \"Choose File\" button to upload a picture:"
+    self.driver.close()
   
