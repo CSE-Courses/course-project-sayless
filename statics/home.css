@@ -6,17 +6,24 @@ body{
     background: -webkit-linear-gradient(top, #008080,white);
     background-repeat: no-repeat;
     font-family: 'David Libre', serif;
-    padding-left: 20px;
+    padding-left: 1%;
 }
     
 h1{
     color: #000000;
     text-align: left;
-    padding-bottom: 5px;
     left: 10%;
     margin: 5px 0;
-    font-size: 45px;
+    font-size: 280%;
+    font-weight: bold;
 } 
+
+#startachat{
+    width:700px;
+    height:550px;
+    display:show;
+    padding-left: 36%;
+}
 
 hr{
     left: 0px;
@@ -34,18 +41,20 @@ i.fa-cog{
     border: none;
     font-size: 45px;
     position: absolute;
-    left: 90%;
+    left: 92%;
     top: 0px;
     color: black;
+    padding-top: 0.5%;
 }
 
 i.fa-sign-out-alt{
     border: none;
     font-size: 45px;
     position: absolute;
-    left: 95%;
+    left: 96%;
     top: 0px;
     color: black;
+    padding-top: 0.5%;
 }
 
 button,input{
@@ -76,7 +85,7 @@ h2{
     color: black;
 }
 
-table, th, tr{
+th{
     border: 1px solid black;
 }
 
@@ -94,10 +103,12 @@ textarea{
 
 #openchat{
     vertical-align: auto;
+    height: 50%;
 }
 
 #suggestedchat{
     vertical-align: auto;
+    top: 0%;
 }
 
 table{
@@ -120,6 +131,23 @@ iframe::-webkit-scrollbar {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 iframe {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.people{
+    position: relative;
+    overflow: scroll;
+    padding-bottom: 2%;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.people::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.people {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }

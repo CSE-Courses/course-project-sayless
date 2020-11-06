@@ -37,8 +37,9 @@ body{
     margin: 10px 0;
 }
 
-::placeholder{
+.message{
     color: black !important;
+    padding-top: 1.5% !important;
 }
 
 h3{
@@ -127,6 +128,7 @@ hr{
     background-color: black;
     border: 0px solid black;
 }
+
 .emoji-wysiwyg-editor:empty:before {
     content: attr(placeholder);
     color: black !important;
