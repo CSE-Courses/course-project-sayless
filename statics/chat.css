@@ -20,6 +20,7 @@ body{
     font-size: 20px !important;
     cursor: pointer !important;
     margin: 5px 0 !important;
+    padding-top: 1.5% !important;
 }
 
 #send{
@@ -37,13 +38,7 @@ body{
     margin: 10px 0;
 }
 
-.message{
-    color: black !important;
-    padding-top: 1.5% !important;
-}
-
 h3{
-    padding-top: 4%;
     color: black;
     font-size: 30px;
 }
@@ -119,6 +114,8 @@ body {
     position: relative;
     overflow: scroll;
     padding-bottom: 2%;
+    width: 650px;
+    height: 500px;
 }
 
 hr{

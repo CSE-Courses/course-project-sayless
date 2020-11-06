@@ -122,6 +122,7 @@ iframe{
     visibility: hidden; 
     border: none; 
     padding-right: 20px;
+    top: -20%;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -141,4 +142,19 @@ iframe {
     padding-bottom: 2% !important;
     text-align: center !important;
     height: 20rem;
+}
+
+/* .people{
+    background: rgba(128, 128, 128, 0.5);
+    border-radius: 10px;
+} */
+
+#bio{
+    padding-bottom: 65%;
+    padding-left: 10%;
+}
+
+#bio_text{
+    width: 90%;
+    height: 10vh;
 }
