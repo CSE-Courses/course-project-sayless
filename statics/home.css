@@ -136,19 +136,9 @@ iframe {
 }
 
 .ochat,.schat{
-    position: relative;
-    overflow: scroll;
-    padding-bottom: 2%;
-    text-align: center;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.ochat::-webkit-scrollbar, .schat::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.ochat, .schat {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+    position: relative !important;
+    overflow: auto !important;
+    padding-bottom: 2% !important;
+    text-align: center !important;
+    height: 20rem;
 }
