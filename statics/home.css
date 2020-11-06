@@ -135,19 +135,20 @@ iframe {
   scrollbar-width: none;  /* Firefox */
 }
 
-.people{
+.ochat,.schat{
     position: relative;
     overflow: scroll;
     padding-bottom: 2%;
+    text-align: center;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.people::-webkit-scrollbar {
+.ochat::-webkit-scrollbar, .schat::-webkit-scrollbar {
     display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.people {
+.ochat, .schat {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
