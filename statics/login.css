@@ -44,7 +44,7 @@ body {
         border: 1px solid #000000;
         margin-left: auto;
         margin-right: auto;
-        height: 450px;
+        height: 90%;
         width: 70%;
         display: inline-block;
         padding: 70px;
@@ -64,12 +64,11 @@ body {
     }
   
     .submit {
-        margin-top: 40px;
-        margin-bottom: 30px;
+        margin-bottom: 15%;
         text-transform: uppercase;
         font-weight: 600;
         font-family: 'David Libre', serif;
-        background-color: rgba(0, 128, 128, 0.8)
+        background-color: rgba(0, 128, 128, 0.8);
     }
     
     .form-row {
