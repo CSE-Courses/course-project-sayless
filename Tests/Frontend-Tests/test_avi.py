@@ -37,10 +37,9 @@ class TestAvi():
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
-    # 8 | click | linkText=Edit | 
+    # 8 | click | linkText=Edit |
+    time.sleep(2) 
     self.driver.find_element(By.LINK_TEXT, "Edit").click()
-    # 9 | click | id=myFile | 
-    self.driver.find_element(By.ID, "myFile").click()
     # 10 | click | css=h2 |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "h2")))
     time.sleep(2)
