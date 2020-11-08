@@ -2,20 +2,73 @@
   <html lang="en">
   <head>
     <title>Flask_Chat_App</title>
-  </head>
+    <link rel="stylesheet" href="/include/bootstrap.css">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://onesignal.github.io/emoji-picker/lib/css/emoji.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/chat.css">
+    </head>
   <body>
 
-    <h3 id = "header" style='color: #ccc;font-size: 30px;'>{{user}}</h3>
-
-    <textarea id="chat" cols="80" rows="20">{{messages}}</textarea><br><br>
-      <input type="text" class="message" placeholder="Messages"/>
+    <!-- <div style="width:600px;height:500px;">
+      <h3 id = "header">{{user}}</h3>
+      <textarea readonly id="chat" cols="80" rows="20">{{messages}}</textarea><br><br>
+      <input type="text" class="message" placeholder="Message..."/>
       <Button id="send"> Send </Button>
-   
+    </div> -->
 
+    <h3 id="header"><i class="fas fa-user"></i>{{user}}</h3>
+    <hr>
+
+    <div class="morediv">
+      <div id = "messages" class="bubbleWrapper">
+        {% for message in messages %}
+          {% if messages[message] %}
+            <p class="receivedmessage">{{message}}</p>
+          {% else %}
+            <p class="sentmessage">{{message}}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <p class="lead emoji-picker-container">
+        <input type="text" id="messageId" class="message" placeholder="Message..." data-emoji-input="unicode"  data-emojiable="true"/>
+        <Button id="send"> Send </Button>
+      </p>
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script src="/chat.js"></script>
 
+    <!-- Begin emoji-picker JavaScript -->
+    <script src="http://onesignal.github.io/emoji-picker/lib/js/config.js"></script>
+    <script src="http://onesignal.github.io/emoji-picker/lib/js/util.js"></script>
+    <script src="http://onesignal.github.io/emoji-picker/lib/js/jquery.emojiarea.js"></script>
+    <script src="http://onesignal.github.io/emoji-picker/lib/js/emoji-picker.js"></script>
+    <!-- End emoji-picker JavaScript -->
+
+    <script>
+      $(function() {
+        // Initializes and creates emoji set from sprite sheet
+        window.emojiPicker = new EmojiPicker({
+          emojiable_selector: '[data-emojiable=true]',
+          assetsPath: 'http://onesignal.github.io/emoji-picker/lib/img/',
+          popupButtonClasses: 'fa fa-smile-o'
+        });
+        // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
+        // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
+        // It can be called as many times as necessary; previously converted input fields will not be converted again
+        window.emojiPicker.discover();
+      });
+    </script>
   </body>
   </html>

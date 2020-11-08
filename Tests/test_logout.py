@@ -14,23 +14,22 @@ from SayLess.database import *
 from SayLess.helpers import *
 
 from flask import render_template
+from flask_minify import minify
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
-
 app.testing = True
 
 db.reflect()
 db.drop_all()
 
-def test_profile():
-    """Make sure profile page works."""
-
-    # testing profile get
-    db.create_all()
+def test_logout():
+    """Make sure logout works."""
 
     password = ("hello123").encode('utf-8')
     password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+    db.create_all()
 
     user = User(username="test",first_name="test",last_name="test",email="shazm@gmail.com",password=password)
 
@@ -38,27 +37,14 @@ def test_profile():
     db.session.commit()
 
     client1 = app.test_client()
-    client2 = app.test_client()
 
-    # login user
+    # login both users to test end to end
     login("shazm@gmail.com","hello123", client1)
-
-    # test0 : test if the profile page loads
-    rv = client1.get("/profile")
-    assert rv.status_code == 200
-
-    # test1 : test if redirected to login page for invalid sign in
-    rv = client2.get("/profile")
+   
+    # test0: Make sure logout is redirected to login page
+    rv = client1.get("/logout")
     assert rv.status_code == 302
     assert rv.location.endswith("/login")
-
-    # test2 : update Username, Lastname, Password, Username and Bio
-    rv = profile("nShaz","mShaz", "hello1234", "username new", "New bio", client1)
-    assert b'First Name, Last Name, Password, Username, Bio' in rv.data
-
-    # test3 : update nothing should return that nothing has been updates
-    rv = profile("", "", "", "", "", client1)
-    assert b'Nothing Updated' in rv.data
 
     db.reflect()
     db.drop_all()
@@ -67,14 +53,5 @@ def test_profile():
 def login(email, password, client):
     return client.post('/login', data=dict(
         email=email,
-        password=password
-    ), follow_redirects=True)
-
-def profile(firstname, lastname, password, username, bio, client):
-    return client.post('/profile', data=dict(
-        firstname=firstname,
-        lastname=lastname,
-        username=username,
-        bio=bio,
         password=password
     ), follow_redirects=True)

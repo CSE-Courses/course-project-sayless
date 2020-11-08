@@ -1,0 +1,34 @@
+<html>
+<!-- For metadata, such as linking javascript and css -->
+<head>
+
+  <title>SayLess - Reset_Request</title>
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="/reset_request.css">
+  <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/include/jquery.min.js"></script>
+  <script src="/include/bootstrap.js"></script>
+  <script src="/include/popper.min.js"></script>
+  <script src="/reset_request.js"></script>
+
+</head>
+
+<body>
+<center>
+<form id="resetForm">
+  <div class="form-group">
+    <p class="info">Enter Email we should send a reset link to</p>
+        <p id="usrMsg"></p>
+    <input type="email" class="form-control" id="resetEmail" aria-describedby="emailHelp" placeholder="Email Address">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</center>
+</body>

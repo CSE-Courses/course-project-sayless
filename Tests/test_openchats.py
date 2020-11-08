@@ -18,14 +18,15 @@ from flask import render_template
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+
 app.testing = True
 
 db.reflect()
 db.drop_all()
 
-def test_session():
-    """Make sure sessions work."""
-    
+def test_openchats():
+    """Make sure openchats works."""
+
     db.create_all()
 
     password = ("hello123").encode('utf-8')
@@ -41,39 +42,38 @@ def test_session():
     client1 = app.test_client()
     client2 = app.test_client()
 
-    # login user
+    # login both users to test end to end
     login("shazm@gmail.com","hello123", client1)
+    login("shazm2@gmail.com","hello123", client2)
 
     user2_room = json.loads(homepage(user2.username, client1).data)["Success"]
+    user_room = json.loads(homepage(user.username, client2).data)["Success"]
+
+    # Verify both rooms are same
+    assert user2_room == user_room
 
     current_room = user2_room
 
-    # test0 : test if the profile page loads if the user is logged in
-    rv = client1.get("/profile")
+    conv = Conversation.query.filter_by(room=current_room).first()
+    message = Message(sender=user.username, message="hello")
+    message2 = Message(sender=user2.username, message="world")
+
+    conv.message = [message, message2]
+
+    db.session.add(conv)
+    db.session.commit()
+
+    # test0 : test if openchats gives correct users for client1
+    rv = client1.post("/openchats")
     assert rv.status_code == 200
+    assert user2.username in json.loads(rv.data.decode('utf-8'))
+    assert current_room == json.loads(rv.data.decode('utf-8'))[user2.username]
 
-    # test1 : homepage should load if user is signed in
-    rv = client1.get("/homepage")
+    # test1 : test if openchats gives correct users for client2
+    rv = client2.post("/openchats")
     assert rv.status_code == 200
-
-    # test2 : test if chat renders for client1
-    rv = client1.get("/chat/" + current_room)
-    assert rv.status_code == 200
-
-    # test3 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/profile")
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
-
-    # test4 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/homepage")
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
-
-    # test5 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/chat/" + current_room)
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
+    assert user.username in json.loads(rv.data.decode('utf-8'))
+    assert current_room == json.loads(rv.data.decode('utf-8'))[user.username]
 
     db.reflect()
     db.drop_all()
@@ -88,4 +88,4 @@ def login(email, password, client):
 def homepage(username, client):
     return client.post('/homepage', data=dict(
         username=username
-    ), follow_redirects=True)
+    ), follow_redirects=False)

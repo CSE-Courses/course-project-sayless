@@ -14,9 +14,11 @@ from SayLess.database import *
 from SayLess.helpers import *
 
 from flask import render_template
+from flask_minify import minify
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+app.testing = True
 
 db.reflect()
 db.drop_all()
@@ -27,7 +29,6 @@ def test_login():
     # testing login get
     rv = app.test_client().get("/login")
     assert rv.status_code == 200
-    assert render_template("login.html").encode('utf-8') in rv.data
 
     # testing login post
     password = ("hello123").encode('utf-8')
