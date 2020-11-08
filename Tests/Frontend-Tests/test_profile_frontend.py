@@ -19,7 +19,7 @@ class TestProfile():
     self.driver.quit()
   
   def test_profile(self):
-    # Test name: Profile
+    # Test name: profile
     # Step # | name | target | value
     # 1 | open | /login | 
     self.driver.get("http://sayless.azurewebsites.net/login")
@@ -29,56 +29,53 @@ class TestProfile():
     self.driver.find_element(By.ID, "emailInput").click()
     # 4 | type | id=emailInput | jshrishty18@gmail.com
     self.driver.find_element(By.ID, "emailInput").send_keys("jshrishty18@gmail.com")
-    # 5 | click | id=passwordInput | 
-    self.driver.find_element(By.ID, "passwordInput").click()
-    # 6 | type | id=passwordInput | Newpassword123
-    self.driver.find_element(By.ID, "passwordInput").send_keys("Newpassword123")
-    # 7 | click | css=.btn1 | 
+    # 5 | type | id=passwordInput | Newpassword1234
+    self.driver.find_element(By.ID, "passwordInput").send_keys("Newpassword1234")
+    # 6 | click | css=.btn1 | 
     self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
-    # 8 | click | css=.fa-cog | 
+    # 7 | click | css=.fa-cog | 
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
+    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
-    # 9 | click | id=fn | 
-    self.driver.find_element(By.ID, "fn").click()
-    # 10 | assertEditable | id=fn | 
+    # 8 | assertEditable | id=fn | 
     element = self.driver.find_element(By.ID, "fn")
     assert element.is_enabled() is True
-    # 11 | type | id=fn | Shrishtyy
-    self.driver.find_element(By.ID, "fn").send_keys("Shrishtyy")
-    # 12 | assertEditable | id=ln | 
+    # 9 | type | id=fn | Shrishty
+    self.driver.find_element(By.ID, "fn").send_keys("Shrishty")
+    # 10 | click | id=ln | 
+    self.driver.find_element(By.ID, "ln").click()
+    # 11 | assertEditable | id=ln | 
     element = self.driver.find_element(By.ID, "ln")
     assert element.is_enabled() is True
-    # 13 | click | id=ln | 
-    self.driver.find_element(By.ID, "ln").click()
-    # 14 | type | id=ln | Jha
-    self.driver.find_element(By.ID, "ln").send_keys("Jha")
-    # 15 | click | id=username | 
-    self.driver.find_element(By.ID, "username").click()
-    # 16 | assertEditable | id=username | 
+    # 12 | type | id=ln | J
+    self.driver.find_element(By.ID, "ln").send_keys("J")
+    # 13 | assertEditable | id=username | 
     element = self.driver.find_element(By.ID, "username")
     assert element.is_enabled() is True
-    # 17 | type | id=username | shrishtyy
-    self.driver.find_element(By.ID, "username").send_keys("shrishtyy")
+    # 14 | click | id=username | 
+    self.driver.find_element(By.ID, "username").click()
+    # 15 | click | id=username | 
+    self.driver.find_element(By.ID, "username").click()
+    # 16 | type | id=username | shrishty
+    self.driver.find_element(By.ID, "username").send_keys("shrishty")
+    # 17 | click | css=.right | 
+    self.driver.find_element(By.CSS_SELECTOR, ".right").click()
     # 18 | assertEditable | id=bio | 
     element = self.driver.find_element(By.ID, "bio")
     assert element.is_enabled() is True
-    # 19 | click | id=new-pw | 
-    self.driver.find_element(By.ID, "new-pw").click()
-    # 20 | assertEditable | id=new-pw | 
+    # 19 | type | id=bio | Testing bio againnn
+    self.driver.find_element(By.ID, "bio").send_keys("Testing bio againnn")
+    # 20 | click | css=.col:nth-child(3) > .form-group | 
+    self.driver.find_element(By.CSS_SELECTOR, ".col:nth-child(3) > .form-group").click()
+    # 21 | assertEditable | id=new-pw | 
     element = self.driver.find_element(By.ID, "new-pw")
     assert element.is_enabled() is True
-    # 21 | click | id=new-pw | 
-    self.driver.find_element(By.ID, "new-pw").click()
-    # 22 | click | css=.left | 
-    self.driver.find_element(By.CSS_SELECTOR, ".left").click()
-    # 23 | verifyElementPresent | id=update | 
-    elements = self.driver.find_elements(By.ID, "update")
-    assert len(elements) > 0
-    # 24 | click | id=update | 
+    # 22 | type | id=new-pw | Newpassword1234
+    self.driver.find_element(By.ID, "new-pw").send_keys("Newpassword1234")
+    # 23 | click | id=update | 
     self.driver.find_element(By.ID, "update").click()
-    # 25 | click | linkText=Edit | 
-    self.driver.find_element(By.LINK_TEXT, "Edit").click()
-    # 26 | click | css=.fas | 
+    # 24 | click | css=.fas | 
     self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
-    # 27 | click | css=.fas | 
-    self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
+    # 25 | close |  | 
+    self.driver.close()
   
