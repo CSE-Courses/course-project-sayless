@@ -19,7 +19,7 @@ class TestProfile():
     self.driver.quit()
   
   def test_profile(self):
-    # Test name: profile
+    # Test name: Profile
     # Step # | name | target | value
     # 1 | open | /login | 
     self.driver.get("http://sayless.azurewebsites.net/login")
@@ -31,51 +31,48 @@ class TestProfile():
     self.driver.find_element(By.ID, "emailInput").send_keys("jshrishty18@gmail.com")
     # 5 | type | id=passwordInput | Newpassword1234
     self.driver.find_element(By.ID, "passwordInput").send_keys("Newpassword1234")
-    # 6 | click | css=.btn1 | 
-    self.driver.find_element(By.CSS_SELECTOR, ".btn1").click()
-    # 7 | click | css=.fa-cog | 
+    # 6 | click | css=.submit | 
+    self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
+    # 7 | click | css=.fa-cog |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
     # 8 | assertEditable | id=fn | 
     element = self.driver.find_element(By.ID, "fn")
     assert element.is_enabled() is True
-    # 9 | type | id=fn | Shrishty
-    self.driver.find_element(By.ID, "fn").send_keys("Shrishty")
-    # 10 | click | id=ln | 
-    self.driver.find_element(By.ID, "ln").click()
-    # 11 | assertEditable | id=ln | 
+    # 9 | assertEditable | id=ln | 
     element = self.driver.find_element(By.ID, "ln")
     assert element.is_enabled() is True
-    # 12 | type | id=ln | J
-    self.driver.find_element(By.ID, "ln").send_keys("J")
-    # 13 | assertEditable | id=username | 
+    # 10 | assertEditable | id=username | 
     element = self.driver.find_element(By.ID, "username")
     assert element.is_enabled() is True
-    # 14 | click | id=username | 
-    self.driver.find_element(By.ID, "username").click()
-    # 15 | click | id=username | 
-    self.driver.find_element(By.ID, "username").click()
-    # 16 | type | id=username | shrishty
-    self.driver.find_element(By.ID, "username").send_keys("shrishty")
-    # 17 | click | css=.right | 
-    self.driver.find_element(By.CSS_SELECTOR, ".right").click()
-    # 18 | assertEditable | id=bio | 
-    element = self.driver.find_element(By.ID, "bio")
-    assert element.is_enabled() is True
-    # 19 | type | id=bio | Testing bio againnn
-    self.driver.find_element(By.ID, "bio").send_keys("Testing bio againnn")
-    # 20 | click | css=.col:nth-child(3) > .form-group | 
-    self.driver.find_element(By.CSS_SELECTOR, ".col:nth-child(3) > .form-group").click()
-    # 21 | assertEditable | id=new-pw | 
+    # 11 | verifyText | id=bio_text | Testing bio againnn
+    assert self.driver.find_element(By.ID, "bio_text").text == "Testing bio againnn"
+    # 12 | click | id=new-pw | 
+    self.driver.find_element(By.ID, "new-pw").click()
+    # 13 | assertEditable | id=new-pw | 
     element = self.driver.find_element(By.ID, "new-pw")
     assert element.is_enabled() is True
-    # 22 | type | id=new-pw | Newpassword1234
-    self.driver.find_element(By.ID, "new-pw").send_keys("Newpassword1234")
-    # 23 | click | id=update | 
+    # 14 | click | css=.right |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".right")))
+    time.sleep(2)
+    self.driver.find_element(By.CSS_SELECTOR, ".right").click()
+    # 15 | click | linkText=Delete Account | 
+    self.driver.find_element(By.LINK_TEXT, "Delete Account").click()
+    # 16 | click | id=update | 
     self.driver.find_element(By.ID, "update").click()
-    # 24 | click | css=.fas | 
+    # 17 | click | linkText=Edit | 
+    self.driver.find_element(By.LINK_TEXT, "Edit").click()
+    # 18 | click | css=.fas |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
+    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
-    # 25 | close |  | 
-    self.driver.close()
+    # 19 | click | css=.fas |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
+    time.sleep(2)
+    self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
+    # 20 | click | css=.fa-sign-out-alt |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-sign-out-alt")))
+    time.sleep(2)
+    self.driver.find_element(By.CSS_SELECTOR, ".fa-sign-out-alt").click()
   
