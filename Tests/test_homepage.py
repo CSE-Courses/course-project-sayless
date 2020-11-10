@@ -17,6 +17,7 @@ from flask import render_template
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+app.testing = True
 
 db.reflect()
 db.drop_all()
@@ -48,7 +49,6 @@ def test_homepage():
     # test7 : test if homepage renders
     rv = client1.get("/homepage")
     assert rv.status_code == 200
-    assert render_template("home.html").encode('utf-8') in rv.data
 
     # testing homepage post for client1
 
@@ -71,7 +71,6 @@ def test_homepage():
 
     rv = client2.get("/homepage")
     assert rv.status_code == 200
-    assert render_template("home.html").encode('utf-8') in rv.data
 
     # testing homepage post for client2
 

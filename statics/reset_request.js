@@ -30,14 +30,7 @@ $(document).ready(function () {
                     msgElem.text(message);
                     msgElem.css("color", "red");
                 }
-            })
-
+            });
+        return false;
     });
-//FOR SOME REASON IT STILL FEELS THE NEED TO REFRESH THE PAGE ON SUBMIT
-//REMOVES THE TEXT LETING THE USER KNOW ABOUT
-document.getElementById('resetEmail').val = "";
-return false;
-
-
-
 });

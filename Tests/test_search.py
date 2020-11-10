@@ -17,6 +17,7 @@ from flask import render_template
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+app.testing = True
 
 db.reflect()
 db.drop_all()

@@ -18,14 +18,16 @@ from flask import render_template
 
 app.config['SQLALCHEMY_DATABASE_URI'] = get_secret("TestDB")
 app.app_context().push()
+
 app.testing = True
 
 db.reflect()
 db.drop_all()
 
-def test_session():
-    """Make sure sessions work."""
-    
+def test_editprofile():
+    """Make sure edit profile works."""
+
+    # testing chat get
     db.create_all()
 
     password = ("hello123").encode('utf-8')
@@ -41,37 +43,15 @@ def test_session():
     client1 = app.test_client()
     client2 = app.test_client()
 
-    # login user
+    # login both users to test end to end
     login("shazm@gmail.com","hello123", client1)
 
-    user2_room = json.loads(homepage(user2.username, client1).data)["Success"]
-
-    current_room = user2_room
-
-    # test0 : test if the profile page loads if the user is logged in
-    rv = client1.get("/profile")
+    # test0 : test if edit profile page renders for client1
+    rv = client1.get("/avi")
     assert rv.status_code == 200
 
-    # test1 : homepage should load if user is signed in
-    rv = client1.get("/homepage")
-    assert rv.status_code == 200
-
-    # test2 : test if chat renders for client1
-    rv = client1.get("/chat/" + current_room)
-    assert rv.status_code == 200
-
-    # test3 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/profile")
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
-
-    # test4 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/homepage")
-    assert rv.status_code == 302
-    assert rv.location.endswith("/login")
-
-    # test5 : test if redirected to login page for invalid sign in I.e, session is missing
-    rv = client2.get("/chat/" + current_room)
+    # test1 : test if redirected to login page for invalid sign in
+    rv = client2.get("/avi")
     assert rv.status_code == 302
     assert rv.location.endswith("/login")
 
@@ -83,9 +63,4 @@ def login(email, password, client):
     return client.post('/login', data=dict(
         email=email,
         password=password
-    ), follow_redirects=True)
-
-def homepage(username, client):
-    return client.post('/homepage', data=dict(
-        username=username
     ), follow_redirects=True)

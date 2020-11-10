@@ -10,37 +10,6 @@ body {
     padding-left: 1%;
 }
 
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.left {
-    left: 100;
-}
-
-.right {
-    right: 100;
-}
-
-.centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.centered img {
-    width: 250px;
-    border-radius: 50%;
-}
-
 h1{
     color: #000000;
     text-align: left;
@@ -51,19 +20,27 @@ h1{
     font-weight: bold;
 } 
 
-.form {
-    background: #FFFFFF;
-    justify-items: center;
-    border: 1px solid black;
-    height: 450px;
-    width: 100%;
-    display: inline-block;
-    padding: 70px;
-    font-size: 15px;
-    border-radius: 20px;
-    }
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
 
- i{
+h2{
+    color: #000000;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} 
+
+i{
     border: none;
     font-size: 45px;
     position: absolute;
@@ -73,7 +50,7 @@ h1{
     color: black;
 } 
 
-button {
+.btn1 {
     display: block;
     margin: 0 auto;
     border-radius: 15px;
@@ -82,9 +59,6 @@ button {
     width: 100px;
     height: 30px;
     cursor: pointer;
-}
-
-.submit {
     margin-top: 40px;
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -100,16 +74,27 @@ button {
     -ms-flex-wrap: wrap; /* IE10 */
     flex-wrap: wrap;
     margin: 0 -5px;
-}
-
-.row {
-    -ms-flex: 50%; /* IE10 */
-    flex: 50%;
-    padding: 0 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .col {
     -ms-flex: 50%; /* IE10 */
     flex: 50%;
     padding: 0 5px;
+}
+
+.form {
+    background: #FFFFFF;
+    justify-items: center;
+    border: 1px solid black;
+    height: 450px;
+    width: 100%;
+    display: inline-block;
+    padding: 70px;
+    font-size: 15px;
+    border-radius: 15px;
 }
