@@ -1,12 +1,14 @@
 var socket = io.connect({transports: ['websocket']});
 const sessionId = socket.id;
-   
 
+   
 $(document).ready(function () {
+    var my_room_name = document.getElementById("note_username").textContent;
     socket.on( 'connect', function() {
         console.log("Connected");
+        //Create your personal notification room for others to join to notify you
         socket.emit('create_notify', {
-           username: document.getElementById("note_username").textContent
+           username: my_room_name
 
         });
     });
@@ -109,6 +111,25 @@ $(document).ready(function () {
         return false;
     });
 
+    socket.on('notification_received', function(data){
+        //If you are the intended person create the button with said room id
+        // and remove from suggested chats if needed
+        if(data['receive_user'] == my_room_name){
+            console.log("Correct Person Create Button")
+            createlist(data['creating_user'] , data['room_id']);
+            
+            var elements = $('.suggestedchatsbutton');
+            for(var i=0; i<elements.length; i++) {
+            var text = elements[i].id.split(':')[0];
+            if(data['creating_user'] == text){
+                elements[i].remove();
+            }
+        }
+        } else{
+            console.log("You aren't the intended Person");
+        }
+    });
+
 
 });
 
@@ -180,8 +201,15 @@ function callHomepage(requestData){
                 if(!isPresent){
                     createlist(requestData['username'], data["Success"]);
                      //emit notification
+                     var my_room_name = document.getElementById("note_username").textContent;
+                     //To have the other user create the button we need to give them some things
+                     //Our username, the room id and for safety the person we wish to start a chat with
+                     //This way incase someone else is in the room ,somehow, if they also receive this
+                     //they can check if this was really meant for them or not
                      socket.emit('sending_notification', {
-                        room : requestData['username']
+                        room : requestData['username'],
+                        username : my_room_name,
+                        chat_id : data["Success"]
                      });
                 }
 
@@ -224,13 +252,6 @@ function callHomepage(requestData){
         error: (jqXHR, textStatus, errorThrown) => {
            console.log("error");
         }
-    });
-
-    socket.on('notification_received', function(data){
-        console.log("notification_reveived");
-        console.log(data);
-
-
     });
 }
 

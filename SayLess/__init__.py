@@ -680,13 +680,19 @@ def send_to_user(json, methods=['GET', 'POST']):
             
             emit('message_received', dict,room=room_number, broadcast=True)
 
+
+#Sends a notification of starting a chat to another user
+#Sends them the creater of the chat, whom they wish to start with , and the id of teh room created for the button
 @socketio.on('sending_notification')
 def send_notification(data):
     join_room(data["room"])
-    emit ("notification_received" , "hello" , broadcast=True, room=data["room"])
+    dict = {'creating_user' : data['username'] , 'receive_user' :  data['room'] , 'room_id' : data['chat_id']}
+    emit ("notification_received" , dict , broadcast=True, room=data['room'] , include_self=False)
     leave_room(data["room"])
-    print("in send notification")
 
+
+#Create my personal notification room
 @socketio.on('create_notify')
 def create_notify(data):
-    join_room(data["username"])
+    room_name = data['username']
+    join_room(room_name)
