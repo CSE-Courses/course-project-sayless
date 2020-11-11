@@ -128,6 +128,18 @@ $(document).ready(function () {
         } else{
             console.log("You aren't the intended Person");
         }
+        $('.openchatsbutton').on('click',function() {
+            console.log("Success");
+    
+            $("#startachat").attr('style',"display:none;");
+    
+            $('#chatframe').attr('style', "width:700px;height:700px;overflow:hidden;visibility:visible;border:none;");
+    
+            var path_to_go = "/chat/"+this.id;
+            
+            $('#chatframe').attr('src', path_to_go);
+        });
+
     });
 
 
