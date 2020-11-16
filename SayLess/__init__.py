@@ -53,7 +53,7 @@ socketio = SocketIO(app)
 minify(app=app, html=True, js=True, cssless=True)
 
 serverRestarted = True
-Character_Limit = 50
+Character_Limit = 25
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
