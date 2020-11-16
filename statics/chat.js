@@ -10,11 +10,7 @@ $(document).ready(function () {
     socket.emit("store",{sessionId});
     } );
 
-    $(document).on("input", ".emoji-wysiwyg-editor", function() {
-        setTimeout(function(){
-            characterLimit();
-        },600);
-    });
+    setInterval(characterLimit, 600);
 
     // message sends only when you hit send
     $("#send").click(function() {
