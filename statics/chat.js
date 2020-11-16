@@ -23,6 +23,8 @@ $(document).ready(function () {
         path_name : window.location.pathname
         } );
         $('.emoji-wysiwyg-editor').html("");
+        const msgElem = $('#truth');
+        msgElem.text("");
     } );
 
     // this my response displays the messages a user sends
