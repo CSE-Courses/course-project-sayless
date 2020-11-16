@@ -11,7 +11,9 @@ $(document).ready(function () {
     } );
 
     $(document).on("input", ".emoji-wysiwyg-editor", function() {
-        characterLimit();
+        setTimeout(function(){
+            characterLimit();
+        },600);
     });
 
     // message sends only when you hit send
@@ -51,7 +53,6 @@ $(document).ready(function () {
 
 function characterLimit(){
     request_data = $('.emoji-wysiwyg-editor').html();
-
     $.ajax({
         type: "POST",
         url: "/character_limit",
@@ -67,16 +68,16 @@ function characterLimit(){
                 msgElem.text("Remaining (" + data["Success"] + ") out of (" + data["limit"] + ") characters.");
                 msgElem.css("color", "green");
 
-             }else if(data["Exceeded"]){
+                }else if(data["Exceeded"]){
                 const msgElem = $('#truth');
                 msgElem.text("Character limit exceeded by (" + data["Exceeded"] + ") characters. Only (" + data["limit"] + ") characters allowed.");
                 msgElem.css("color", "red");
-             }else{
+                }else{
                 console.log("Error! Please contact support");
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
-           console.log("error");
+            console.log("error");
         }
     });
 
