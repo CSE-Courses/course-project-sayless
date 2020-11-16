@@ -58,7 +58,7 @@ function characterLimit(){
             // check what kind of error is it. 
             if(!data["Exceeded"]){
                 const msgElem = $('#truth');
-                msgElem.text("Remaining (" + data["Success"] + ") out of (" + data["limit"] + ") characters.");
+                msgElem.text("Remaining limit of (" + data["Success"] + ") characters.");
                 msgElem.css("color", "green");
 
             }else if(data["Exceeded"]){
