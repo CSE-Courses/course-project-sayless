@@ -54,6 +54,7 @@ socketio = SocketIO(app)
 minify(app=app, html=True, js=True, cssless=True)
 
 serverRestarted = True
+Character_Limit = 25
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -614,6 +615,28 @@ def edit_profile():
         # Do stuff for post request
          print("In POST")
 
+
+@app.route('/character_limit', methods=['POST'])
+def character_limit():
+    if 'email' in session:
+        # character limit on the message
+        split_message = request.get_data().split()
+
+        chars = 0
+
+        for m in split_message:
+            for char in m.decode():
+                if not is_emoji(char):
+                    chars += 1
+
+        if(chars <= Character_Limit):
+            dictionary = {'Success':(Character_Limit - chars), 'limit': Character_Limit}
+            return jsonify(dictionary)
+        else:
+            dictionary = {'limit': Character_Limit, "Exceeded" : (chars - Character_Limit)}
+            return jsonify(dictionary)
+
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -667,18 +690,33 @@ def send_to_user(json, methods=['GET', 'POST']):
             
             conversation = Conversation.query.filter_by(room = room_number).first()
 
-            message = Message(sender=email_check.username, message=json['message'])
+            # character limit on the message
+            split_message = json['message'].split()
 
-            if(conversation.message):
-                conversation.message.append(message)
+            chars = 0
+
+            for m in split_message:
+                for char in m:
+                    if not is_emoji(char):
+                        chars += 1
+
+            # current character limit is 50. Length of more than 50 is currently denied. But will possibly be changed once leaderboard is implemented.
+            if(chars > Character_Limit):
+                dict = {'user': "character_limit_error", 'msg': email_check.username+ ': '+ json['message'], 'limit': Character_Limit, "exceeded" : (chars - Character_Limit)}
+                emit('message_received', dict,room=room_number)
             else:
-                conversation.message = [message]
-            
-            db.session.commit()
+                message = Message(sender=email_check.username, message=json['message'])
 
-            dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
-            
-            emit('message_received', dict,room=room_number, broadcast=True)
+                if(conversation.message):
+                    conversation.message.append(message)
+                else:
+                    conversation.message = [message]
+                
+                db.session.commit()
+
+                dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
+                
+                emit('message_received', dict,room=room_number, broadcast=True)
 
             join_room(json['target'])
 

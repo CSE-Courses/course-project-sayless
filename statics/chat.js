@@ -10,6 +10,8 @@ $(document).ready(function () {
     socket.emit("store",{sessionId});
     } );
 
+    setInterval(characterLimit, 600);
+
     // message sends only when you hit send
     $("#send").click(function() {
         let user_input = $( 'input.message' ).val()
@@ -20,14 +22,18 @@ $(document).ready(function () {
         target : document.getElementById('header').innerText
         } );
         $('.emoji-wysiwyg-editor').html("");
+        const msgElem = $('#truth');
+        msgElem.text("");
     } );
 
     // this my response displays the messages a user sends
     socket.on('message_received', function(data) {
         console.log(data);
 
-        if(data.user.length != 0){
-            $('#header').text(data.user);
+        if(data.user == "character_limit_error"){
+            const msgElem = $('#truth');
+            msgElem.text("Character limit exceeded by (" + data.exceeded + ") characters. Only ("+data.limit+") characters allowed.");
+            msgElem.css("color", "red");
         }else{
             var split = data.msg.split(":");
 
@@ -41,6 +47,34 @@ $(document).ready(function () {
         }
     });
 });
+
+function characterLimit(){
+    request_data = $('.emoji-wysiwyg-editor').html();
+    $.ajax({
+        type: "POST",
+        url: "/character_limit",
+        cache: false,
+        data:  request_data,
+        success: data => {    
+            // check what kind of error is it. 
+            if(!data["Exceeded"]){
+                const msgElem = $('#truth');
+                msgElem.text("Remaining limit of (" + data["Success"] + ") characters.");
+                msgElem.css("color", "green");
+
+            }else if(data["Exceeded"]){
+                const msgElem = $('#truth');
+                msgElem.text("Character limit exceeded by (" + data["Exceeded"] + ") characters. Only (" + data["limit"] + ") characters allowed.");
+                msgElem.css("color", "red");
+            }
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            console.log("error");
+        }
+    });
+
+    return true;
+}
 
 function createlist(elem, received){
     var div = document.getElementById("messages");
