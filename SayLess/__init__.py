@@ -33,13 +33,14 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = get_secret("pass")
+#app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+#params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+#app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/rileybur_db'
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -678,6 +679,12 @@ def send_to_user(json, methods=['GET', 'POST']):
             dict = {'user': "", 'msg': email_check.username+ ': '+ json['message']}
             
             emit('message_received', dict,room=room_number, broadcast=True)
+
+            join_room(json['target'])
+
+            emit('new_message' , room_number , room=json['target'] , broadcast=True , include_self=False)
+
+            leave_room(json['target'])
 
 
 #Sends a notification of starting a chat to another user

@@ -16,7 +16,8 @@ $(document).ready(function () {
         console.log(user_input);
         socket.emit( 'sending_message', {
         message : user_input,
-        path_name : window.location.pathname
+        path_name : window.location.pathname,
+        target : document.getElementById('header').innerText
         } );
         $('.emoji-wysiwyg-editor').html("");
     } );

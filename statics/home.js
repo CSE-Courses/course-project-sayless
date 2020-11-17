@@ -61,6 +61,7 @@ $(document).ready(function () {
                 var path_to_go = "/chat/"+this.id;
                 
                 $('#chatframe').attr('src', path_to_go);
+                document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
             });
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -138,9 +139,22 @@ $(document).ready(function () {
             var path_to_go = "/chat/"+this.id;
             
             $('#chatframe').attr('src', path_to_go);
+            document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
         });
 
     });
+
+    socket.on('new_message', function(data){
+        var src = document.getElementById("chatframe").src;
+        //If the chat frame isn't open whena message is received on the homepage for a chat
+        //make the button show that
+        console.log(src);
+        if(src == null || src.indexOf(data) == -1){
+        document.getElementById(data).style.backgroundColor = "red";
+        }
+        //Otherwise they already have the window open, no need to change the button
+    });
+
 
 
 });
@@ -235,6 +249,7 @@ function callHomepage(requestData){
                     var path_to_go = "/chat/"+this.id;
                     
                     $('#chatframe').attr('src', path_to_go);
+                    document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
                 });
 
                 // var iFrame = document.getElementById( 'chatframe' );
