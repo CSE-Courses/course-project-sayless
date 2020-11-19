@@ -22,7 +22,9 @@ import string
 from datetime import timedelta
 from werkzeug.utils import secure_filename
 
+#images directory : changes on /profile for rendering html with src path
 UPLOAD_FOLDER = '/home/moulid15/Desktop/fall2020/course-project-sayless/statics/images'
+#type of files we allow
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # create the flask app
@@ -141,8 +143,9 @@ def profile():
         first_name = "First Name"
         last_name = "Last Name"
         Bio = ""
-        file_name = " "
+        file_name = ""
         email = User.query.filter_by(email=session['email']).first()
+        #This is for getting image path
         profile = Profile.query.filter_by(email=session['email']).first()
         if(email):
             username = email.username
@@ -152,6 +155,7 @@ def profile():
             if Bio is None:
                 Bio = ""
         if profile:
+            #getting image path and storing it in a string to pass to the src attribute
             file_name = os.path.join(app.config['UPLOAD_FOLDER'], profile.filename)
         return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio,filename=file_name)
     elif request.method == 'GET' and 'email' not in session:
@@ -617,7 +621,7 @@ def edit_profile():
         session.clear()
         serverRestarted = False
         return redirect("/login")
-
+    #Here will be where files are uploaded and saved to the images folder
     if request.method == 'POST' and 'email' in session:
         # check if the post request has the file part
         print("getting file stuff.....: ",request.files)
@@ -635,9 +639,9 @@ def edit_profile():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             image = Profile.query.filter_by(email=session['email']).first()
             print("before db adddd..")
+            #adding the image file name to the database table Profile if it doesn't exist
             if image:
                 #update filename
-
                 image.filename = filename
             else:
                 print("add to db")
