@@ -259,7 +259,6 @@ def homepage():
         email_check = User.query.filter_by(email=email).first()
         images = Profile.query.filter_by(email=session['email']).first()
         bio = ""
-        image_path = "images/HappyDays.png"
         if(email_check and email_check.bio):
             bio = email_check.bio
         if images:
