@@ -47,8 +47,13 @@ $(document).ready(function () {
             //console.log(data);
 
             Object.entries(data).forEach(([key, value]) => {
-                //console.log(key, value);
-                createlist(key, value);
+                
+                createlist(key, value[0]);
+                console.log(value[1]);
+                //If the chat has new messages make it red
+                if(value[1] == 1){
+                    document.getElementById(value[0]).style.backgroundColor = 'red';
+                }
             });
 
             $('.openchatsbutton').on('click',function() {
@@ -151,6 +156,10 @@ $(document).ready(function () {
         console.log(src);
         if(src == null || src.indexOf(data) == -1){
         document.getElementById(data).style.backgroundColor = "red";
+        } else{
+            socket.emit('chat_open',{
+                
+            });
         }
         //Otherwise they already have the window open, no need to change the button
     });
@@ -220,6 +229,7 @@ function callHomepage(requestData){
 
                 $(".openchatsbutton").each(function() {
                     if(this.id == data["Success"]){
+                        document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
                         isPresent = True;
                     }
                 });

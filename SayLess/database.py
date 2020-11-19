@@ -38,6 +38,7 @@ class Rooms(db.Model):
     id = db.Column(db.Integer, primary_key=True,unique=True)
     username1 = db.Column(db.String(200),unique=False)
     username2 = db.Column(db.String(200),unique=False)
+    new_message = db.Column(db.Boolean , default=False , nullable=False )
     # rooms should be unique but leaving as such for testing logic
     room = db.Column(db.String(300))
 
