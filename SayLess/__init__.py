@@ -159,6 +159,7 @@ def profile():
         if profile:
             #getting image path and storing it in a string to pass to the src attribute
             file_name = os.path.join(app.config['LOAD_IMAGES'], profile.filename)
+            print("filename brooo:  " , file_name)
         return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio,filename=file_name)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
@@ -265,7 +266,7 @@ def homepage():
             image_path=(os.path.join(app.config['LOAD_IMAGES'], images.filename))
             print("yooo: ",image_path)
             
-        return render_template('home.html', username=email_check.username, bio=bio,filename="images/HappyDays.png")
+        return render_template('home.html', username=email_check.username, bio=bio,filename=image_path)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
@@ -641,13 +642,19 @@ def edit_profile():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            i = filename.index('.')
+            N = 17
+            hashedWord = sha256(''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(N)).encode('utf-8')).hexdigest()
+            filename = filename[:i] + '-' + session['email'] +hashedWord+ filename[i:]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             image = Profile.query.filter_by(email=session['email']).first()
             print("before db adddd..")
             #adding the image file name to the database table Profile if it doesn't exist
             if image:
                 #update filename
+                print("exists:")
                 image.filename = filename
+                db.session.commit()
             else:
                 print("add to db")
                 info = Profile(email=session['email'],filename=filename)
