@@ -37,18 +37,18 @@ app.config.from_mapping(
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['LOAD_IMAGES'] = LOAD_IMAGE
 #SET UP TO USE FLASK MAIL
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USE_SSL'] = True
-# app.config['MAIL_USE_TLS'] = False
-# app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-# app.config['MAIL_PASSWORD'] = get_secret("pass")
-# mail = Mail(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
+app.config['MAIL_PASSWORD'] = get_secret("pass")
+mail = Mail(app)
 
-# params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -256,13 +256,16 @@ def homepage():
 
         email = session['email']
         email_check = User.query.filter_by(email=email).first()
-
+        images = Profile.query.filter_by(email=session['email']).first()
         bio = ""
-
+        image_path = "images/HappyDays.png"
         if(email_check and email_check.bio):
             bio = email_check.bio
-
-        return render_template('home.html', username=email_check.username, bio=bio)
+        if images:
+            image_path=(os.path.join(app.config['LOAD_IMAGES'], images.filename))
+            print("yooo: ",image_path)
+            
+        return render_template('home.html', username=email_check.username, bio=bio,filename="images/HappyDays.png")
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")

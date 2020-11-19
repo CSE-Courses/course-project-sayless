@@ -60,4 +60,4 @@ class Message(db.Model):
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200), unique=True)
-    filename = db.Column(db.String(200), unique=True)
+    filename = db.Column(db.String(200))
