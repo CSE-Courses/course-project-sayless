@@ -24,7 +24,7 @@ from werkzeug.utils import secure_filename
 
 #images directory : changes on /profile for rendering html with src path
 UPLOAD_FOLDER = '/home/moulid15/Desktop/fall2020/course-project-sayless/statics/images'
-#type of files we allow
+#type of files we allow: file saving happens in /avi
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # create the flask app
