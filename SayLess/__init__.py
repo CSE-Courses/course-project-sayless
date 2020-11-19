@@ -7,7 +7,7 @@ eventlet.monkey_patch()
 
 from SayLess.helpers import *
 
-from flask import Flask, render_template, request, Response, redirect, jsonify, session, make_response, url_for
+from flask import Flask, flash,render_template, request, Response, redirect, jsonify, session, make_response, url_for,send_from_directory
 from flask_socketio import SocketIO, leave_room, join_room, send, emit
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
@@ -20,26 +20,31 @@ from hashlib import *
 import random
 import string
 from datetime import timedelta
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = '/home/moulid15/Desktop/fall2020/course-project-sayless/statics/images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 # create the flask app
 app = Flask(__name__, static_url_path='', static_folder='../statics', template_folder='../templates')
 app.config.from_mapping(
     SECRET_KEY='CSE'
 )
-
+#Set up file storage
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #SET UP TO USE FLASK MAIL
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = get_secret("pass")
-mail = Mail(app)
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USE_SSL'] = True
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
+# app.config['MAIL_PASSWORD'] = get_secret("pass")
+# mail = Mail(app)
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -136,8 +141,9 @@ def profile():
         first_name = "First Name"
         last_name = "Last Name"
         Bio = ""
-
+        file_name = " "
         email = User.query.filter_by(email=session['email']).first()
+        profile = Profile.query.filter_by(email=session['email']).first()
         if(email):
             username = email.username
             first_name = email.first_name
@@ -145,8 +151,9 @@ def profile():
             Bio = email.bio
             if Bio is None:
                 Bio = ""
-
-        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio)
+        if profile:
+            file_name = os.path.join(app.config['UPLOAD_FOLDER'], profile.filename)
+        return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio,filename=file_name)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
@@ -219,7 +226,14 @@ def profile():
             return jsonify(updates.rstrip()[:-1] + " ")
         else:
             return jsonify("Undefined")
+#checking for valid file types          
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+# @app.route('/delete', methods=['GET', 'POST'])
+# def delete():
 
 @app.route('/homepage', methods=['GET', 'POST'])
 def homepage():
@@ -589,6 +603,11 @@ def signUp():
         session['username'] = username
 
     return jsonify("success")
+#for now it uploads image
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 @app.route('/avi', methods=['GET', 'POST'])
 def edit_profile():
@@ -599,6 +618,35 @@ def edit_profile():
         serverRestarted = False
         return redirect("/login")
 
+    if request.method == 'POST' and 'email' in session:
+        # check if the post request has the file part
+        print("getting file stuff.....: ",request.files)
+        if 'file' not in request.files:
+            print('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            print('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image = Profile.query.filter_by(email=session['email']).first()
+            print("before db adddd..")
+            if image:
+                #update filename
+
+                image.filename = filename
+            else:
+                print("add to db")
+                info = Profile(email=session['email'],filename=filename)
+                db.session.add(info)
+                db.session.commit()
+        
+        return redirect("/avi")
+            
     # verify if the current user is allowed to access the room
 
     if request.method == 'GET' and 'email' in session:
@@ -610,9 +658,8 @@ def edit_profile():
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")
-    else:
-        # Do stuff for post request
-         print("In POST")
+    
+    return redirect("/avi")
 
 
 @app.route('/character_limit', methods=['POST'])
