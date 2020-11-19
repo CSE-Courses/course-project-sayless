@@ -23,7 +23,8 @@ from datetime import timedelta
 from werkzeug.utils import secure_filename
 
 #images directory : changes on /profile for rendering html with src path
-UPLOAD_FOLDER = '/home/moulid15/Desktop/fall2020/course-project-sayless/statics/images'
+UPLOAD_FOLDER = str(os.getcwd())+"/statics/images"
+LOAD_IMAGE = '/images'
 #type of files we allow: file saving happens in /avi
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -34,6 +35,7 @@ app.config.from_mapping(
 )
 #Set up file storage
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['LOAD_IMAGES'] = LOAD_IMAGE
 #SET UP TO USE FLASK MAIL
 # app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 # app.config['MAIL_PORT'] = 465
@@ -156,7 +158,7 @@ def profile():
                 Bio = ""
         if profile:
             #getting image path and storing it in a string to pass to the src attribute
-            file_name = os.path.join(app.config['UPLOAD_FOLDER'], profile.filename)
+            file_name = os.path.join(app.config['LOAD_IMAGES'], profile.filename)
         return render_template('profile.html', username=username, FirstName=first_name, LastName=last_name , bio=Bio,filename=file_name)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
