@@ -56,3 +56,8 @@ class Message(db.Model):
     # rooms should be unique but leaving as such for testing logic
     message = db.Column(db.UnicodeText())
     mysql_charset='utf8mb4'
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(200), unique=True)
+    filename = db.Column(db.String(200), unique=True)
