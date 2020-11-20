@@ -11,3 +11,4 @@ itsdangerous==1.1.0
 Flask-Mail==0.9.1
 Flask-Minify>=0.28
 emoji>=0.6.0
+azure-storage-blob>=12.6.0
