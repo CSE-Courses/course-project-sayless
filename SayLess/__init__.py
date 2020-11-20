@@ -23,7 +23,7 @@ from datetime import timedelta
 from werkzeug.utils import secure_filename
 
 #images directory : changes on /profile for rendering html with src path
-UPLOAD_FOLDER = str(os.getcwd())+"/statics/images"
+UPLOAD_FOLDER = "/home/site/wwwroot/statics/images"
 LOAD_IMAGE = '/images'
 #type of files we allow: file saving happens in /avi
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
