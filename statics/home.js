@@ -47,8 +47,13 @@ $(document).ready(function () {
             //console.log(data);
 
             Object.entries(data).forEach(([key, value]) => {
-                //console.log(key, value);
-                createlist(key, value);
+                
+                createlist(key, value[0]);
+                console.log(value[1]);
+                //If the chat has new messages make it red
+                if(value[1] == 1){
+                    document.getElementById(value[0]).style.backgroundColor = 'red';
+                }
             });
 
             $('.openchatsbutton').on('click',function() {
@@ -61,6 +66,7 @@ $(document).ready(function () {
                 var path_to_go = "/chat/"+this.id;
                 
                 $('#chatframe').attr('src', path_to_go);
+                document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
             });
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -138,9 +144,26 @@ $(document).ready(function () {
             var path_to_go = "/chat/"+this.id;
             
             $('#chatframe').attr('src', path_to_go);
+            document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
         });
 
     });
+
+    socket.on('new_message', function(data){
+        var src = document.getElementById("chatframe").src;
+        //If the chat frame isn't open whena message is received on the homepage for a chat
+        //make the button show that
+        console.log(src);
+        if(src == null || src.indexOf(data) == -1){
+        document.getElementById(data).style.backgroundColor = "red";
+        } else{
+            socket.emit('chat_open',{
+                
+            });
+        }
+        //Otherwise they already have the window open, no need to change the button
+    });
+
 
 
 });
@@ -206,6 +229,7 @@ function callHomepage(requestData){
 
                 $(".openchatsbutton").each(function() {
                     if(this.id == data["Success"]){
+                        document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
                         isPresent = True;
                     }
                 });
@@ -235,6 +259,7 @@ function callHomepage(requestData){
                     var path_to_go = "/chat/"+this.id;
                     
                     $('#chatframe').attr('src', path_to_go);
+                    document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
                 });
 
                 // var iFrame = document.getElementById( 'chatframe' );

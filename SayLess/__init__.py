@@ -346,13 +346,20 @@ def open():
     users1 = Rooms.query.filter_by(username1=email_check.username)
     users2 = Rooms.query.filter_by(username2=email_check.username)
 
+    #Now for username1 we check if they have new message as well
     for room in users1:
         if room.username2 not in data:
-            data[room.username2] = room.room
-
+            data[room.username2] = []
+            data[room.username2].append(room.room)
+            data[room.username2].append(room.new_message)
+            
+    #don't think this ever even runs? but add in an always false just in case for now?
     for room in users2:
         if room.username1 not in data:
-           data[room.username1] = room.room
+            data[room.username1] = []
+            data[room.username1].append(room.room)
+            data[room.username1].append(False)
+         
 
     return jsonify(data)
 
@@ -732,10 +739,16 @@ def on_join(data):
         username = Rooms.query.filter_by(username1=email_check.username).first()
 
         if email_check and username:
+            #When a username 1 joins a room notify server that new messages are read
+            username.new_message = False
+            db.session.commit()
             path_name = data['path_name']
             room_number = path_name.split('/')[2]
 
             join_room(room_number)
+
+
+
 
             # socketio.emit('message_received', {'msg': email_check.username+' is online','user': email_check.username}, room=room_number,callback=messageReceived)
 
@@ -756,8 +769,11 @@ def send_to_user(json, methods=['GET', 'POST']):
     if('email' in session and serverRestarted is False):
         email_check = User.query.filter_by(email=session['email']).first()
         username = Rooms.query.filter_by(username1=email_check.username).first()
-
+      
         if email_check and username:
+            #set the other person to have new messages for now
+            receiver = Rooms.query.filter_by(username1=username.username2).first()
+            receiver.new_message = True
             path_name = json['path_name']
             room_number = path_name.split('/')[2]
             
@@ -791,6 +807,12 @@ def send_to_user(json, methods=['GET', 'POST']):
                 
                 emit('message_received', dict,room=room_number, broadcast=True)
 
+            join_room(json['target'])
+
+            emit('new_message' , room_number , room=json['target'] , broadcast=True , include_self=False)
+
+            leave_room(json['target'])
+
 
 #Sends a notification of starting a chat to another user
 #Sends them the creater of the chat, whom they wish to start with , and the id of teh room created for the button
@@ -807,3 +829,15 @@ def send_notification(data):
 def create_notify(data):
     room_name = data['username']
     join_room(room_name)
+
+#If the person is already in the chat, set new messages back to false
+@socketio.on('chat_open')
+def chat_open(data):
+     if('email' in session and serverRestarted is False):
+        email_check = User.query.filter_by(email=session['email']).first()
+        username = Rooms.query.filter_by(username1=email_check.username).first()
+        if email_check and username:
+            username.new_message = False
+            db.session.commit()
+
+
