@@ -119,11 +119,21 @@ def search():
 
 @app.route("/deleteacc", methods=['GET','POST'])
 def delete():
-    if request.method == 'POST' and 'email' in session:
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+    if request.method == 'GET' and 'email' not in session:
+        print("Invalid access")	        print("Invalid access")
+        return redirect("/login")	        return redirect("/login")
+    elif request.method == 'POST' and 'email' in session:
         user = User.query.filter_by(email=session['email']).first()
         db.session.delete(user)
         db.session.commit()
         return jsonify("success")
+  
     return render_template('deleteacc.html')
 
 @app.route("/logout", methods=['GET'])
