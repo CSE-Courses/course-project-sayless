@@ -33,13 +33,15 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = get_secret("pass")
+# app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+# params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://shreyala:50213525@tethys.cse.buffalo.edu:3306/shreyala_db"
+
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -99,6 +101,14 @@ def search():
         return jsonify(users)
     else:
         return ""
+
+@app.route("/delete", methods=['GET','POST'])
+def delete():
+    if request.method == 'POST' and 'email' in session:
+        user = User.query.filter_by(email=session['email']).first()
+        db.session.delete(user)
+        db.session.commit()
+    return render_template('delete.html')
 
 @app.route("/logout", methods=['GET'])
 def logout():
