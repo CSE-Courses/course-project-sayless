@@ -117,6 +117,15 @@ def logout():
 
         return redirect("/login")
 
+@app.route("/delete", methods=['GET','POST'])
+def delete():
+    if request.method == 'POST' and 'email' in session:
+        user = User.query.filter_by(email=session['email']).first()
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify("success")
+    return render_template('delete.html')
+
 @app.route('/profile', methods=['GET','POST'])
 def profile():
     global serverRestarted
