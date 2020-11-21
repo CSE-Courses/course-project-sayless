@@ -52,6 +52,14 @@ def test_profile():
     assert rv.status_code == 302
     assert rv.location.endswith("/login")
 
+    # test2 : update Username, Lastname, Password, Username and Bio
+    rv = profile("nShaz","mShaz", "hello1234", "username new", "New bio", client1)
+    assert b'First Name, Last Name, Password, Username, Bio' in rv.data
+
+    # test3 : update nothing should return that nothing has been updates
+    rv = profile("", "", "", "", "", client1)
+    assert b'Nothing Updated' in rv.data
+
     db.reflect()
     db.drop_all()
 
@@ -59,5 +67,14 @@ def test_profile():
 def login(email, password, client):
     return client.post('/login', data=dict(
         email=email,
+        password=password
+    ), follow_redirects=True)
+
+def profile(firstname, lastname, password, username, bio, client):
+    return client.post('/profile', data=dict(
+        firstname=firstname,
+        lastname=lastname,
+        username=username,
+        bio=bio,
         password=password
     ), follow_redirects=True)

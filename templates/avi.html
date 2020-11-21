@@ -25,16 +25,17 @@
     <a href="/profile"><i class="fas fa-cog"></i></a> <!-- link to the profile page -->
     
 	<center>
-        <h2>Click on the "Choose File" button to upload a picture:</h2>
 
-        <div class="form-row">
-            <div class="col">
-                <form action="/action_page.php">
-                    <input type="file" id="myFile" name="filename"><br>
-                    <input id="submit" type="submit" class="btn1">
-                </form>        
-            </div>
-        </div>
+    <h2>Click on the "Choose File" button to upload a picture:</h2>
+
+    <div class="form-row">
+        <div class="col">
+            <form method=post enctype=multipart/form-data>
+                <input type=file name=file />
+                <input type=submit value=Upload onclick="window.location.href = '/profile';" />
+              </form>      
+          </div>
+      </div>
 	</center>
 </body>
 </html>
