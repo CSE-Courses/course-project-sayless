@@ -3,13 +3,12 @@ $(document).ready(function () {
     
         $.ajax({
             type: "POST",
-            url: "/delete",
+            url: "/deleteacc",
             cache: false,
             data: {},
             success: data => {    
                 // check what kind of error is it. 
                 if (data == "success") {
-                    console.log("Moulid yooo:.......")
                     window.location.pathname = "/login"
                 }
             },

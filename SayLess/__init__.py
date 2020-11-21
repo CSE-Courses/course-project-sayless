@@ -101,14 +101,14 @@ def search():
     else:
         return ""
 
-@app.route("/delete", methods=['GET','POST'])
+@app.route("/deleteacc", methods=['GET','POST'])
 def delete():
     if request.method == 'POST' and 'email' in session:
         user = User.query.filter_by(email=session['email']).first()
         db.session.delete(user)
         db.session.commit()
         return jsonify("success")
-    return render_template('delete.html')
+    return render_template('deleteacc.html')
 
 @app.route("/logout", methods=['GET'])
 def logout():
