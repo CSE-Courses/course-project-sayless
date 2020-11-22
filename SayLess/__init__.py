@@ -129,9 +129,51 @@ def delete():
         print("Invalid access")
         return redirect("/login")
     elif request.method == 'POST' and 'email' in session:
+        # delete the user
         user = User.query.filter_by(email=session['email']).first()
-        db.session.delete(user)
-        db.session.commit()
+
+        if(user):
+            db.session.delete(user)
+            db.session.commit()
+
+            # delete the roooms
+            rooms = Rooms.query.filter_by(username1=user.username)
+
+            for room in rooms:
+                db.session.delete(room)
+                db.session.commit()
+
+                # delete from conversation
+                conversation = Conversation.query.filter_by(room=room.room)
+                for conv in conversation:
+                    db.session.delete(conv)
+                    db.session.commit()
+            
+            rooms_2 = Rooms.query.filter_by(username2=user.username)
+
+            for room in rooms_2:
+                db.session.delete(room)
+                db.session.commit()
+
+                # delete from conversation
+                conversation = Conversation.query.filter_by(room=room.room)
+                for conv in conversation:
+                    db.session.delete(conv)
+                    db.session.commit()
+
+            # delete from profile
+            profile = Profile.query.filter_by(email = user.email).first()
+
+            if(profile):
+                db.session.delete(profile)
+                db.session.commit()
+
+            # delete from messages
+            messages = Message.query.filter_by(sender=user.username)
+            for message in messages:
+                db.session.delete(message)
+                db.session.commit()
+
         return jsonify("success")
   
     return render_template('deleteacc.html')
