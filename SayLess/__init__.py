@@ -46,6 +46,7 @@ params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -115,6 +116,25 @@ def search():
         return jsonify(users)
     else:
         return ""
+
+@app.route("/deleteacc", methods=['GET','POST'])
+def delete():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+    if request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    elif request.method == 'POST' and 'email' in session:
+        user = User.query.filter_by(email=session['email']).first()
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify("success")
+  
+    return render_template('deleteacc.html')
 
 @app.route("/logout", methods=['GET'])
 def logout():
