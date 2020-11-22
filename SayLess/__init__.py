@@ -126,8 +126,8 @@ def delete():
         serverRestarted = False
         return redirect("/login")
     if request.method == 'GET' and 'email' not in session:
-        print("Invalid access")	        print("Invalid access")
-        return redirect("/login")	        return redirect("/login")
+        print("Invalid access")
+        return redirect("/login")
     elif request.method == 'POST' and 'email' in session:
         user = User.query.filter_by(email=session['email']).first()
         db.session.delete(user)
