@@ -34,24 +34,25 @@ div {
     text-align: left;
 }
 
-i.fa-cog{
+i{
     border: none;
     font-size: 45px;
     position: absolute;
-    left: 92%;
     top: 0px;
     color: black;
     padding-top: 0.5%;
 }
 
+i.fa-home{
+    left: 88%;
+}
+
+i.fa-cog{    
+    left: 92%;
+}
+
 i.fa-sign-out-alt{
-    border: none;
-    font-size: 45px;
-    position: absolute;
     left: 96%;
-    top: 0px;
-    color: black;
-    padding-top: 0.5%;
 }
 
 button{
