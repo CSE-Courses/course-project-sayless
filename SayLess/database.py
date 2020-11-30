@@ -12,6 +12,7 @@ class User(db.Model):
     last_name = db.Column(db.String(200))
     password = db.Column(db.String(600))
     bio = db.Column(db.String(500))
+    blocked = db.relationship("Block", backref="user")
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -62,3 +63,8 @@ class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200), unique=True)
     filename = db.Column(db.String(200), unique=True)
+
+class Block(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    blocked_user = db.Column(db.String(200))
