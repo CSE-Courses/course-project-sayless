@@ -59,7 +59,8 @@ socketio = SocketIO(app)
 
 minify(app=app, html=True, js=True, cssless=True)
 
-serverRestarted = True
+# change back
+serverRestarted = False
 Character_Limit = 25
 
 create_container_sample(IMAGES_CONTAINER)
@@ -229,6 +230,27 @@ def block():
         db.session.commit()
 
         return jsonify("Success")
+
+@app.route("/unblock", methods=['POST'])
+def unblock():
+    if 'email' in session:
+        user = User.query.filter_by(email=session['email']).first()
+
+        user_to_unblock = request.form.get("username")
+
+        print(user_to_unblock)
+
+        for blocked in user.blocked:
+            if blocked.blocked_user == user_to_unblock:
+                user.blocked.remove(blocked)
+                db.session.commit()
+                return jsonify("Success")
+
+        return jsonify("Fail")
+    elif 'email' not in session:
+        return jsonify("Login")
+    else:
+        return jsonify("Error")
 
 @app.route("/logout", methods=['GET'])
 def logout():

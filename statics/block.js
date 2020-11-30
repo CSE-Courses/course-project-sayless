@@ -18,7 +18,7 @@ $(document).ready(function () {
                         source: data
                     });
                 }
-            })
+            });
         }
     });
 
@@ -52,7 +52,7 @@ $(document).ready(function () {
                         msgElem.css("color", "red");
                     }
                 }
-            })
+            });
         }
 
         $('#blockUser').attr('class', "collapse hide");
@@ -60,4 +60,39 @@ $(document).ready(function () {
         return false;
     });
 
+    $(".unblock").on('click', function(){
+        const requestData = {'username': this.id};
+
+        $.ajax({
+            type: "POST",
+            url: "/unblock",
+            cache: false,
+            data: requestData,
+            success: data => {   
+                if(data == "Success"){
+                    window.location.pathname = '/block';
+                }else if(data == "Fail"){
+                    console.log("Invalid");
+
+                    const msgElem = $('#truth');
+                    msgElem.text("Unblocking Failed");
+                    msgElem.css("color", "red");
+                }else if(data == "Login"){
+                    console.log("Need to Log in again");
+
+                    const msgElem = $('#truth');
+                    msgElem.text("Need to Log in again");
+                    msgElem.css("color", "red");
+
+                    window.location.pathname = '/';
+                }else{
+                    console.log("Error");
+
+                    const msgElem = $('#truth');
+                    msgElem.text("Something went wrong contact support");
+                    msgElem.css("color", "red");
+                }
+            }
+        });
+    });
 });
