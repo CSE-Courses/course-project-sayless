@@ -45,7 +45,7 @@
   <hr>
   <div class="blocked">
     {% for user in blocked_users %}
-      <ul id = "blockedUsers">{{user}}</ul>
+      <p>{{user}} <button id="{{user}}">Unblock</button></p>
     {% endfor %}
   </div>
 </body>
