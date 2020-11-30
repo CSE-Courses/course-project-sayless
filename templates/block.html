@@ -23,8 +23,6 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script> -->
-  <!-- <script src="/chat.js"></script>  commenting out right now until implementation -->
-
 </head>
 <body>
   <h1>SayLess</h1>
@@ -33,15 +31,15 @@
   <hr>
   <div class = "ui-widget">
     <p id="truth"></p>
-      <form id="usersearch">
-        <input id = "autocomplete-3" placeholder="Search...">
-        <button type="submit" id="block">Block</button>
-      </form>
+    <input id = "autocomplete-3" placeholder="Search...">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#blockUser" aria-expanded="false" aria-controls="collapseExample">Block</button>
   </div>
   <hr>
-  <h1 id="question">Are you sure you want to block this user?</h1>
-  <form id="del" method="POST">
-    <button type="submit" id="yes">Yes, block</button>
-  </form>
+  <div class="collapse" id="blockUser">
+    <h1 id="question">Are you sure you want to block this user?</h1>
+    <form id="block">
+      <button type="submit">Yes, block</button>
+    </form>
+  </div>
 </body>
 </html>

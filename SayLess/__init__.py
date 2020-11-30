@@ -109,9 +109,20 @@ def search():
 
         all = db.session.query(User).all()
 
+        current_user = User.query.filter_by(email=session['email']).first()
+
+        blocked_list = current_user.blocked
+
         for user in all:
             if user.email != session['email']:
-                users.append(user.username)
+                to_append = True
+                for blocked in blocked_list:
+                    if(blocked.blocked_user == user.username):
+                        to_append = False
+                        break
+                
+                if(to_append):
+                    users.append(user.username)
 
         return jsonify(users)
     else:
@@ -177,6 +188,40 @@ def delete():
         return jsonify("success")
   
     return render_template('deleteacc.html')
+
+@app.route("/block", methods=['GET','POST'])
+def block():
+    global serverRestarted
+
+    if(serverRestarted):
+        session.clear()
+        serverRestarted = False
+        return redirect("/login")
+
+    if request.method == 'GET' and 'email' in session:
+        # Do stuff for get request
+        print("In GET")
+        return render_template('block.html')
+    elif request.method == 'GET' and 'email' not in session:
+        print("Invalid access")
+        return redirect("/login")
+    else:
+        # In Post request
+        print("In POST")
+
+        data = request.form.get("username")
+        
+        user = User.query.filter_by(email=session['email']).first()
+        block = Block(blocked_user = data)
+
+        if(user.blocked):
+            user.blocked.append(block)
+        else:
+            user.blocked = [block]
+        
+        db.session.commit()
+
+        return jsonify("Success")
 
 @app.route("/logout", methods=['GET'])
 def logout():
@@ -306,10 +351,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
-# @app.route('/delete', methods=['GET', 'POST'])
-# def delete():
-
 @app.route('/homepage', methods=['GET', 'POST'])
 def homepage():
     global serverRestarted
@@ -353,11 +394,17 @@ def homepage():
         # check if the person is trying to talk to themselves
         email = session['email']
         email_check = User.query.filter_by(email=email).first()
+        blocked_users = email_check.blocked
+
         if(email_check.username == username):
             return jsonify({'Cannot_Talk':username})
 
         if username_check is None:
             return jsonify({'Invalid_user':"invalid"})
+
+        for blocked in blocked_users:
+            if(blocked.blocked_user == username):
+                return jsonify({'Blocked User':username})
 
         session['username2'] = username
         username_check1 = Rooms.query.filter_by(username1=username,username2=session['username']).first()
@@ -405,19 +452,33 @@ def open():
     if(email_check is None):
         return jsonify(data) 
 
+    blocked_list = email_check.blocked
+
     users1 = Rooms.query.filter_by(username1=email_check.username)
     users2 = Rooms.query.filter_by(username2=email_check.username)
 
     #Now for username1 we check if they have new message as well
     for room in users1:
-        if room.username2 not in data:
+        to_append = True
+        for blocked in blocked_list:
+            if(room.username2 == blocked.blocked_user):
+                to_append = False
+                break
+
+        if room.username2 not in data and to_append:
             data[room.username2] = []
             data[room.username2].append(room.room)
             data[room.username2].append(room.new_message)
             
     #don't think this ever even runs? but add in an always false just in case for now?
     for room in users2:
-        if room.username1 not in data:
+        to_append = True
+        for blocked in blocked_list:
+            if(room.username1 == blocked.blocked_user):
+                to_append = False
+                break
+
+        if room.username1 not in data and to_append:
             data[room.username1] = []
             data[room.username1].append(room.room)
             data[room.username1].append(False)
@@ -434,6 +495,8 @@ def suggested():
 
     if(email_check is None):
         return jsonify(data) 
+
+    blocked_list = email_check.blocked
     
     users1 = Rooms.query.filter_by(username1=email_check.username)
     users2 = Rooms.query.filter_by(username2=email_check.username)
@@ -444,6 +507,15 @@ def suggested():
         if(email_check.username == user.username):
             continue
         
+        to_append = True
+        for blocked in blocked_list:
+            if(user.username == blocked.blocked_user):
+                to_append = False
+                break
+        
+        if not to_append:
+            continue
+
         check = False
         for room in users1:
             if room.username2 == user.username:
@@ -490,6 +562,17 @@ def chat(room_number):
         # check history of messages and load all of them
         conversation = Conversation.query.filter_by(room = room_number).first()
         room = Rooms.query.filter_by(room = room_number).first()
+
+        # handling case of when user tries to open chat with blocked user
+        blocked_users = email_check.blocked
+
+        for blocked in blocked_users:
+            if(email_check.username == room.username1):
+                if(room.username2 == blocked.blocked_user):
+                    return redirect("/")
+            else:
+                if(room.username1 == blocked.blocked_user):
+                    return redirect("/")
 
         if(conversation):
             messages = conversation.message
@@ -808,9 +891,6 @@ def on_join(data):
             room_number = path_name.split('/')[2]
 
             join_room(room_number)
-
-
-
 
             # socketio.emit('message_received', {'msg': email_check.username+' is online','user': email_check.username}, room=room_number,callback=messageReceived)
 

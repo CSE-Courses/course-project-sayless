@@ -282,6 +282,12 @@ function callHomepage(requestData){
                 msgElem.css("color", "red");
 
                 document.getElementById("search").value = "";
+             }else if(data["Blocked User"]){
+                const msgElem = $('#truth');
+                msgElem.text("You have blocked user: "+data["Blocked User"]);
+                msgElem.css("color", "red");
+
+                document.getElementById("search").value = "";
              }else{
                 console.log("Error! Please contact support");
             }
