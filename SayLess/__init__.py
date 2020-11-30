@@ -59,8 +59,7 @@ socketio = SocketIO(app)
 
 minify(app=app, html=True, js=True, cssless=True)
 
-# change back
-serverRestarted = False
+serverRestarted = True
 Character_Limit = 25
 
 create_container_sample(IMAGES_CONTAINER)
