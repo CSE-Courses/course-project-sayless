@@ -201,7 +201,14 @@ def block():
     if request.method == 'GET' and 'email' in session:
         # Do stuff for get request
         print("In GET")
-        return render_template('block.html')
+        user = User.query.filter_by(email=session['email']).first()
+        blocked_users = user.blocked
+
+        blocked = []
+        for block in blocked_users:
+            blocked.append(block.blocked_user)
+
+        return render_template('block.html', blocked_users=blocked)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid access")
         return redirect("/login")

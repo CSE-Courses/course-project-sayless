@@ -41,5 +41,12 @@
       <button type="submit">Yes, block</button>
     </form>
   </div>
+  <h2 id="blocked_user_list" style="text-align: center;padding-top: 6%;">Blocked Users</h2>
+  <hr>
+  <div class="blocked">
+    {% for user in blocked_users %}
+      <ul id = "blockedUsers">{{user}}</ul>
+    {% endfor %}
+  </div>
 </body>
 </html>
