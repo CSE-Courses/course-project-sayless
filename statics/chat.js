@@ -9,7 +9,14 @@ $(document).ready(function () {
 
     socket.emit("store",{sessionId});
     } );
-
+    $('#get-room').on('submit',function (event) {
+        console.log("button has been clicked")
+        console.log(window.parent.document.getElementById("bioframe").getAttribute("class"))
+        window.parent.document.getElementById("bioframe").setAttribute("src","/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2])
+                
+        
+    event.preventDefault();  
+});
     setInterval(characterLimit, 600);
 
     // message sends only when you hit send

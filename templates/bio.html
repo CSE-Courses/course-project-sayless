@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+  <html lang="en">
+<head>
+
+    <title>SayLess - Home</title>
+    <!-- Bootstrap CSS and fa-icon -->
+    <link rel="stylesheet" href="/include/bootstrap.css">
+    <link rel="stylesheet" href="/home.css">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  
+  
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="/include/bootstrap.js"></script>
+    <script src="/include/popper.min.js"></script>
+    <script src="/home.js"></script>
+  
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script> -->
+    <!-- <script src="/chat.js"></script>  commenting out right now until implementation -->
+  
+  </head>
+
+<body>
+<div class="centered" id = "bio">
+    <div class="col lg-8 pb-5">
+      <form class="col">
+        <div class="form-row">
+          <div class="col">
+            <img src="{{filename}}" loading="lazy" alt="Avatar" class="avatar" height=250 width=250>
+          </div>
+        </div>	
+        <div class="col">
+          <div class="form-group">
+            <button type="button" class="btn btn-link">Edit</button>
+          </div> 
+
+          <h2>{{username}}</h2>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="bio">Bio:</label>
+            <textarea class="form-control" readonly id="bio_text">{{bio}}</textarea> 
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+  </html>

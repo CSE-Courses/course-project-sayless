@@ -10,14 +10,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-  <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&display=swap" rel="stylesheet">
+
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script src="/include/bootstrap.js"></script>
   <script src="/include/popper.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   <script src="/home.js"></script>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -42,49 +41,27 @@
 
   <table>
     <tr>
-      <th class="people">
-        <h2 id="openchat" style="text-align: center;padding-top: 6%;">Open Chats</h2>
-        <hr>
-        <div class="ochat">
+      <th>
+        <div style="text-align:center;">
+          <h2 id="openchat">Open Chats</h2>
+          <hr>
           <ul id = "openchats"></ul>
-        </div>
-        <br><br>
-        <h2 id="suggestedchat" style="text-align: center;">Suggested Users</h2>
-        <hr>
-        <div class="schat">
+          <br><br>
+          <h2 id="suggestedchat">Suggested Users</h2>
+          <hr>
           <ul id = "suggestedchats"></ul>
         </div>
       </th>
       <th>
         <div style="text-align:center;">
-          <h1 id="startachat">Start a Chat</h1><iframe id="chatframe" src=""></iframe>
+          <h1 id="startachat" style="text-align:center;width:700px;height:550px;display:show;padding-left: 40%;padding-top: 27%;">Start a Chat</h1><iframe id="chatframe" src=""></iframe>
         </div>
       </th>
       <th>
-        <div class="centered" id = "bio">
-          <div class="col lg-8 pb-5">
-            <form class="col">
-              <div class="form-row">
-                <div class="col">
-                  <img src="{{filename}}" loading="lazy" alt="Avatar" class="avatar" height=250 width=250>
-                </div>
-              </div>	 
-
-              <h2 id="note_username">{{username}}</h2>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="bio">Bio:</label>
-                  <text class="form-control" readonly id="bio_text">{{bio}}</text> 
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+        <iframe id="bioframe" class="moulid" src=""></iframe>
       </th>
     </tr>
   </table>
-
 </body>
 
 </html>
