@@ -251,6 +251,9 @@ def profile():
         else:
             return jsonify("Undefined")
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/homepage', methods=['GET', 'POST'])
 def homepage():

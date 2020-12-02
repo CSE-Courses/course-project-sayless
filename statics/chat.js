@@ -11,8 +11,9 @@ $(document).ready(function () {
     } );
     $('#get-room').on('submit',function (event) {
         console.log("button has been clicked")
-        console.log(window.parent.document.getElementById("bioframe").getAttribute("class"))
-        window.parent.document.getElementById("bioframe").setAttribute("src","/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2])
+        //console.log(window.parent.document.getElementById("bioframe").getAttribute("class"))
+        window.parent.location.pathname = "/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2]
+        //window.parent.document.getElementById("bioframe").setAttribute("src",)
         // console.log(window.location.href.toString().split(window.location.host)[1].split("/"))
         // window.location.pathname = "/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2];
                 

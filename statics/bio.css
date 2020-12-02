@@ -1,0 +1,147 @@
+body{
+    background-color: inherit;
+    font-family: 'David Libre', serif !important;
+    padding-left: 20px;
+    overflow: scroll;
+}
+
+.message{
+    left:2% !important;
+    position: relative !important;
+    width: 85.6% !important;
+    height: 40px !important;
+    bottom: 40px !important;
+    background-color: rgba(0, 128, 128, 0.9) !important;
+    border: 1px solid black !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+    color: black !important;
+    padding: 5px !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    margin: 5px 0 !important;
+}
+
+#send{
+    position: absolute;
+    left: 88%;
+    bottom: 30px;
+    background-color: rgba(0, 128, 128, 0.9);
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: 10px;
+    color: black;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+::placeholder{
+    color: black !important;
+}
+
+h3{
+    padding-top: 4%;
+    color: black;
+    font-size: 30px;
+}
+
+i{
+    margin-right: 10px;
+    padding-top: 4%;
+    color: black;
+    font-size: 30px;
+}
+
+.sentmessage {
+	min-width: 20px;
+	max-width: 700px;
+	padding: 5px;
+    margin: 5px;
+	background-color: rgba(196,196,196,0.5);
+	border-radius: 10px;
+    border: 1px solid black;
+    align-self: flex-end;
+}
+
+.receivedmessage {
+	min-width: 20px;
+	max-width: 700px;
+	padding: 5px;
+    margin: 5px;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 10px;
+    border: 1px solid black;
+    align-self: flex-start;
+}
+
+.time{
+  font-size: 20px;
+  color: black;
+  text-align: center;
+}
+
+.bubbleWrapper {
+	padding: 10px 10px;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	align-self: flex-end;
+    color: black;
+    font-size: 20px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.morediv::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.morediv {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.morediv{
+    position: relative;
+    overflow: scroll;
+    padding-bottom: 2%;
+}
+
+hr{
+    left: 0px;
+    width: auto;
+    height: 1px;
+    background-color: black;
+    border: 0px solid black;
+}
+.emoji-wysiwyg-editor:empty:before {
+    content: attr(placeholder);
+    color: black !important;
+}
+
+.emoji-picker-icon {
+    right: 80px !important;
+    top: -35px !important;
+}
+
+.emoji-picker-container{
+    padding-top: 2.5% !important;
+}
+
+.emoji-menu{
+    bottom: 119% !important;
+    right: 12% !important;
+}
