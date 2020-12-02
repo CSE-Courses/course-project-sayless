@@ -104,7 +104,15 @@ iframe{
     width: 100%; 
     height: 100%; 
     overflow: hidden; 
-    visibility: hidden; 
+    visibility: visible !important; 
+    border: none; 
+    padding-right: 20px;
+}
+#bioframe{
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden; 
+    visibility: visible !important; 
     border: none; 
     padding-right: 20px;
 }
