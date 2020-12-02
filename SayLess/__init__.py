@@ -39,14 +39,14 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-# app.config['MAIL_PASSWORD'] = get_secret("pass")
+app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
-# params = urllib.parse.quote_plus(get_secret("DB"))
+params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['my_sql_key']
 
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
@@ -63,7 +63,7 @@ minify(app=app, html=True, js=True, cssless=True)
 serverRestarted = True
 Character_Limit = 25
 
-# create_container_sample(IMAGES_CONTAINER)
+create_container_sample(IMAGES_CONTAINER)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
