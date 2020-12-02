@@ -3,7 +3,12 @@ const sessionId = socket.id;
 
    
 $(document).ready(function () {
-    var my_room_name = document.getElementById("note_username").textContent;
+    window.document.getElementById("bioframe").setAttribute("src","/userbio")
+    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:600px;height:950px;padding-right: 0px;top:20%;")
+    console.log("profileee..")
+   
+    var my_room_name = window.document.getElementById("bioframe").textContent;
+    
     socket.on( 'connect', function() {
         console.log("Connected");
         //Create your personal notification room for others to join to notify you

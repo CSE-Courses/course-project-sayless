@@ -43,8 +43,8 @@ def get_secret(secretName):
     return retrieved_secret.value
 
 # Instantiate a new BlobServiceClient using a connection string
-connection_string = get_secret("Image")
-blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+# connection_string = get_secret("Image")
+# blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
 def is_emoji(s):
     count = 0
