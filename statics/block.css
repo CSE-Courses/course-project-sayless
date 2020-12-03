@@ -87,3 +87,15 @@ button,input{
     margin: 5px 0 !important;
     font-family: 'David Libre', serif !important;
 }
+
+.unblock {
+    font-size: 15px;
+}
+
+#yes{
+    left: 47.5%;
+}
+
+p{
+    font-size: 200%;
+}

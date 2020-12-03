@@ -60,30 +60,9 @@ th{
     border: 1px solid black;
 }
 
-ul,li{
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    /* font-size: 50px; */
-}
-
 textarea{
     width: 20px;
     height: 20px;
-}
-
-#openchat{
-    vertical-align: auto;
-    height: 50%;
-}
-
-#suggestedchat{
-    vertical-align: auto;
-    top: 0%;
-}
-
-table{
-    width: 100%;
 }
 
 iframe{
@@ -106,19 +85,6 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-
-.ochat,.schat{
-    position: relative !important;
-    overflow: auto !important;
-    padding-bottom: 2% !important;
-    text-align: center !important;
-    height: 20rem;
-}
-
-/* .people{
-    background: rgba(128, 128, 128, 0.5);
-    border-radius: 10px;
-} */
 
 #bio{
     padding-bottom: 65%;

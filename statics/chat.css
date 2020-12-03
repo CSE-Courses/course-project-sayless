@@ -145,9 +145,10 @@ hr{
     right: 12% !important;
 }
 
-h3{
-    background-color: Transparent !important;
-    background-repeat:no-repeat !important;
+#profile-button{
+    background-color: inherit !important;
+    border-radius: 10px;
+    border: 1px solid black;
     overflow: hidden !important;
     outline:none !important;
 }
