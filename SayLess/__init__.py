@@ -84,7 +84,7 @@ def home():
         if(email_check and email_check.bio):
             bio = email_check.bio
 
-        return render_template('home.html', username=email_check.username, bio=bio, filename=file_name)
+        return render_template('home.html', username=email_check.username, bio=bio)
     elif request.method == 'GET' and 'email' not in session:
         print("Invalid Login")
         return redirect("/login")
