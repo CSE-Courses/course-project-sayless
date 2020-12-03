@@ -144,3 +144,10 @@ hr{
     bottom: 119% !important;
     right: 12% !important;
 }
+
+h3{
+    background-color: Transparent !important;
+    background-repeat:no-repeat !important;
+    overflow: hidden !important;
+    outline:none !important;
+}

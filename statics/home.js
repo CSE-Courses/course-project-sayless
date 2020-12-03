@@ -4,7 +4,7 @@ const sessionId = socket.id;
    
 $(document).ready(function () {
     window.document.getElementById("bioframe").setAttribute("src","/userbio")
-    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:600px;height:950px;padding-right: 0px;top:20%;")
+    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:500px;height:750px;padding-right: 0px;top:20%;")
     console.log("profileee..")
    
     var my_room_name = window.document.getElementById("bioframe").textContent;
