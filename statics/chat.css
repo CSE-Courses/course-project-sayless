@@ -144,3 +144,11 @@ hr{
     bottom: 119% !important;
     right: 12% !important;
 }
+
+#profile-button{
+    background-color: inherit !important;
+    border-radius: 10px;
+    border: 1px solid black;
+    overflow: hidden !important;
+    outline:none !important;
+}
