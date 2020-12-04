@@ -11,6 +11,18 @@ $(document).ready(function () {
     } );
 
     setInterval(characterLimit, 600);
+    $('#get-room').on('submit',function (event) {
+        console.log("button has been clicked")
+        //console.log(window.parent.document.getElementById("bioframe").getAttribute("class"))
+        // window.parent.location.pathname = "/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2]
+        window.parent.document.getElementById("bioframe").setAttribute("src","/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2])
+        window.parent.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:600px;height:950px;padding-right: 0px;top:20%;")
+        // console.log(window.location.href.toString().split(window.location.host)[1].split("/"))
+        // window.location.pathname = "/bio/"+window.location.href.toString().split(window.location.host)[1].split("/")[2];
+
+
+    event.preventDefault();  
+});
 
     // message sends only when you hit send
     $("#send").click(function() {

@@ -23,16 +23,16 @@
       <Button id="send"> Send </Button>
     </div> -->
 
-    <h3 id="header"><i class="fas fa-user"></i>{{user}}</h3>
+    <h3 id="header"><form id="get-room" method="POST" action=""><button type="submit",id="profile-button", src=""><i class="fas fa-user"></i>{{user}}</button></form></h3>
     <hr>
 
     <div class="morediv">
       <div id = "messages" class="bubbleWrapper">
         {% for message in messages %}
-          {% if messages[message] %}
-            <p class="receivedmessage">{{message}}</p>
+          {% if message[1] %}
+            <p class="receivedmessage">{{message[0]}}</p>
           {% else %}
-            <p class="sentmessage">{{message}}</p>
+            <p class="sentmessage">{{message[0]}}</p>
           {% endif %}
         {% endfor %}
       </div>

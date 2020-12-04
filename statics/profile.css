@@ -72,14 +72,6 @@ i{
     padding-top: 0.5%;
 }
 
-i.fa-home{
-    left: 88%;
-}
-
-i.fa-cog{    
-    left: 92%;
-}
-
 i.fa-sign-out-alt{
     left: 96%;
 }
@@ -127,8 +119,4 @@ button {
     -ms-flex: 50%; /* IE10 */
     flex: 50%;
     padding: 0 5px;
-}
-
-a.blockuser {
-    right: 900%;
 }
