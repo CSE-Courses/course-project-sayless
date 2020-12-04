@@ -62,7 +62,7 @@ def test_unblock():
     rv = unblock(user2.username, client1)
     assert rv.status_code == 200
     assert rv.data == b'"Success"\n'
-    assert len(User.query.filter_by(username=user.username).first().blocked[0].blocked_user) == 0
+    assert len(User.query.filter_by(username=user.username).first().blocked) == 0
 
     # test3 : unblock unblocked user for user1
     rv = unblock("Should Not work", client1)
@@ -73,7 +73,7 @@ def test_unblock():
     rv = unblock(user.username, client2)
     assert rv.status_code == 200
     assert rv.data == b'"Success"\n'
-    assert len(User.query.filter_by(username=user2.username).first().blocked[0].blocked_user) == 0
+    assert len(User.query.filter_by(username=user2.username).first().blocked) == 0
 
     # test5 : unblock unblocked user for user1
     rv = unblock("Should Not work", client2)

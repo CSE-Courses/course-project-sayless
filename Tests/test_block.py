@@ -58,6 +58,9 @@ def test_block():
     assert rv.data == b'"Success"\n'
     assert User.query.filter_by(username=user2.username).first().blocked[0].blocked_user == user.username
 
+    client1.get("/logout")
+    client2.get("/logout")
+
     # test2 : test if redirected to login page for invalid sign in for client1
     rv = client1.get("/block")
     assert rv.status_code == 302
@@ -67,7 +70,7 @@ def test_block():
     rv = client2.get("/block")
     assert rv.status_code == 302
     assert rv.location.endswith("/login")
-    
+
     db.reflect()
     db.drop_all()
 
