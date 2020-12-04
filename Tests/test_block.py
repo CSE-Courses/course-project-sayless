@@ -24,8 +24,8 @@ app.testing = True
 db.reflect()
 db.drop_all()
 
-def test_openchats():
-    """Make sure openchats works."""
+def test_block():
+    """Make sure block works."""
 
     db.create_all()
 
@@ -46,35 +46,28 @@ def test_openchats():
     login("shazm@gmail.com","hello123", client1)
     login("shazm2@gmail.com","hello123", client2)
 
-    user2_room = json.loads(homepage(user2.username, client1).data)["Success"]
-    user_room = json.loads(homepage(user.username, client2).data)["Success"]
-
-    # Verify both rooms are same
-    assert user2_room == user_room
-
-    current_room = user2_room
-
-    conv = Conversation.query.filter_by(room=current_room).first()
-    message = Message(sender=user.username, message="hello")
-    message2 = Message(sender=user2.username, message="world")
-
-    conv.message = [message, message2]
-
-    db.session.add(conv)
-    db.session.commit()
-
-    # test0 : test if openchats gives correct users for client1
-    rv = client1.post("/openchats")
+    # test0 : test if user1 can block user2
+    rv = block(user2.username, client1)
     assert rv.status_code == 200
-    assert user2.username in json.loads(rv.data.decode('utf-8'))
-    assert current_room == json.loads(rv.data.decode('utf-8'))[user2.username][0]
+    assert rv.data == b'"Success"\n'
+    assert User.query.filter_by(username=user.username).first().blocked[0].blocked_user == user2.username
 
-    # test1 : test if openchats gives correct users for client2
-    rv = client2.post("/openchats")
+    # test1 : test if user2 can block user1
+    rv = block(user.username, client2)
     assert rv.status_code == 200
-    assert user.username in json.loads(rv.data.decode('utf-8'))
-    assert current_room == json.loads(rv.data.decode('utf-8'))[user.username][0]
+    assert rv.data == b'"Success"\n'
+    assert User.query.filter_by(username=user2.username).first().blocked[0].blocked_user == user.username
 
+    # test2 : test if redirected to login page for invalid sign in for client1
+    rv = client1.get("/block")
+    assert rv.status_code == 302
+    assert rv.location.endswith("/login")
+
+    # test3 : test if redirected to login page for invalid sign in for client2
+    rv = client2.get("/block")
+    assert rv.status_code == 302
+    assert rv.location.endswith("/login")
+    
     db.reflect()
     db.drop_all()
 
@@ -85,7 +78,7 @@ def login(email, password, client):
         password=password
     ), follow_redirects=True)
 
-def homepage(username, client):
-    return client.post('/homepage', data=dict(
-        username=username
-    ), follow_redirects=False)
+def block(toBlock, client):
+    return client.post('/block', data=dict(
+        username=toBlock,
+    ), follow_redirects=True)
