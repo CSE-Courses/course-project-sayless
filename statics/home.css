@@ -159,3 +159,13 @@ iframe {
     width: 90%;
     height: 10vh;
 }
+
+badge {
+    position: absolute;
+    top: -2px;
+    right: -16px;
+    padding: 1px 5px;
+    border-radius: 20%;
+    background: red;
+    color: white;
+  }

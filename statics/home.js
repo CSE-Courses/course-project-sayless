@@ -51,9 +51,17 @@ $(document).ready(function () {
                 createlist(key, value[0]);
                 console.log(value[1]);
                 //If the chat has new messages make it red
-                if(value[1] == 1){
-                    document.getElementById(value[0]).style.backgroundColor = 'red';
+                var button = document.getElementById(value[0]);
+                var badge = document.createElement("badge");
+                badge.setAttribute("id" , "num_message");
+                badge.innerHTML = value[1];
+                badge.setAttribute("style" , "visibility:hidden");
+                
+                
+                if(value[1] > 0 ){
+                    badge.setAttribute("style" , "visibility:visible");
                 }
+                button.appendChild(badge);
             });
 
             $('.openchatsbutton').on('click',function() {
@@ -66,7 +74,7 @@ $(document).ready(function () {
                 var path_to_go = "/chat/"+this.id;
                 
                 $('#chatframe').attr('src', path_to_go);
-                document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
+                document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
             });
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -144,7 +152,7 @@ $(document).ready(function () {
             var path_to_go = "/chat/"+this.id;
             
             $('#chatframe').attr('src', path_to_go);
-            document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
+            document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
         });
 
     });
@@ -154,8 +162,10 @@ $(document).ready(function () {
         //If the chat frame isn't open whena message is received on the homepage for a chat
         //make the button show that
         console.log(src);
-        if(src == null || src.indexOf(data) == -1){
-        document.getElementById(data).style.backgroundColor = "red";
+        if(src == null || src.indexOf(data['room_number']) == -1){
+            var c = document.getElementById(data['room_number']).childNodes;
+            c[1].innerHTML = data["number"];
+            c[1].setAttribute("style" , "visibility:visible");
         } else{
             socket.emit('chat_open',{
                 
@@ -229,7 +239,7 @@ function callHomepage(requestData){
 
                 $(".openchatsbutton").each(function() {
                     if(this.id == data["Success"]){
-                        document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
+                        document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
                         isPresent = True;
                     }
                 });
@@ -259,7 +269,7 @@ function callHomepage(requestData){
                     var path_to_go = "/chat/"+this.id;
                     
                     $('#chatframe').attr('src', path_to_go);
-                    document.getElementById(this.id).style.backgroundColor = 'rgba(0, 128, 128, 0.9)';
+                    document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
                 });
 
                 // var iFrame = document.getElementById( 'chatframe' );

@@ -39,13 +39,14 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'sayless442@gmail.com'
-app.config['MAIL_PASSWORD'] = get_secret("pass")
+#app.config['MAIL_PASSWORD'] = get_secret("pass")
 mail = Mail(app)
 
-params = urllib.parse.quote_plus(get_secret("DB"))
+#params = urllib.parse.quote_plus(get_secret("DB"))
 
 app.config.from_pyfile('config.py', silent=True)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://rileybur:50216039@tethys.cse.buffalo.edu:3306/rileybur_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc:///?odbc_connect={}".format(params)
 
 app.config['MYSQL_CHARSET'] = 'utf8mb4'
 
@@ -62,7 +63,7 @@ minify(app=app, html=True, js=True, cssless=True)
 serverRestarted = True
 Character_Limit = 25
 
-create_container_sample(IMAGES_CONTAINER)
+#create_container_sample(IMAGES_CONTAINER)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -509,7 +510,7 @@ def open():
         if room.username1 not in data and to_append:
             data[room.username1] = []
             data[room.username1].append(room.room)
-            data[room.username1].append(False)
+            data[room.username1].append(0)
          
 
     return jsonify(data)
@@ -908,15 +909,16 @@ def storeData(session):
 @socketio.on('join')
 def on_join(data):
     if('email' in session and serverRestarted is False):
+        path_name = data['path_name']
+        room_number = path_name.split('/')[2]
         email_check = User.query.filter_by(email=session['email']).first()
-        username = Rooms.query.filter_by(username1=email_check.username).first()
+        username = Rooms.query.filter_by(username1=email_check.username , room=room_number).first()
 
         if email_check and username:
             #When a username 1 joins a room notify server that new messages are read
-            username.new_message = False
+            username.new_message = 0
             db.session.commit()
-            path_name = data['path_name']
-            room_number = path_name.split('/')[2]
+            
 
             join_room(room_number)
 
@@ -937,15 +939,20 @@ def on_disconnect():
 @socketio.on('sending_message')
 def send_to_user(json, methods=['GET', 'POST']):
     if('email' in session and serverRestarted is False):
+        path_name = json['path_name']
+        room_number = path_name.split('/')[2]
         email_check = User.query.filter_by(email=session['email']).first()
-        username = Rooms.query.filter_by(username1=email_check.username).first()
+        username = Rooms.query.filter_by(username1=email_check.username , room=room_number).first()
+        num = 0
       
         if email_check and username:
             #set the other person to have new messages for now
-            receiver = Rooms.query.filter_by(username1=username.username2).first()
-            receiver.new_message = True
-            path_name = json['path_name']
-            room_number = path_name.split('/')[2]
+            print(username.username2)
+            receiver = Rooms.query.filter_by(username1=username.username2 , room=room_number).first()
+            print(receiver)
+            num = receiver.new_message + 1
+            receiver.new_message = num
+            
             
             conversation = Conversation.query.filter_by(room = room_number).first()
 
@@ -979,7 +986,9 @@ def send_to_user(json, methods=['GET', 'POST']):
 
             join_room(json['target'])
 
-            emit('new_message' , room_number , room=json['target'] , broadcast=True , include_self=False)
+            dict = {'room_number' : room_number , 'number' : num}
+
+            emit('new_message' , dict , room=json['target'] , broadcast=True , include_self=False)
 
             leave_room(json['target'])
 
@@ -1007,7 +1016,7 @@ def chat_open(data):
         email_check = User.query.filter_by(email=session['email']).first()
         username = Rooms.query.filter_by(username1=email_check.username).first()
         if email_check and username:
-            username.new_message = False
+            username.new_message = 0
             db.session.commit()
 
 
