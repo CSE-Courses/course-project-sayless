@@ -36,12 +36,11 @@ class TestBio():
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
     # 7 | click | id=68e5c24d721256e216b4e804bb59de60da37d90a4e2dc98140bb5b7b77821479 |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "openchat")))
     self.driver.find_element(By.ID, "68e5c24d721256e216b4e804bb59de60da37d90a4e2dc98140bb5b7b77821479").click()
     # 8 | selectFrame | index=0 | 
     self.driver.switch_to.frame(0)
     # 9 | click | css=button:nth-child(1) |
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".button:nth-child(1)")))
-    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, "button:nth-child(1)").click()
     # 10 | selectFrame | relative=parent |
     self.driver.switch_to.default_content()
