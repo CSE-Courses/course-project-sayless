@@ -10,7 +10,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-class TestAvi():
+class TestBlock():
   def setup_method(self, method):
     self.driver = webdriver.Chrome()
     self.vars = {}
@@ -18,8 +18,8 @@ class TestAvi():
   def teardown_method(self, method):
     self.driver.quit()
   
-  def test_avi(self):
-    # Test name: avi
+  def test_block(self):
+    # Test name: block
     # Step # | name | target | value
     # 1 | open | /login | 
     self.driver.get("http://sayless.azurewebsites.net/login")
@@ -29,37 +29,31 @@ class TestAvi():
     self.driver.find_element(By.ID, "emailInput").click()
     # 4 | type | id=emailInput | jshrishty18@gmail.com
     self.driver.find_element(By.ID, "emailInput").send_keys("jshrishty18@gmail.com")
-    # 5 | type | id=passwordInput | Newpassword1234
+    # 5 | type | id=passwordInput | Password123
     self.driver.find_element(By.ID, "passwordInput").send_keys("Password123")
-    # 6 | click | css=.submit | 
+    # 6 | click | css=.submit |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".submit")))
+    time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
     # 7 | click | css=.fa-cog |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-cog")))
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
-    # 8 | click | linkText=Edit |
-    time.sleep(2) 
-    self.driver.find_element(By.LINK_TEXT, "Edit").click()
-    # 10 | click | css=h2 |
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, "h2")))
+    # 8 | click | linkText=Block Users | 
+    self.driver.find_element(By.LINK_TEXT, "Block Users").click()
+    # 9 | verifyEditable | id=autocomplete-3 | 
+    element = self.driver.find_element(By.ID, "autocomplete-3")
+    assert element.is_enabled() is True
+    # 10 | click | css=.btn |
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".btn")))
     time.sleep(2)
-    self.driver.find_element(By.CSS_SELECTOR, "h2").click()
-    # 11 | verifyTitle | Update AVI | 
-    assert self.driver.title == "Update AVI"
-    # 12 | click | id=submit | 
-    self.driver.find_element(By.ID, "submit").click()
-    # 13 | click | css=.fas |
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
-    time.sleep(2)
-    self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
-    # 14 | click | css=.fas |
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
-    time.sleep(2)
-    self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
-    # 15 | click | css=.fa-sign-out-alt |
+    self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
+    # 11 | click | id=yes | 
+    self.driver.find_element(By.ID, "yes").click()
+    # 12 | click | css=.fa-sign-out-alt |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-sign-out-alt")))
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".fa-sign-out-alt").click()
-  
-
+    # 13 | close |  | 
+    self.driver.close()
   
