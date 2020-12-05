@@ -36,8 +36,8 @@ class TestChat():
     # 6 | click | css=.submit |  | 
     self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
     # 7 | click | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 |  | 
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4")))
-    self.driver.find_element(By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "a67f49f0d38db92d851fd7915d8eb88df567d753c0a605fe50566c1a6915b191")))
+    self.driver.find_element(By.ID, "a67f49f0d38db92d851fd7915d8eb88df567d753c0a605fe50566c1a6915b191").click()
     # 8 | selectFrame | index=0 |  | 
     self.driver.switch_to.frame(0)
     # 9 | verifyText | id=send | Send | 
@@ -63,8 +63,8 @@ class TestChat():
     # 6 | click | css=.submit |  | 
     self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
     # 7 | click | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 |  | 
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4")))
-    self.driver.find_element(By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4").click()
+    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "a67f49f0d38db92d851fd7915d8eb88df567d753c0a605fe50566c1a6915b191")))
+    self.driver.find_element(By.ID, "a67f49f0d38db92d851fd7915d8eb88df567d753c0a605fe50566c1a6915b191").click()
     # 8 | selectFrame | index=0 |  | 
     self.driver.switch_to.frame(0)
     chat = self.driver.find_element_by_class_name("morediv").text
