@@ -46,12 +46,6 @@ class TestAvi():
     self.driver.find_element(By.CSS_SELECTOR, "h2").click()
     # 11 | verifyTitle | Update AVI | 
     assert self.driver.title == "Update AVI"
-    # 12 | click | id=submit | 
-    self.driver.find_element(By.ID, "submit").click()
-    # 13 | click | css=.fas |
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
-    time.sleep(2)
-    self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
     # 14 | click | css=.fas |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fas")))
     time.sleep(2)

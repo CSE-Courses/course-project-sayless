@@ -49,6 +49,7 @@ class TestBlock():
     time.sleep(2)
     self.driver.find_element(By.CSS_SELECTOR, ".btn").click()
     # 11 | click | id=yes | 
+    time.sleep(1)
     self.driver.find_element(By.ID, "yes").click()
     # 12 | click | css=.fa-sign-out-alt |
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, ".fa-sign-out-alt")))
