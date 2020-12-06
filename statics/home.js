@@ -1,4 +1,21 @@
 $(document).ready(function () {
+    window.document.getElementById("bioframe").setAttribute("src","/userbio");
+    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:500px;height:750px;padding-right: 0px;top:20%;");
+    console.log("profileee..");
+   
+    var my_room_name = window.document.getElementById("bioframe").textContent;
+
+    var socket = io.connect({transports: ['websocket']});
+
+    socket.on( 'connect', function() {
+        console.log("Connected");
+        //Create your personal notification room for others to join to notify you
+        socket.emit('create_notify', {
+           username: my_room_name
+
+        });
+    });
+
 
     $.ajax({
         type: "POST",
@@ -15,7 +32,7 @@ $(document).ready(function () {
                 console.log("Suggested chats Success");
                 console.log(this.id);
                 const sendingUser = {"username":this.id.split(':')[0]};
-                callHomepage(sendingUser);
+                callHomepage(sendingUser, socket);
                 this.remove();
             });
         },
@@ -33,8 +50,21 @@ $(document).ready(function () {
             //console.log(data);
 
             Object.entries(data).forEach(([key, value]) => {
-                //console.log(key, value);
-                createlist(key, value);
+                
+                createlist(key, value[0]);
+                console.log(value[1]);
+                //If the chat has new messages make it red
+                var button = document.getElementById(value[0]);
+                var badge = document.createElement("badge");
+                badge.setAttribute("id" , "num_message");
+                badge.innerHTML = value[1];
+                badge.setAttribute("style" , "visibility:hidden");
+                
+                
+                if(value[1] > 0 ){
+                    badge.setAttribute("style" , "visibility:visible");
+                }
+                button.appendChild(badge);
             });
 
             $('.openchatsbutton').on('click',function() {
@@ -47,6 +77,7 @@ $(document).ready(function () {
                 var path_to_go = "/chat/"+this.id;
                 
                 $('#chatframe').attr('src', path_to_go);
+                document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
             });
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -84,7 +115,7 @@ $(document).ready(function () {
         const requestData = {'username': name};
     
         
-        callHomepage(requestData);
+        callHomepage(requestData, socket);
         
         var elements = $('.suggestedchatsbutton');
         for(var i=0; i<elements.length; i++) {
@@ -96,6 +127,64 @@ $(document).ready(function () {
 
         return false;
     });
+
+    socket.on('notification_received', function(data){
+        //If you are the intended person create the button with said room id
+        // and remove from suggested chats if needed
+        if(data['receive_user'] == my_room_name){
+            console.log("Correct Person Create Button")
+            createlist(data['creating_user'] , data['room_id']);
+
+            var button = document.getElementById(data['room_id']);
+            var badge = document.createElement("badge");
+            badge.setAttribute("id" , "num_message");
+            badge.innerHTML = 0;
+            badge.setAttribute("style" , "visibility:hidden");
+            
+            button.appendChild(badge);
+            
+            var elements = $('.suggestedchatsbutton');
+            for(var i=0; i<elements.length; i++) {
+            var text = elements[i].id.split(':')[0];
+            if(data['creating_user'] == text){
+                elements[i].remove();
+            }
+        }
+        } else{
+            console.log("You aren't the intended Person");
+        }
+        $('.openchatsbutton').on('click',function() {
+            console.log("Success");
+    
+            $("#startachat").attr('style',"display:none;");
+    
+            $('#chatframe').attr('style', "width:700px;height:700px;overflow:hidden;visibility:visible;border:none;");
+    
+            var path_to_go = "/chat/"+this.id;
+            
+            $('#chatframe').attr('src', path_to_go);
+            document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
+        });
+
+    });
+
+    socket.on('new_message', function(data){
+        var src = document.getElementById("chatframe").src;
+        //If the chat frame isn't open whena message is received on the homepage for a chat
+        //make the button show that
+        console.log(src);
+        if(src == null || src.indexOf(data['room_number']) == -1){
+            var c = document.getElementById(data['room_number']).childNodes;
+            c[1].innerHTML = data["number"];
+            c[1].setAttribute("style" , "visibility:visible");
+        } else{
+            socket.emit('chat_open',{
+                
+            });
+        }
+        //Otherwise they already have the window open, no need to change the button
+    });
+
 
 
 });
@@ -138,7 +227,7 @@ function makeid(length) {
     return result;
  }
 
-function callHomepage(requestData){
+function callHomepage(requestData, socket){
     $.ajax({
         type: "POST",
         url: "/homepage",
@@ -147,6 +236,7 @@ function callHomepage(requestData){
         success: data => {    
             // check what kind of error is it. 
             if(data["Success"]){
+
                 console.log("Success");
 
                 $("#startachat").attr("style","display:none;");
@@ -160,12 +250,24 @@ function callHomepage(requestData){
 
                 $(".openchatsbutton").each(function() {
                     if(this.id == data["Success"]){
+                        document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
                         isPresent = True;
                     }
                 });
 
                 if(!isPresent){
                     createlist(requestData['username'], data["Success"]);
+                     //emit notification
+                     var my_room_name = document.getElementById("bioframe").textContent;
+                     //To have the other user create the button we need to give them some things
+                     //Our username, the room id and for safety the person we wish to start a chat with
+                     //This way incase someone else is in the room ,somehow, if they also receive this
+                     //they can check if this was really meant for them or not
+                     socket.emit('sending_notification', {
+                        room : requestData['username'],
+                        username : my_room_name,
+                        chat_id : data["Success"]
+                     });
                 }
 
                 $('.openchatsbutton').on('click',function() {
@@ -178,6 +280,7 @@ function callHomepage(requestData){
                     var path_to_go = "/chat/"+this.id;
                     
                     $('#chatframe').attr('src', path_to_go);
+                    document.getElementById(this.id).childNodes[1].setAttribute("style" , "visibility:hidden");
                 });
 
                 // var iFrame = document.getElementById( 'chatframe' );
@@ -200,6 +303,12 @@ function callHomepage(requestData){
                 msgElem.css("color", "red");
 
                 document.getElementById("search").value = "";
+             }else if(data["Blocked User"]){
+                const msgElem = $('#truth');
+                msgElem.text("You have blocked user: "+data["Blocked User"]);
+                msgElem.css("color", "red");
+
+                document.getElementById("search").value = "";
              }else{
                 console.log("Error! Please contact support");
             }
@@ -209,3 +318,4 @@ function callHomepage(requestData){
         }
     });
 }
+

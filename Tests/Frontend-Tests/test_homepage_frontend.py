@@ -27,64 +27,72 @@ class TestHomepage():
     self.driver.set_window_size(1552, 840)
     # 3 | click | id=emailInput |  | 
     self.driver.find_element(By.ID, "emailInput").click()
-    # 4 | type | id=emailInput | gptburc@gmail.com | 
-    self.driver.find_element(By.ID, "emailInput").send_keys("gptburc@gmail.com")
-    # 5 | type | id=passwordInput | password1234 | 
-    self.driver.find_element(By.ID, "passwordInput").send_keys("password1234")
+    # 4 | type | id=emailInput | test@gmail.com | 
+    self.driver.find_element(By.ID, "emailInput").send_keys("test@gmail.com")
+    # 5 | type | id=passwordInput | password123 | 
+    self.driver.find_element(By.ID, "passwordInput").send_keys("password123")
     # 6 | click | css=.submit |  | 
     self.driver.find_element(By.CSS_SELECTOR, ".submit").click()
-    # 7 | waitForElementPresent | id=openchat | 30000 | 
     WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "openchat")))
-    # 8 | verifyTitle | SayLess - Home |  | 
-    assert self.driver.title == "SayLess - Home"
-    # 9 | verifyText | css=body > h1 | SayLess | 
-    assert self.driver.find_element(By.CSS_SELECTOR, "body > h1").text == "SayLess"
-    # 10 | verifyText | id=openchat | Open Chats | 
-    assert self.driver.find_element(By.ID, "openchat").text == "Open Chats"
-    # 11 | verifyText | id=suggestedchat | Suggested Users | 
-    assert self.driver.find_element(By.ID, "suggestedchat").text == "Suggested Users"
-    # 12 | verifyText | id=startachat | Start a Chat | 
+    # 7 | verifyText | css=a > h1 | SayLess | 
+    assert self.driver.find_element(By.CSS_SELECTOR, "a > h1").text == "SayLess"
+    # 8 | verifyText | id=startachat | Start a Chat | 
     assert self.driver.find_element(By.ID, "startachat").text == "Start a Chat"
-    # 13 | verifyText | css=h2:nth-child(2) | rileybur | 
-    assert self.driver.find_element(By.CSS_SELECTOR, "h2:nth-child(2)").text == "rileybur"
-    # 14 | verifyText | css=label | Bio: | 
+    # 9 | selectFrame | index=1 |  | 
+    self.driver.switch_to.frame(1)
+    # 10 | verifyText | id=note_username | test | 
+    assert self.driver.find_element(By.ID, "note_username").text == "test"
+    # 11 | verifyElementPresent | css=.avatar |  | 
+    elements = self.driver.find_elements(By.CSS_SELECTOR, ".avatar")
+    assert len(elements) > 0
+    # 12 | verifyText | css=label | Bio: | 
     assert self.driver.find_element(By.CSS_SELECTOR, "label").text == "Bio:"
-    # 15 | verifyText | id=bio_text | this is my bio boy | 
-    assert self.driver.find_element(By.ID, "bio_text").text == "this is my bio boy"
-    # 16 | mouseDownAt | css=.ochat | 211.01249885559082,125.07499694824219 | 
-    element = self.driver.find_element(By.CSS_SELECTOR, ".ochat")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).click_and_hold().perform()
-    # 17 | mouseMoveAt | css=.ochat | 211.01249885559082,125.07499694824219 | 
-    element = self.driver.find_element(By.CSS_SELECTOR, ".ochat")
+    # 13 | verifyText | id=bio_text | None | 
+    assert self.driver.find_element(By.ID, "bio_text").text == "None"
+    # 14 | selectFrame | relative=parent |  | 
+    self.driver.switch_to.default_content()
+    # 15 | verifyText | id=45605af62c5c1a6ab3a3001757a610e218153f3ec3385bbbd613d995bee90966 | test2 | 
+    assert self.driver.find_element(By.ID, "45605af62c5c1a6ab3a3001757a610e218153f3ec3385bbbd613d995bee90966").text == "test2"
+    # 16 | verifyText | id=openchat | Open Chats | 
+    assert self.driver.find_element(By.ID, "openchat").text == "Open Chats"
+    # 17 | verifyText | id=suggestedchat | Suggested Users | 
+    assert self.driver.find_element(By.ID, "suggestedchat").text == "Suggested Users"
+    # 18 | click | id=45605af62c5c1a6ab3a3001757a610e218153f3ec3385bbbd613d995bee90966 |  | 
+    self.driver.find_element(By.ID, "45605af62c5c1a6ab3a3001757a610e218153f3ec3385bbbd613d995bee90966").click()
+    # 19 | selectFrame | index=0 |  | 
+    self.driver.switch_to.frame(0)
+    # 20 | click | css=button:nth-child(1) |  | 
+    self.driver.find_element(By.CSS_SELECTOR, "button:nth-child(1)").click()
+    # 21 | selectFrame | relative=parent |  | 
+    self.driver.switch_to.default_content()
+    # 22 | selectFrame | index=1 |  | 
+    self.driver.switch_to.frame(1)
+    # 23 | verifyText | id=note_username | test2 | 
+    assert self.driver.find_element(By.ID, "note_username").text == "test2"
+    # 24 | verifyElementPresent | css=.avatar |  | 
+    elements = self.driver.find_elements(By.CSS_SELECTOR, ".avatar")
+    assert len(elements) > 0
+    # 25 | selectFrame | relative=parent |  | 
+    self.driver.switch_to.default_content()
+    # 26 | selectFrame | index=0 |  | 
+    self.driver.switch_to.frame(0)
+    # 27 | verifyText | css=button:nth-child(1) | test2 | 
+    assert self.driver.find_element(By.CSS_SELECTOR, "button:nth-child(1)").text == "test2"
+    # 28 | selectFrame | relative=parent |  | 
+    self.driver.switch_to.default_content()
+    # 29 | click | css=.fa-home |  | 
+    self.driver.find_element(By.CSS_SELECTOR, ".fa-home").click()
+    # 30 | mouseOver | css=a > h1 |  | 
+    element = self.driver.find_element(By.CSS_SELECTOR, "a > h1")
     actions = ActionChains(self.driver)
     actions.move_to_element(element).perform()
-    # 18 | mouseUpAt | css=.ochat | 211.01249885559082,125.07499694824219 | 
-    element = self.driver.find_element(By.CSS_SELECTOR, ".ochat")
+    # 31 | mouseOut | css=a > h1 |  | 
+    element = self.driver.find_element(By.CSS_SELECTOR, "body")
     actions = ActionChains(self.driver)
-    actions.move_to_element(element).release().perform()
-    # 19 | click | css=.fa-cog |  | 
+    # 32 | click | css=.fa-cog |  | 
     self.driver.find_element(By.CSS_SELECTOR, ".fa-cog").click()
-    # 20 | click | css=.fas |  | 
+    # 33 | click | css=.fas |  | 
     self.driver.find_element(By.CSS_SELECTOR, ".fas").click()
-    # 21 | waitForElementPresent | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 | 30000 | 
-    WebDriverWait(self.driver, 30000).until(expected_conditions.presence_of_element_located((By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4")))
-    # 22 | verifyElementPresent | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 |  | 
-    elements = self.driver.find_elements(By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4")
-    # 23 | verifyText | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 | DannyA | 
-    assert self.driver.find_element(By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4").text == "DannyA"
-    # 24 | click | id=d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4 |  | 
-    self.driver.find_element(By.ID, "d7f054f94cf64bdc4f685942c4120a1766faeda3bcaa800399e4850c08ce77c4").click()
-    # 25 | selectFrame | index=0 |  | 
-    self.driver.switch_to.frame(0)
-    # 26 | verifyText | id=header | DannyA | 
-    assert self.driver.find_element(By.ID, "header").text == "DannyA"
-    # 27 | selectFrame | relative=parent |  | 
-    self.driver.switch_to.default_content()
-    # 28 | click | css=.fa-sign-out-alt |  | 
-    self.driver.find_element(By.CSS_SELECTOR, ".fa-sign-out-alt").click()
-    # 29 | verifyTitle | SayLess Login |  | 
-    assert self.driver.title == "SayLess Login"
-    # 30 | close |  |  | 
+    # 34 | close |  |  | 
     self.driver.close()
   

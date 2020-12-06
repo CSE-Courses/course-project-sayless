@@ -23,16 +23,16 @@
       <Button id="send"> Send </Button>
     </div> -->
 
-    <h3 id="header"><i class="fas fa-user"></i>{{user}}</h3>
+    <h3 id="header"><form id="get-room" method="POST" action=""><button type="submit",id="profile-button", src="", data-toggle="tooltip", data-placement="top", title="Click for more information"><i class="fas fa-user"></i>{{user}}</button></form></h3>
     <hr>
 
     <div class="morediv">
       <div id = "messages" class="bubbleWrapper">
         {% for message in messages %}
-          {% if messages[message] %}
-            <p class="receivedmessage">{{message}}</p>
+          {% if message[1] %}
+            <p class="receivedmessage">{{message[0]}}</p>
           {% else %}
-            <p class="sentmessage">{{message}}</p>
+            <p class="sentmessage">{{message[0]}}</p>
           {% endif %}
         {% endfor %}
       </div>
@@ -44,6 +44,8 @@
         <Button id="send"> Send </Button>
       </p>
     </div>
+
+    <p id="truth"></p>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>

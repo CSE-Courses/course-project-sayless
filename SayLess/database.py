@@ -12,6 +12,7 @@ class User(db.Model):
     last_name = db.Column(db.String(200))
     password = db.Column(db.String(600))
     bio = db.Column(db.String(500))
+    blocked = db.relationship("Block", backref="user")
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -38,6 +39,7 @@ class Rooms(db.Model):
     id = db.Column(db.Integer, primary_key=True,unique=True)
     username1 = db.Column(db.String(200),unique=False)
     username2 = db.Column(db.String(200),unique=False)
+    new_message = db.Column(db.Integer , default=0 , nullable=False )
     # rooms should be unique but leaving as such for testing logic
     room = db.Column(db.String(300))
 
@@ -56,3 +58,13 @@ class Message(db.Model):
     # rooms should be unique but leaving as such for testing logic
     message = db.Column(db.UnicodeText())
     mysql_charset='utf8mb4'
+
+class Profile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(200), unique=True)
+    filename = db.Column(db.String(200), unique=True)
+
+class Block(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    blocked_user = db.Column(db.String(200))
