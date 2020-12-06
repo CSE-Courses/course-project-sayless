@@ -1,14 +1,12 @@
-var socket = io.connect({transports: ['websocket']});
-const sessionId = socket.id;
-
-   
 $(document).ready(function () {
-    window.document.getElementById("bioframe").setAttribute("src","/userbio")
-    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:500px;height:750px;padding-right: 0px;top:20%;")
-    console.log("profileee..")
+    window.document.getElementById("bioframe").setAttribute("src","/userbio");
+    window.document.getElementById("bioframe").setAttribute("style","visibility: visible;width:500px;height:750px;padding-right: 0px;top:20%;");
+    console.log("profileee..");
    
     var my_room_name = window.document.getElementById("bioframe").textContent;
-    
+
+    var socket = io.connect({transports: ['websocket']});
+
     socket.on( 'connect', function() {
         console.log("Connected");
         //Create your personal notification room for others to join to notify you
@@ -34,7 +32,7 @@ $(document).ready(function () {
                 console.log("Suggested chats Success");
                 console.log(this.id);
                 const sendingUser = {"username":this.id.split(':')[0]};
-                callHomepage(sendingUser);
+                callHomepage(sendingUser, socket);
                 this.remove();
             });
         },
@@ -117,7 +115,7 @@ $(document).ready(function () {
         const requestData = {'username': name};
     
         
-        callHomepage(requestData);
+        callHomepage(requestData, socket);
         
         var elements = $('.suggestedchatsbutton');
         for(var i=0; i<elements.length; i++) {
@@ -221,7 +219,7 @@ function makeid(length) {
     return result;
  }
 
-function callHomepage(requestData){
+function callHomepage(requestData, socket){
     $.ajax({
         type: "POST",
         url: "/homepage",
@@ -252,7 +250,7 @@ function callHomepage(requestData){
                 if(!isPresent){
                     createlist(requestData['username'], data["Success"]);
                      //emit notification
-                     var my_room_name = document.getElementById("note_username").textContent;
+                     var my_room_name = document.getElementById("bioframe").textContent;
                      //To have the other user create the button we need to give them some things
                      //Our username, the room id and for safety the person we wish to start a chat with
                      //This way incase someone else is in the room ,somehow, if they also receive this
