@@ -134,6 +134,14 @@ $(document).ready(function () {
         if(data['receive_user'] == my_room_name){
             console.log("Correct Person Create Button")
             createlist(data['creating_user'] , data['room_id']);
+
+            var button = document.getElementById(data['room_id']);
+            var badge = document.createElement("badge");
+            badge.setAttribute("id" , "num_message");
+            badge.innerHTML = 0;
+            badge.setAttribute("style" , "visibility:hidden");
+            
+            button.appendChild(badge);
             
             var elements = $('.suggestedchatsbutton');
             for(var i=0; i<elements.length; i++) {
